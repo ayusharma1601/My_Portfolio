@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Sharma | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <style>
+        :root {
+            --accent: #ff4757;
+            --bg: #0a0a0c;
+            --card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #ffffff;
+            --sub: #94a3b8;
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 10%, rgba(255, 71, 87, 0.08) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .container { max-width: 900px; margin: auto; padding: 60px 20px; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header { padding-bottom: 60px; animation: fadeInUp 0.8s ease-out; }
+
+        h1 { font-size: clamp(2.2rem, 8vw, 4rem); margin: 0; font-weight: 600; letter-spacing: -2px; }
+        .tagline { color: var(--sub); font-size: clamp(1rem, 4vw, 1.2rem); margin-top: 10px; }
+
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent);
+            margin-bottom: 25px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .about-box {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: 4px;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Language Symbols Grid */
+        .skills-grid { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+            margin-top: 30px;
+            font-size: 2rem;
+        }
+
+        .skill-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--sub);
+        }
+
+        .skill-icon-wrapper i { transition: 0.3s; }
+        .skill-icon-wrapper:hover i { color: var(--accent); transform: translateY(-5px); }
+        .skill-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 1px; color: var(--sub); }
+
+        /* RESPONSIVE GRID */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .focus-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeInUp 1.2s ease-out;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* The Breathe Out Effect (Hover & Active) */
+        .focus-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 71, 87, 0.04);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.1);
+        }
+
+        /* Click/Active Breathe Out Effect */
+        .focus-card:active {
+            transform: scale(1.08);
+            box-shadow: 0 0 50px rgba(255, 71, 87, 0.3);
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        .focus-card h3 { margin-top: 0; font-size: 1.15rem; color: #fff; }
+        .focus-card p { font-size: 0.9rem; color: var(--sub); margin-bottom: 20px; }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .btn-linkedin {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 2px solid var(--border);
+            color: #fff;
+            margin-top: 60px;
+            padding: 22px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-align: center;
+        }
+
+        .btn-linkedin:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .school-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+        .school-link:hover { border-bottom: 1px solid var(--accent); }
+
+        footer {
+            margin-top: 100px;
+            text-align: center;
+            color: var(--sub);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 40px 15px; }
+            .focus-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="section-label">Ayush Sharma // 2026</span>
+        <h1>Building the <span style="color:var(--accent)">Future</span>.</h1>
+        <p class="tagline">Game Developer • Data Scientist • DSA Explorer</p>
+    </header>
+
+    <section>
+        <span class="section-label">Identity Archive</span>
+        <div class="about-box">
+            <p style="font-size: 1.1rem; margin-top: 0;">
+                I am a 1st-year undergraduate student exploring the intersection of creative logic and data-driven insights. 
+                I am an alumnus of <a href="http://www.gyanmandirpublicschool.com/" target="_blank" class="school-link">Gyan Mandir Public School</a>.
+            </p>
+            
+            <div class="skills-grid">
+                <div class="skill-icon-wrapper" title="Python">
+                    <i class="devicon-python-plain"></i>
+                    <span class="skill-label">PYTHON</span>
+                </div>
+                <div class="skill-icon-wrapper" title="C Language">
+                    <i class="devicon-c-plain"></i>
+                    <span class="skill-label">C_LANG</span>
+                </div>
+                <div class="skill-icon-wrapper" title="Godot/GDScript">
+                    <i class="devicon-godot-plain"></i>
+                    <span class="skill-label">GDSCRIPT</span>
+                </div>
+                <div class="skill-icon-wrapper" title="HTML5">
+                    <i class="devicon-html5-plain"></i>
+                    <span class="skill-label">HTML5</span>
+                </div>
+                <div class="skill-icon-wrapper" title="CSS3">
+                    <i class="devicon-css3-plain"></i>
+                    <span class="skill-label">CSS3</span>
+                </div>
+                <div class="skill-icon-wrapper" title="JavaScript">
+                    <i class="devicon-javascript-plain"></i>
+                    <span class="skill-label">JS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <span class="section-label">Active Missions (Click to Expand)</span>
+        <div class="focus-grid">
+            <div class="focus-card">
+                <div>
+                    <h3>Game Development</h3>
+                    <p>Building interactive mechanics in <strong>Godot Engine</strong>. Currently coding logic for "New_Game".</p>
+                </div>
+                <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" class="btn">VIEW SOURCE</a>
+            </div>
+
+            <div class="focus-card">
+                <div>
+                    <h3>Data Science</h3>
+                    <p>Undergoing professional certification at <strong>Corizo Edutech</strong>. Focused on analytical modeling.</p>
+                </div>
+            </div>
+
+            <div class="focus-card">
+                <div>
+                    <h3>DSA Mastery</h3>
+                    <p>Solving complex logic problems to build high-performance software foundations.</p>
+                </div>
+            </div>
+
+            <div class="focus-card">
+                <div>
+                    <p style="font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 5px;">FEB 16-17, 2026</p>
+                    <h3>Cybersecurity Log</h3>
+                    <p>Completed a 2-day workshop to verify system security fundamentals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" class="btn btn-linkedin">Connect via LinkedIn</a>
+
+    <footer>
+        &copy; 2026 AYUSH SHARMA &bull; NEW DELHI, INDIA
+    </footer>
+</div>
+
+</body>
+</html>
