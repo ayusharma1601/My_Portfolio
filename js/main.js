@@ -6,6 +6,27 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // Project Filtering Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
     // Contact Form handling
     const contactForm = document.getElementById('contact-form');
     const toast = document.getElementById('toast');
@@ -23,13 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Fallback to mailto or simulated submission
             const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
             const body = encodeURIComponent(`Sender: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
             
             window.location.href = `mailto:ayusharma1601@gmail.com?subject=${subject}&body=${body}`;
 
-            showToast('Opening your email client to send...');
+            showToast('Opening your email client to send message...');
             contactForm.reset();
         });
     }
