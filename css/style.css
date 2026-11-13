@@ -1,17 +1,17 @@
 :root {
-    --accent: #ff4757;
-    --accent-glow: rgba(255, 71, 87, 0.45);
-    --accent-subtle: rgba(255, 71, 87, 0.12);
-    --accent-gradient: linear-gradient(135deg, #ff4757 0%, #ff6b81 100%);
-    --bg: #07080c;
-    --card: rgba(16, 18, 27, 0.7);
-    --card-hover: rgba(24, 28, 42, 0.9);
-    --border: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(255, 71, 87, 0.5);
-    --text: #f8fafc;
-    --sub: #94a3b8;
-    --sub-light: #cbd5e1;
-    --badge-bg: rgba(255, 255, 255, 0.05);
+    --accent: #845037;
+    --accent-glow: rgba(132, 80, 55, 0.45);
+    --accent-subtle: rgba(132, 80, 55, 0.18);
+    --accent-gradient: linear-gradient(135deg, #a46545 0%, #845037 100%);
+    --bg: #090a0f;
+    --card: rgba(132, 80, 55, 0.12);
+    --card-hover: rgba(132, 80, 55, 0.22);
+    --border: rgba(213, 210, 249, 0.15);
+    --border-hover: rgba(132, 80, 55, 0.65);
+    --text: #D5D2F9;
+    --sub: #b2aee0;
+    --sub-light: #D5D2F9;
+    --badge-bg: rgba(132, 80, 55, 0.2);
 }
 
 *, *::before, *::after {
@@ -43,7 +43,7 @@ body::before {
     width: 65vw;
     height: 65vw;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 71, 87, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(132, 80, 55, 0.25) 0%, transparent 70%);
     filter: blur(90px);
     z-index: -2;
     pointer-events: none;
@@ -57,7 +57,7 @@ body::after {
     width: 55vw;
     height: 55vw;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 71, 87, 0.06) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(132, 80, 55, 0.15) 0%, transparent 65%);
     filter: blur(100px);
     z-index: -2;
     pointer-events: none;
