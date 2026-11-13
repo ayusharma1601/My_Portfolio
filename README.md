@@ -1,63 +1,48 @@
-# 🌐 Ayush Sharma — Personal Portfolio
+# Ayush Sharma — Personal Portfolio
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live_Portfolio-ff4757?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ayusharma1601.github.io/My_Portfolio/)
-[![GitHub Profile](https://img.shields.io/badge/GitHub-ayusharma1601-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ayusharma1601)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Ayush_Sharma-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ayush-sharma-7a11102bb)
+A sleek, responsive, and performance-optimized personal portfolio built with modern vanilla web technologies, featuring a dark glassmorphism aesthetic with crimson neon accents.
 
-> A modern, responsive personal developer portfolio showcasing my identity, technical skills, active missions, and game development projects.
+🔗 **Live Link**: [ayusharma1601.github.io/My_Portfolio](https://ayusharma1601.github.io/My_Portfolio/) *(when deployed with GitHub Pages)*
 
 ---
 
-## ⚡ Overview
+## ⚡ Tech Stack & Highlights
 
-This repository contains the source code for my personal developer portfolio website. Designed with a dark cyber-aesthetic, clean typography (`Outfit`), and smooth micro-interactions (including hover card transitions and backdrop blur effects).
-
----
-
-## 🛠️ Tech Stack & Skills
-
-- **Front-End:** HTML5, CSS3, Modern CSS Grid & Flexbox
-- **Typography & Icons:** [Google Fonts (Outfit)](https://fonts.google.com/specimen/Outfit), [Devicon](https://devicon.dev/)
-- **Core Languages & Tools Highlighted:**
-  - `Python`
-  - `C`
-  - `Godot / GDScript`
-  - `JavaScript`
-  - `HTML5 / CSS3`
+- **Frontend**: HTML5, CSS3 (Modern Flexbox & CSS Grid, Glassmorphism, CSS Custom Properties), JavaScript (ES6)
+- **Icons & Fonts**: Google Fonts (`Outfit`), [Devicon](https://devicon.dev/), and Font Awesome
+- **Design System**: Crimson Red (`#ff4757`) on deep obsidian dark background (`#090a0f`)
+- **Key Sections**:
+  - **Identity Archive**: Background, education, and bio.
+  - **Technical Arsenal**: Interactive grid with language and tool icons (Python, C, C++, Godot/GDScript, JS, HTML/CSS, Git).
+  - **Active Missions**: Ongoing focus tracks in Game Dev, Data Science, and DSA.
+  - **Featured Projects**: Showcase for repositories including the Godot game project.
+  - **Transmission / Contact**: Direct email submission form and social connection links.
 
 ---
 
-## ✨ Key Sections
+## 📂 Project Structure
 
-- **Identity Archive:** Brief intro, background, and visual tech-stack badge grid.
-- **Active Missions:** Interactive project and focus cards covering:
-  - **Game Development:** Godot Engine projects and mechanics exploration.
-  - **Data Science:** Analytical modeling and coursework at Corizo Edutech.
-  - **Data Structures & Algorithms (DSA):** Logic optimization and problem-solving.
-  - **Cybersecurity Fundamentals:** Workshop achievements and security concepts.
-- **Direct Connect:** Quick connection link to LinkedIn.
-
----
-
-## 🚀 Running Locally
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/ayusharma1601/My_Portfolio.git
-   ```
-
-2. **Navigate into the directory:**
-   ```bash
-   cd My_Portfolio
-   ```
-
-3. **Open the site:**
-   - Double-click `index.html` to open it in your default browser, or use **Live Server** in VS Code.
+```text
+portfolio/
+├── css/
+│   └── style.css       # Complete design system & responsive styling
+├── js/
+│   └── main.js         # Dynamic year, contact form, and interactive UI logic
+├── assets/             # Images, resume, and media assets
+├── index.html          # Main application markup
+└── README.md           # Documentation
+```
 
 ---
 
-## 📬 Connect
+## 🚀 Getting Started
 
-- **LinkedIn:** [Ayush Sharma](https://www.linkedin.com/in/ayush-sharma-7a11102bb)
-- **GitHub:** [@ayusharma1601](https://github.com/ayusharma1601)
-- **Location:** New Delhi, India
+Simply open `index.html` in any web browser or serve it using any local static file server:
+
+```bash
+# Using Python
+python -m http.server 8000
+
+# Using Node.js npx
+npx serve .
+```
