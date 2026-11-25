@@ -117,18 +117,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (playBtn && audioPlayer) {
+        // Set the most appealing part (the high-energy beat drop at 0:16)
+        const BEST_PART_START = 16.0;
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            audioPlayer.currentTime = BEST_PART_START;
+        });
+
         playBtn.addEventListener('click', () => {
-            if (!audioPlayer.src) {
-                // If no audio file provided yet, toggle spin animation & preview state
-                isVinylPlaying = !isVinylPlaying;
-            } else {
-                if (audioPlayer.paused) {
-                    audioPlayer.play();
-                    isVinylPlaying = true;
-                } else {
-                    audioPlayer.pause();
-                    isVinylPlaying = false;
+            if (audioPlayer.paused) {
+                // If starting from beginning or uninitialized, start at the drop
+                if (audioPlayer.currentTime < 1.0 || audioPlayer.currentTime > audioPlayer.duration - 1) {
+                    audioPlayer.currentTime = BEST_PART_START;
                 }
+                audioPlayer.play();
+                isVinylPlaying = true;
+            } else {
+                audioPlayer.pause();
+                isVinylPlaying = false;
             }
 
             updatePlayerUI();
@@ -143,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         audioPlayer.addEventListener('ended', () => {
             isVinylPlaying = false;
+            audioPlayer.currentTime = BEST_PART_START;
             updatePlayerUI();
         });
 
