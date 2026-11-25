@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Retro Game Dev Terminal / Micro-Arcade Blaster (Built directly in canvas)
+    // 5. Retro Game Dev Looped Cinematic (Autonomous Game Video Animation)
     const canvas = document.getElementById('audio-wave-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -122,46 +122,40 @@ document.addEventListener('DOMContentLoaded', () => {
             height = canvas.height = canvas.offsetHeight;
         });
 
-        // Game State
-        let score = 0;
-        let lives = 3;
         let frame = 0;
-        let mouseX = width / 2;
-        let mouseY = height / 2;
-        let isHovered = false;
+        let score = 2480;
 
-        // Player Ship (Minimalist wireframe vector fighter)
+        // Player Ship with AI autopilot
         const ship = {
-            x: width * 0.15,
+            x: width * 0.16,
             y: height * 0.5,
             targetY: height * 0.5,
-            size: 11,
-            speed: 0.14
+            speed: 0.08
         };
 
-        // Arrays for laser projectiles, asteroids, explosion particles, starfield
         const lasers = [];
         const asteroids = [];
         const particles = [];
         const stars = [];
 
-        // Initialize background starfield
-        for (let i = 0; i < 45; i++) {
+        // Prepopulate starfield
+        for (let i = 0; i < 50; i++) {
             stars.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                speed: 0.5 + Math.random() * 1.5,
+                speed: 0.6 + Math.random() * 1.8,
                 size: Math.random() > 0.8 ? 1.5 : 1
             });
         }
 
         function spawnAsteroid() {
-            if (asteroids.length < 5) {
+            if (asteroids.length < 6) {
+                const astY = 20 + Math.random() * (height - 40);
                 asteroids.push({
-                    x: width + 20,
-                    y: 18 + Math.random() * (height - 36),
-                    vx: -(1.2 + Math.random() * 1.8),
-                    vy: (Math.random() - 0.5) * 0.4,
+                    x: width + 25,
+                    y: astY,
+                    vx: -(1.4 + Math.random() * 1.6),
+                    vy: (Math.random() - 0.5) * 0.3,
                     radius: 7 + Math.random() * 6,
                     hp: 2,
                     rotation: 0,
@@ -185,40 +179,45 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const vizBox = document.querySelector('.audio-visualizer-box');
-        if (vizBox) {
-            vizBox.addEventListener('mousemove', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                mouseX = e.clientX - rect.left;
-                mouseY = e.clientY - rect.top;
-                isHovered = true;
-                ship.targetY = Math.max(16, Math.min(height - 16, mouseY));
-            });
+        // Auto-pilot AI routine targeting the nearest incoming threat
+        function updateAutopilotAI() {
+            let closestAst = null;
+            let minDist = Infinity;
 
-            vizBox.addEventListener('mouseleave', () => {
-                isHovered = false;
-            });
+            for (let i = 0; i < asteroids.length; i++) {
+                const a = asteroids[i];
+                if (a.x > ship.x && a.x < minDist) {
+                    minDist = a.x;
+                    closestAst = a;
+                }
+            }
 
-            // Click fires lasers
-            vizBox.addEventListener('click', (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const clickY = e.clientY - rect.top;
+            if (closestAst) {
+                // Steer ship to align horizontally with the incoming target
+                ship.targetY = closestAst.y + closestAst.vy * 10;
+                
+                // Autonomous weapon firing when locked on
+                if (Math.abs(ship.y - closestAst.y) < 16 && frame % 18 === 0) {
+                    lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7.5 });
+                    lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7.5 });
+                }
+            } else {
+                // Idle gentle sinus patrol wave
+                ship.targetY = height * 0.5 + Math.sin(frame * 0.035) * (height * 0.28);
+                if (frame % 28 === 0) {
+                    lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7.5 });
+                    lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7.5 });
+                }
+            }
 
-                // Fire two twin lasers from ship
-                lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7 });
-                lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7 });
-            });
+            ship.y += (ship.targetY - ship.y) * ship.speed;
         }
-
-        // Auto-fire cadence if user hovers
-        let fireCooldown = 0;
 
         function runGameLoop() {
             ctx.clearRect(0, 0, width, height);
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
 
-            // --- 1. Draw Starfield Background ---
+            // --- 1. Starfield Parallax ---
             ctx.fillStyle = isLight ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.45)';
             stars.forEach(star => {
                 star.x -= star.speed;
@@ -229,29 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillRect(star.x, star.y, star.size, star.size);
             });
 
-            // Smooth ship tracking
-            ship.y += (ship.targetY - ship.y) * ship.speed;
-
-            // Spawn asteroids at intervals
-            if (frame % 80 === 0) {
+            // Update autopilot and asteroid spawn
+            updateAutopilotAI();
+            if (frame % 70 === 0) {
                 spawnAsteroid();
             }
 
-            // Auto-fire every 28 frames when active
-            fireCooldown++;
-            if (isHovered && fireCooldown > 26) {
-                lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7 });
-                lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7 });
-                fireCooldown = 0;
-            }
-
             // --- 2. Update & Draw Lasers ---
-            ctx.fillStyle = '#38bdf8'; // Cyan laser energy
+            ctx.fillStyle = '#38bdf8';
             for (let l = lasers.length - 1; l >= 0; l--) {
                 const laser = lasers[l];
                 laser.x += laser.vx;
 
-                ctx.fillRect(laser.x, laser.y - 1, 8, 2);
+                ctx.fillRect(laser.x, laser.y - 1, 9, 2);
 
                 if (laser.x > width + 10) {
                     lasers.splice(l, 1);
@@ -265,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ast.y += ast.vy;
                 ast.rotation += ast.vRot;
 
-                // Laser vs Asteroid Collision
+                // Laser vs Asteroid Collisions
                 for (let l = lasers.length - 1; l >= 0; l--) {
                     const laser = lasers[l];
                     const dist = Math.hypot(laser.x - ast.x, laser.y - ast.y);
@@ -284,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (!asteroids[a]) continue;
 
-                // Draw Polygon Asteroid (Vector Wireframe)
+                // Wireframe Polygon Asteroid
                 ctx.save();
                 ctx.translate(ast.x, ast.y);
                 ctx.rotate(ast.rotation);
@@ -304,13 +293,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.stroke();
                 ctx.restore();
 
-                // Remove off-screen
                 if (ast.x < -ast.radius * 2) {
                     asteroids.splice(a, 1);
                 }
             }
 
-            // --- 4. Update & Draw Explosion Particles ---
+            // --- 4. Particles ---
             for (let p = particles.length - 1; p >= 0; p--) {
                 const pt = particles[p];
                 pt.x += pt.vx;
@@ -328,12 +316,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillRect(pt.x, pt.y, 2, 2);
             }
 
-            // --- 5. Draw Player Vector Ship ---
+            // --- 5. Draw Player Vector Fighter ---
             ctx.save();
             ctx.translate(ship.x, ship.y);
 
-            // Engine thrust glow
-            const thrust = Math.random() * 6 + 4;
+            // Engine thrust flame
+            const thrust = Math.random() * 7 + 4;
             ctx.fillStyle = '#f97316';
             ctx.beginPath();
             ctx.moveTo(-10, -3);
@@ -342,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.closePath();
             ctx.fill();
 
-            // Fighter Body (Sharp Vector Geometry)
+            // Ship Body
             ctx.strokeStyle = isLight ? '#000000' : '#ffffff';
             ctx.fillStyle = isLight ? '#f4f4f5' : '#18181b';
             ctx.lineWidth = 1.5;
@@ -350,26 +338,26 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(12, 0);       // Nose
             ctx.lineTo(-10, -7);     // Left wing
-            ctx.lineTo(-5, 0);       // Core
+            ctx.lineTo(-5, 0);       // Thruster joint
             ctx.lineTo(-10, 7);      // Right wing
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
 
-            // Cockpit canopy accent
+            // Cockpit Canopy
             ctx.fillStyle = '#38bdf8';
             ctx.fillRect(0, -1.5, 4, 3);
 
             ctx.restore();
 
-            // --- 6. Telemetry HUD (Retro Monospace Text) ---
+            // --- 6. Telemetry Monospace HUD ---
             ctx.font = '10px "JetBrains Mono", monospace';
             ctx.fillStyle = isLight ? '#71717a' : '#a1a1aa';
             ctx.textAlign = 'left';
             ctx.fillText(`GODOT_DEV // SCORE: ${score}`, 16, 18);
 
             ctx.textAlign = 'right';
-            ctx.fillText(isHovered ? 'STATUS: ENGAGED [CLICK FIRE]' : 'MOUSE OVER TO PILOT', width - 16, 18);
+            ctx.fillText('DEMO REEL // AUTOPILOT ACTIVE', width - 16, 18);
 
             frame++;
             requestAnimationFrame(runGameLoop);

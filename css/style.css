@@ -267,7 +267,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: crosshair;
+    cursor: default;
+    pointer-events: none;
 }
 
 [data-theme="light"] .audio-visualizer-box {
