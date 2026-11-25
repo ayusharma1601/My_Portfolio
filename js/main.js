@@ -6,6 +6,40 @@ document.addEventListener('DOMContentLoaded', () => {
         yearSpan.textContent = new Date().getFullYear();
     }
 
+    // Dynamic Theme Selector (Inspired by ad1tya.me)
+    const themeSelector = document.getElementById('theme-selector');
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    if (themeSelector) {
+        themeSelector.value = savedTheme;
+        themeSelector.addEventListener('change', (e) => {
+            const chosen = e.target.value;
+            document.documentElement.setAttribute('data-theme', chosen);
+            localStorage.setItem('portfolio-theme', chosen);
+        });
+    }
+
+    // Active Navigation Highlight on Scroll
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section, header.hero');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(sec => {
+            const sectionTop = sec.offsetTop - 140;
+            if (window.scrollY >= sectionTop) {
+                current = sec.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    }, { passive: true });
+
     // Project Filtering Logic
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');

@@ -1,53 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Ayush Sharma - Game Developer, Full-Stack Python Engineer, and DSA Explorer">
-    <title>Ayush Sharma | Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <meta name="description" content="Portfolio of Ayush Sharma - Game Developer, Full-Stack Python Engineer, and Systems Explorer">
+    <title>Ayush Sharma | Developer Portfolio</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
     <!-- Devicon Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3">
+    <!-- Main Modern Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=4">
     <!-- Mario Theme Stylesheet -->
     <link rel="stylesheet" href="css/mario.css">
 </head>
 <body>
 
+    <!-- Floating Navigation Header (ad1tya.me inspired) -->
+    <header class="site-nav">
+        <a href="#" class="nav-logo">
+            <span>ayush<span style="color:var(--primary);">.dev</span></span>
+            <span class="nav-logo-badge">W 1-1</span>
+        </a>
+
+        <ul class="nav-links-menu">
+            <li><a href="#about" class="nav-link active">ABOUT</a></li>
+            <li><a href="#skills" class="nav-link">SKILLS</a></li>
+            <li><a href="#missions" class="nav-link">TRACKS</a></li>
+            <li><a href="#projects" class="nav-link">PROJECTS</a></li>
+            <li><a href="#contact" class="nav-link">CONTACT</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <!-- Theme picker -->
+            <select id="theme-selector" class="theme-picker-select" title="Switch Theme">
+                <option value="dark">Dark</option>
+                <option value="blue-gray">Blue Gray</option>
+                <option value="forest">Forest</option>
+                <option value="light">Light</option>
+            </select>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- Hero Header -->
-        <header class="hero">
-            <span class="section-label">Ayush Sharma // 2026</span>
-            <h1>Building the <span style="color:var(--accent)">Future</span>.</h1>
-            <p class="tagline">Python Developer &bull; Game Developer &bull; Data Science & Systems Enthusiast</p>
+        <!-- Hero Section -->
+        <header class="hero" id="hero">
+            <div class="hero-meta-row">
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    <span>AVAILABLE FOR INTERNSHIPS</span>
+                </div>
+                <div class="location-pill">
+                    <i class="fas fa-map-pin"></i>
+                    <span>New Delhi, India</span>
+                </div>
+            </div>
+
+            <h1>Ayush Sharma</h1>
             
-            <!-- Quick Socials Bar -->
-            <div class="hero-socials">
-                <a href="https://github.com/ayusharma1601" target="_blank" rel="noopener noreferrer" class="social-pill">
+            <p class="hero-subhead">
+                2nd-year undergraduate software developer specializing in <strong class="highlight-name">Game Engine Mechanics</strong>, <strong class="highlight-name">Python Systems</strong>, and algorithmic problem solving. Experienced in building offline-first architectures, WebAssembly game prototypes, and robust backend services.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> Get in touch
+                </a>
+                <a href="https://github.com/ayusharma1601" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
                     <i class="fab fa-github"></i> GitHub
                 </a>
-                <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer" class="social-pill">
+                <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
                     <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-                <a href="mailto:aysharma1601@gmail.com" class="social-pill">
-                    <i class="fas fa-envelope"></i> Email Me
                 </a>
             </div>
         </header>
 
-        <!-- About Section with Highlights Bar -->
+        <!-- About Section -->
         <section id="about">
             <span class="section-label">Identity Archive</span>
             <div class="glass-box">
                 <p class="bio-text">
-                    Hi, I am Ayush! I am a 2nd-year undergraduate software developer exploring the intersection of creative logic, game engine mechanics, and algorithmic problem solving. 
-                    Experienced in building offline-first systems, interactive game prototypes, and robust applications in Python and C/C++.
+                    Hi, I am Ayush! I bridge the gap between creative visual logic and low-level computational efficiency. Whether architecting crisis platforms with offline mesh resiliency, crafting custom physics engines in Godot, or refining tree and graph structures in C/C++, I design systems with high maintainability, responsive feedback, and clean architecture.
                 </p>
             </div>
         </section>
@@ -66,7 +103,7 @@
                 </div>
                 <div class="skill-card">
                     <i class="devicon-c-plain"></i>
-                    <span class="skill-name">C LANGUAGE</span>
+                    <span class="skill-name">C LANG</span>
                 </div>
                 <div class="skill-card">
                     <i class="devicon-cplusplus-plain"></i>
@@ -74,11 +111,11 @@
                 </div>
                 <div class="skill-card">
                     <i class="devicon-godot-plain"></i>
-                    <span class="skill-name">GODOT / GDSCRIPT</span>
+                    <span class="skill-name">GODOT</span>
                 </div>
                 <div class="skill-card">
                     <i class="devicon-javascript-plain"></i>
-                    <span class="skill-name">JAVASCRIPT / WASM</span>
+                    <span class="skill-name">JS / WASM</span>
                 </div>
                 <div class="skill-card">
                     <i class="devicon-html5-plain"></i>
@@ -90,30 +127,33 @@
                 </div>
                 <div class="skill-card">
                     <i class="devicon-sqlite-plain"></i>
-                    <span class="skill-name">SQLITE / SQL</span>
+                    <span class="skill-name">SQLITE</span>
                 </div>
                 <div class="skill-card">
                     <i class="devicon-git-plain"></i>
-                    <span class="skill-name">GIT / GITHUB</span>
+                    <span class="skill-name">GIT</span>
                 </div>
             </div>
         </section>
 
-        <!-- Active Missions / Learning Track -->
+        <!-- Focus Areas / Learning Track -->
         <section id="missions">
-            <span class="section-label">Active Missions & Focus Areas</span>
+            <span class="section-label">Active Missions & Tracks</span>
             <div class="grid-2col">
                 <div class="interactive-card">
                     <div>
-                        <span class="card-tag">Core Specialization</span>
-                        <h3>Game Development & WebAssembly</h3>
-                        <p>Building interactive game physics, bullet systems, and fluid state machines in <strong>Godot Engine</strong> with GDScript and WebAssembly web exports.</p>
+                        <div class="card-header-top">
+                            <span class="card-tag">Specialization</span>
+                            <span class="badge-tag">Godot • WebAssembly</span>
+                        </div>
+                        <h3>Game Mechanics & Engine Systems</h3>
+                        <p>Building responsive collision physics, bullet controllers, and fluid state machines in Godot Engine with GDScript and WebAssembly web exports.</p>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fas fa-gamepad"></i> Shipshooter
                         </a>
-                        <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> New_Game
                         </a>
                     </div>
@@ -121,42 +161,51 @@
 
                 <div class="interactive-card">
                     <div>
-                        <span class="card-tag">Analytics & ML</span>
+                        <div class="card-header-top">
+                            <span class="card-tag">Analytics & ML</span>
+                            <span class="badge-tag">Corizo Edutech</span>
+                        </div>
                         <h3>Data Science Track</h3>
-                        <p>Undergoing professional training at <strong>Corizo Edutech</strong> focusing on exploratory data analysis, statistical modeling, and insights.</p>
+                        <p>Undergoing intensive professional training focusing on exploratory data analysis, numerical computing, and predictive statistical pipelines.</p>
                     </div>
                     <div class="card-footer">
-                        <span style="font-size: 0.8rem; color: var(--sub);"><i class="fas fa-check-circle" style="color:var(--accent);"></i> In Progress</span>
+                        <span style="font-size: 0.75rem; color: #10b981; font-family:var(--font-mono);"><i class="fas fa-check-circle"></i> In Progress</span>
                     </div>
                 </div>
 
                 <div class="interactive-card">
                     <div>
-                        <span class="card-tag">Algorithms</span>
-                        <h3>DSA Mastery</h3>
-                        <p>Strengthening software engineering fundamentals by practicing problem-solving, tree traversals, memory pointers, graphs, and dynamic programming in C/C++.</p>
+                        <div class="card-header-top">
+                            <span class="card-tag">Algorithms</span>
+                            <span class="badge-tag">C / C++</span>
+                        </div>
+                        <h3>DSA Problem Solving</h3>
+                        <p>Sharpening algorithmic engineering principles across binary trees, graphs, pointer memory manipulation, and dynamic programming.</p>
                     </div>
                     <div class="card-footer">
-                        <span style="font-size: 0.8rem; color: var(--sub);"><i class="fas fa-laptop-code" style="color:var(--accent);"></i> Active Exploration</span>
+                        <span style="font-size: 0.75rem; color: var(--primary); font-family:var(--font-mono);"><i class="fas fa-laptop-code"></i> Active Practice</span>
                     </div>
                 </div>
 
                 <div class="interactive-card">
                     <div>
-                        <span class="card-tag">FEB 16-17, 2026</span>
-                        <h3>Cybersecurity Fundamentals</h3>
-                        <p>Completed an intensive 2-day workshop examining threat vectors, defense configurations, and foundational security hygiene.</p>
+                        <div class="card-header-top">
+                            <span class="card-tag">Cybersecurity</span>
+                            <span class="badge-tag">FEB 2026</span>
+                        </div>
+                        <h3>Network & Threat Defense</h3>
+                        <p>Completed intensive training in network intrusion vectors, defense configurations, cryptography basics, and system security hygiene.</p>
                     </div>
                     <div class="card-footer">
-                        <span style="font-size: 0.8rem; color: var(--sub);"><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Verified Workshop</span>
+                        <span style="font-size: 0.75rem; color: var(--sub); font-family:var(--font-mono);"><i class="fas fa-shield-alt"></i> Verified Track</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Featured Projects Showcase Section with Category Filters -->
+        <!-- Featured Projects Showcase Section -->
         <section id="projects">
-            <span class="section-label">Featured Works & GitHub Portfolio</span>
+            <span class="section-label">Featured Works & Code</span>
             
             <!-- Category Filter Tabs -->
             <div class="project-filters">
@@ -167,53 +216,53 @@
             </div>
 
             <div class="grid-2col">
-                <!-- Project 1: Disaster Intelligence Platform (Hero Project) -->
-                <div class="interactive-card featured-card project-card" data-category="systems python">
+                <!-- Project 1: Disaster Intelligence Platform -->
+                <div class="interactive-card project-card" data-category="systems python">
                     <div>
                         <div class="card-header-top">
-                            <span class="card-tag">Flagship Platform</span>
-                            <span class="badge-tag">FastAPI • Three.js • GIS</span>
+                            <span class="card-tag">Flagship System</span>
+                            <span class="badge-tag">FastAPI • Three.js</span>
                         </div>
-                        <h3>Disaster Intelligence & Tactical Flood Platform</h3>
+                        <h3>Disaster Intelligence & Flood Platform</h3>
                         <p>
-                            Offline-first hydrological intelligence and crisis response platform. Integrates live meteorological telemetry, 3D WebGL Earth globe visualization, deterministic risk scoring, in-browser Web Audio sirens, and a verified 6-suite automated test gate (100% pass).
+                            Offline-first hydrological intelligence platform. Integrates live telemetry, 3D WebGL Earth globe visualization, deterministic risk scoring, Web Audio sirens, and a verified 6-suite automated test gate (100% pass).
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Python</span>
                             <span class="tech-chip">FastAPI</span>
                             <span class="tech-chip">Three.js</span>
-                            <span class="tech-chip">Leaflet GIS</span>
-                            <span class="tech-chip">SQLite / SQLAlchemy</span>
+                            <span class="tech-chip">Leaflet</span>
+                            <span class="tech-chip">SQLite</span>
                             <span class="tech-chip">P2P Mesh</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 2: Shipshooter (Godot Arcade Game) -->
-                <div class="interactive-card featured-card project-card" data-category="games">
+                <!-- Project 2: Shipshooter -->
+                <div class="interactive-card project-card" data-category="games">
                     <div>
                         <div class="card-header-top">
-                            <span class="card-tag">Game Development</span>
-                            <span class="badge-tag">Godot 4 • WebAssembly</span>
+                            <span class="card-tag">Arcade Game</span>
+                            <span class="badge-tag">Godot 4 • WASM</span>
                         </div>
-                        <h3>Shipshooter: 2D Arcade Space Combat</h3>
+                        <h3>Shipshooter: 2D Space Combat</h3>
                         <p>
-                            Classic 2D arcade space shooter built in Godot Engine with GDScript and exported to WebAssembly/HTML5 for instant zero-install browser play. Features responsive collision physics, particle effects, and projectile systems.
+                            Fast-paced 2D arcade shooter built with Godot 4 and GDScript, compiled to WebAssembly/HTML5 for instant browser play. Features customized collision detection and particle fx.
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Godot Engine</span>
                             <span class="tech-chip">GDScript</span>
-                            <span class="tech-chip">WebAssembly (WASM)</span>
-                            <span class="tech-chip">Game Physics</span>
+                            <span class="tech-chip">WebAssembly</span>
+                            <span class="tech-chip">Physics</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                        <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
@@ -228,16 +277,16 @@
                         </div>
                         <h3>Interactive Adventure Logic ("New_Game")</h3>
                         <p>
-                            Custom character controller mechanics, state-machine transitions, tilemap level navigation, and event scripting in Godot.
+                            Character movement state machines, tilemap dungeon navigation, camera follow interpolations, and modular event scripting in Godot.
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Godot</span>
                             <span class="tech-chip">GDScript</span>
-                            <span class="tech-chip">2D Mechanics</span>
+                            <span class="tech-chip">State Machine</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
@@ -247,12 +296,12 @@
                 <div class="interactive-card project-card" data-category="python">
                     <div>
                         <div class="card-header-top">
-                            <span class="card-tag">CLI Application</span>
-                            <span class="badge-tag">Python • Data Structures</span>
+                            <span class="card-tag">Financial Utility</span>
+                            <span class="badge-tag">Python CLI</span>
                         </div>
                         <h3>Personal Expense Tracker</h3>
                         <p>
-                            Console-based personal finance utility that allows users to record categorized expenses, calculate total budget expenditure, and display automated per-category percentage breakdowns.
+                            Console finance utility with categorized budgeting logs, automatic expenditure tallying, and category percentage breakdown analytics.
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Python</span>
@@ -261,7 +310,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
@@ -272,44 +321,44 @@
                     <div>
                         <div class="card-header-top">
                             <span class="card-tag">Data Architecture</span>
-                            <span class="badge-tag">Python • In-Memory DB</span>
+                            <span class="badge-tag">In-Memory Engine</span>
                         </div>
                         <h3>Library Book Management System</h3>
                         <p>
-                            In-memory book index system implementing search indexing by title/author, book state registration, collection management, and fast retrieval operations.
+                            In-memory search indexing system by title/author with state registration, collection management, and fast retrieval operations.
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Python</span>
                             <span class="tech-chip">In-Memory Store</span>
-                            <span class="tech-chip">Search Indexing</span>
+                            <span class="tech-chip">Indexing</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 6: Word Frequency Counter & Analysis -->
+                <!-- Project 6: Word Frequency Counter -->
                 <div class="interactive-card project-card" data-category="python">
                     <div>
                         <div class="card-header-top">
-                            <span class="card-tag">Algorithms & NLP</span>
-                            <span class="badge-tag">Python • Hash Maps</span>
+                            <span class="card-tag">Algorithms</span>
+                            <span class="badge-tag">Hash Maps</span>
                         </div>
                         <h3>Word Frequency & Text Analyzer</h3>
                         <p>
-                            Algorithmic text parsing tool that normalizes raw input paragraphs, tokens, and computes the top most frequent words using hash-map frequency counting.
+                            Algorithmic text parser normalizing raw paragraph tokens and computing top word occurrences using hash-map frequency counting.
                         </p>
                         <div class="project-tech-stack">
                             <span class="tech-chip">Python</span>
                             <span class="tech-chip">Hash Maps</span>
-                            <span class="tech-chip">Complexity Optimization</span>
+                            <span class="tech-chip">Text Parsing</span>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+                        <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.75rem; padding:6px 12px;">
                             <i class="fab fa-github"></i> Repository
                         </a>
                     </div>
@@ -317,14 +366,16 @@
             </div>
         </section>
 
-        <!-- Contact & Connect Section -->
+        <!-- Contact Section -->
         <section id="contact">
             <span class="section-label">Transmission / Contact</span>
             <div class="glass-box contact-grid">
                 <div class="contact-info">
                     <div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 8px;">Let's Connect</h3>
-                        <p style="color: var(--sub); font-size: 0.95rem;">Interested in hiring, internship opportunities, or collaborating on Game Dev & Python software? Reach out anytime!</p>
+                        <h3 style="font-size: 1.35rem; margin-bottom: 8px;">Let's Build Together</h3>
+                        <p style="color: var(--sub); font-size: 0.9rem; line-height: 1.6;">
+                            Interested in hiring, internship opportunities, or collaborating on game development & Python software? Drop a line!
+                        </p>
                     </div>
 
                     <div class="contact-item">
@@ -347,7 +398,7 @@
                         <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
                         <div class="contact-meta">
                             <h4>LinkedIn</h4>
-                            <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer">Ayush Sharma Profile</a>
+                            <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer">Ayush Sharma</a>
                         </div>
                     </div>
 
@@ -374,7 +425,7 @@
                         <label for="form-message">MESSAGE</label>
                         <textarea id="form-message" class="form-control" placeholder="Discuss an opportunity, project, or role..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-paper-plane"></i> Send Direct Inquiry
                     </button>
                 </form>
@@ -384,7 +435,7 @@
         <!-- Footer -->
         <footer>
             <p>&copy; <span id="current-year">2026</span> AYUSH SHARMA &bull; NEW DELHI, INDIA</p>
-            <p style="margin-top: 6px; font-size: 0.75rem;">Crafted with pure logic &bull; Designed with Crimson Glow &bull; Open to Software & Game Dev Internships</p>
+            <p style="margin-top: 4px; font-size: 0.72rem; color: var(--muted);">Engineered with pure logic &bull; Interactive Mario HUD &bull; Open for Internships</p>
         </footer>
     </div>
 
