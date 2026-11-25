@@ -653,10 +653,22 @@ body {
     filter: brightness(0.58) contrast(2.8) grayscale(1);
 }
 
-/* Light mode inversion */
+/* Light mode: drop screen blend, show disc naturally with dark grooves visible */
 [data-theme="light"] .pixel-vinyl-video {
-    filter: invert(1) brightness(0.85) contrast(1.6);
-    mix-blend-mode: multiply;
+    filter: grayscale(1) brightness(0.75) contrast(1.8);
+    mix-blend-mode: normal;
+    opacity: 1;
+}
+
+[data-theme="light"] .pixel-vinyl-wrapper {
+    background: #1a1a1a;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] .pixel-vinyl-card:hover .pixel-vinyl-video,
+[data-theme="light"] .pixel-vinyl-card.is-playing .pixel-vinyl-video {
+    filter: grayscale(1) brightness(0.85) contrast(2);
+    opacity: 1;
 }
 
 .vinyl-track-info {
