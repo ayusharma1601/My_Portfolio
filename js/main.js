@@ -135,8 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const vizBox = document.querySelector('.audio-visualizer-box');
         if (vizBox) {
-            vizBox.style.cursor = 'crosshair';
-            vizBox.setAttribute('title', 'Click to drop a rain droplet into the puddle');
+            vizBox.style.cursor = 'default';
 
             vizBox.addEventListener('mousemove', (e) => {
                 const rect = waveCanvas.getBoundingClientRect();
