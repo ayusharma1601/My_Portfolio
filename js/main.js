@@ -351,13 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.restore();
 
             // --- 6. Telemetry Monospace HUD ---
-            ctx.font = '10px "JetBrains Mono", monospace';
-            ctx.fillStyle = isLight ? '#71717a' : '#a1a1aa';
-            ctx.textAlign = 'left';
-            ctx.fillText(`GODOT_DEV // SCORE: ${score}`, 16, 18);
-
-            ctx.textAlign = 'right';
-            ctx.fillText('DEMO REEL // AUTOPILOT ACTIVE', width - 16, 18);
+            // Keep clean without top corner text overlays
 
             frame++;
             requestAnimationFrame(runGameLoop);
