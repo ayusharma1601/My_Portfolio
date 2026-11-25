@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Pixelated Vinyl Music Player Controls
     const vinylCard = document.getElementById('vinyl-music-card');
+    const vinylVideo = document.getElementById('pixel-vinyl-video');
     const playBtn = document.getElementById('vinyl-play-toggle');
     const playIcon = document.getElementById('vinyl-play-icon');
     const audioPlayer = document.getElementById('hobby-audio-player');
@@ -45,9 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     audioPlayer.currentTime = BEST_PART_START;
                 }
                 audioPlayer.play();
+                if (vinylVideo) vinylVideo.play();
                 isVinylPlaying = true;
             } else {
                 audioPlayer.pause();
+                if (vinylVideo) vinylVideo.pause();
                 isVinylPlaying = false;
             }
 
@@ -63,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         audioPlayer.addEventListener('ended', () => {
             isVinylPlaying = false;
+            if (vinylVideo) vinylVideo.pause();
             audioPlayer.currentTime = BEST_PART_START;
             updatePlayerUI();
         });

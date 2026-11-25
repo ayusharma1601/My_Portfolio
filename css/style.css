@@ -620,40 +620,36 @@ body {
 
 .pixel-vinyl-wrapper {
     position: relative;
-    width: 125px;
-    height: 125px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden; /* Perfect circle cropping */
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 8px;
+    background: #000000;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
-.pixel-vinyl-img {
-    width: 125px;
-    height: 125px;
-    object-fit: contain;
+.pixel-vinyl-video {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    transform: scale(1.22); /* Zoom past outer watermark borders cleanly */
     image-rendering: pixelated;
     opacity: 0.88;
     transition: opacity 0.2s ease;
+    border-radius: 50%;
 }
 
-.pixel-vinyl-card:hover .pixel-vinyl-img,
-.pixel-vinyl-card.is-playing .pixel-vinyl-img {
+.pixel-vinyl-card:hover .pixel-vinyl-video,
+.pixel-vinyl-card.is-playing .pixel-vinyl-video {
     opacity: 1;
 }
 
-/* Authentic Vinyl Rotation Animation when Playing */
-.pixel-vinyl-card.is-playing .pixel-vinyl-img {
-    animation: spinVinyl 3.6s infinite linear;
-}
-
-@keyframes spinVinyl {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 /* Light mode inversion */
-[data-theme="light"] .pixel-vinyl-img {
+[data-theme="light"] .pixel-vinyl-video {
     filter: invert(1) brightness(0.95) contrast(1.1);
 }
 
