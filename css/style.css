@@ -776,6 +776,96 @@ body {
     margin-bottom: 12px;
 }
 
+.about-education-snippet {
+    font-size: 13.5px;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+/* ==========================================================================
+   Education (Reference-matched: date top, institution bold, degree, description)
+   ========================================================================== */
+.education-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.education-card {
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    padding: 18px 20px;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.education-card:hover {
+    background: var(--card-hover);
+    border-color: var(--card-border-hover);
+    transform: translateY(-1px);
+}
+
+.edu-date-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 2px;
+}
+
+.edu-icon {
+    font-size: 12px;
+    color: var(--muted-foreground);
+}
+
+.edu-date {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    letter-spacing: 0.2px;
+}
+
+.edu-expected {
+    font-size: 10.5px;
+    font-weight: 400;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.edu-institution {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+    line-height: 1.35;
+}
+
+.edu-degree {
+    font-size: 13px;
+    color: var(--muted-foreground);
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+.edu-focus {
+    font-size: 13px;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    margin-top: 6px;
+    opacity: 0.85;
+}
+
+@media (max-width: 767px) {
+    .education-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* ==========================================================================
    Career & Tracks
    ========================================================================== */
@@ -1374,72 +1464,115 @@ footer {
 }
 
 /* ==========================================================================
-   Comprehensive Responsive Adaptations (Mobile & Tablet)
+   Comprehensive Responsive Adaptations (Exact ad1tya.me Architecture)
+   Applies to Mobile, Tablets, and Compact Laptops (<= 992px, including 960px & 768px)
    ========================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .main-wrapper {
-        padding: 72px 14px 40px;
+        padding: 72px 16px 40px;
     }
 
     .fixed-nav-wrapper {
-        width: calc(100% - 16px);
+        width: calc(100% - 20px);
         top: 8px;
     }
 
     .fixed-header {
-        padding: 8px 14px;
+        padding: 8px 16px;
     }
 
     .nav-links {
-        gap: 12px;
+        display: none; /* Keeps brand link, social icons & theme toggle */
     }
 
-    .nav-item-link {
-        font-size: 10.5px;
-        letter-spacing: 0.3px;
-    }
-
+    /* Stack order exactly matching ad1tya.me:
+       1. Top visualizer box
+       2. Full-width ASCII art (under top box)
+       3. Name, Role, Location
+       4. Bio & Action buttons */
     .hero-split-layout {
-        flex-direction: column-reverse;
+        display: flex;
+        flex-direction: column;
         align-items: stretch;
-        gap: 24px;
+        gap: 16px;
+        margin-top: 14px;
+    }
+
+    .hero-right-col {
+        width: 100%;
+        display: block;
+        order: 1; /* Place ASCII portrait directly below top console */
+    }
+
+    .ascii-portrait-card {
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: hidden;
+    }
+
+    .ascii-portrait-img {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        object-fit: contain;
+        display: block;
+        margin: 0;
+        border-radius: 0;
     }
 
     .hero-left-col {
         width: 100%;
+        order: 2; /* Bio and name below ASCII portrait */
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
         align-items: flex-start;
+        text-align: left;
+    }
+
+    .hero-h1 {
+        font-size: 2.35rem;
+        letter-spacing: -0.8px;
     }
 
     .hero-subtags {
         justify-content: flex-start;
+        font-size: 13px;
     }
 
     .hero-bio {
         max-width: 100%;
+        font-size: 14.5px;
         text-align: left;
+        line-height: 1.65;
     }
 
     .hero-action-buttons {
-        justify-content: flex-start;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+    }
+
+    .hero-action-buttons .btn-white,
+    .hero-action-buttons .btn-dark {
+        flex: 1;
+        justify-content: center;
     }
 
     .hero-quick-links {
         justify-content: flex-start;
         flex-wrap: wrap;
-    }
-
-    .hero-right-col {
-        width: 100%;
-        display: none; /* In mobile viewport screenshot, hide or keep side-by-side */
-    }
-
-    .hero-h1 {
-        font-size: 2.15rem;
+        gap: 14px;
     }
 
     .audio-visualizer-box {
-        height: 125px;
-        border-radius: 14px;
+        height: 135px;
+        border-radius: 16px;
     }
 
     .skills-container, .projects-grid, .contact-container {
@@ -1451,7 +1584,7 @@ footer {
         padding: 20px 16px;
     }
 
-    /* Focused Playing Card on Mobile */
+    /* Focused Playing Card on Mobile & Tablets */
     .project-card-container.is-focused {
         width: 92vw !important;
         max-width: 340px !important;
@@ -1466,6 +1599,22 @@ footer {
     .card-back-highlights {
         font-size: 12px;
         gap: 8px;
+    }
+}
+
+/* Mobile Screens only (< 768px): Hide hobby audio section, keep it exclusive to Tablets, Desktops, & Smart Displays */
+@media (max-width: 767px) {
+    .about-hobby-text,
+    .about-vinyl-col {
+        display: none !important;
+    }
+
+    .about-split-layout {
+        display: block;
+    }
+
+    .about-text-col {
+        width: 100%;
     }
 }
 
