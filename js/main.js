@@ -66,30 +66,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Contact Form Handler (Direct transmission to aysharma1601@gmail.com)
+    // 5. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
     const contactForm = document.getElementById('contact-form');
     const toast = document.getElementById('toast');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const name = document.getElementById('form-name').value.trim();
             const email = document.getElementById('form-email').value.trim();
             const message = document.getElementById('form-message').value.trim();
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
 
             if (!name || !email || !message) {
                 showToast('Please fill in all fields.');
                 return;
             }
 
-            const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
-            const body = encodeURIComponent(`Sender: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-            
-            window.location.href = `mailto:aysharma1601@gmail.com?subject=${subject}&body=${body}`;
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-            showToast('Opening your email client to send message...');
-            contactForm.reset();
+            try {
+                // Post in background to Formspree
+                const response = await fetch('https://formspree.io/f/xovjqqkw', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        message: message,
+                        _replyto: email,
+                        _subject: `New Portfolio Inquiry from ${name}`
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('✓ Message sent successfully! I will reply soon.');
+                    contactForm.reset();
+                } else {
+                    // Fallback to mailto if endpoint is not activated yet
+                    window.location.href = `mailto:aysharma1601@gmail.com?subject=Portfolio Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message)}`;
+                    showToast('Opening email client as backup...');
+                    contactForm.reset();
+                }
+            } catch (err) {
+                // Fallback directly to mail client
+                window.location.href = `mailto:aysharma1601@gmail.com?subject=Portfolio Inquiry from ${encodeURIComponent(name)}&body=${encodeURIComponent(message)}`;
+                showToast('Opening email client as backup...');
+                contactForm.reset();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
         });
     }
 
