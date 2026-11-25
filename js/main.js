@@ -1,12 +1,12 @@
-// Interactive scripts for Ayush Sharma Portfolio
+// Modern Interactive Portfolio Scripts (ad1tya.me architecture)
 document.addEventListener('DOMContentLoaded', () => {
-    // Current year updater
+    // 1. Current Year
     const yearSpan = document.getElementById('current-year');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     }
 
-    // Dynamic Theme Selector (Inspired by ad1tya.me)
+    // 2. Multi-Theme Switching (with localStorage persistence)
     const themeSelector = document.getElementById('theme-selector');
     const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -19,49 +19,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Active Navigation Highlight on Scroll
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('section, header.hero');
+    // 3. Active Navigation Bar Scroll Spy
+    const navLinks = document.querySelectorAll('.nav-item-link');
+    const sections = document.querySelectorAll('section');
 
     window.addEventListener('scroll', () => {
-        let current = '';
+        let currentSectionId = '';
         sections.forEach(sec => {
-            const sectionTop = sec.offsetTop - 140;
+            const sectionTop = sec.offsetTop - 120;
             if (window.scrollY >= sectionTop) {
-                current = sec.getAttribute('id');
+                currentSectionId = sec.getAttribute('id');
             }
         });
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
                 link.classList.add('active');
             }
         });
     }, { passive: true });
 
-    // Project Filtering Logic
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
+    // 4. Interactive Terminal Banner Canvas (Digital Signal & Grid Waves)
+    const canvas = document.getElementById('terminal-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const filter = btn.getAttribute('data-filter');
-
-            projectCards.forEach(card => {
-                if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+        window.addEventListener('resize', () => {
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
         });
-    });
 
-    // Contact Form handling
+        let frame = 0;
+        const columns = Math.floor(width / 24);
+        const chars = '01AYUSH_SYSTEMS_GODOT_FASTAPI_PYTHON_WASM_DSA';
+
+        function drawTerminalBanner() {
+            ctx.fillStyle = 'rgba(9, 10, 15, 0.2)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Digital Grid Lines
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.08)';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < width; x += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+
+            // Animated wave line
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.4)';
+            ctx.lineWidth = 1.5;
+            for (let x = 0; x < width; x += 5) {
+                const y = height / 2 + Math.sin((x * 0.015) + (frame * 0.04)) * 22;
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Digital telemetry particle dots
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.6)';
+            for (let i = 0; i < 6; i++) {
+                const px = (Math.sin(frame * 0.02 + i) * 0.5 + 0.5) * width;
+                const py = (Math.cos(frame * 0.03 + i) * 0.5 + 0.5) * height;
+                ctx.fillRect(px, py, 2, 2);
+            }
+
+            frame++;
+            requestAnimationFrame(drawTerminalBanner);
+        }
+
+        drawTerminalBanner();
+    }
+
+    // 5. Contact Form Handler (Direct transmission to aysharma1601@gmail.com)
     const contactForm = document.getElementById('contact-form');
     const toast = document.getElementById('toast');
 
