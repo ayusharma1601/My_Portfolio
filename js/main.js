@@ -110,128 +110,272 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Authentic Audio Equalizer Wave Canvas (Exact ad1tya.me aesthetic with mouse wave modulation)
-    const waveCanvas = document.getElementById('audio-wave-canvas');
-    if (waveCanvas) {
-        const ctx = waveCanvas.getContext('2d');
-        let width = waveCanvas.width = waveCanvas.offsetWidth;
-        let height = waveCanvas.height = waveCanvas.offsetHeight;
+    // 5. Retro Game Dev Terminal / Micro-Arcade Blaster (Built directly in canvas)
+    const canvas = document.getElementById('audio-wave-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
 
         window.addEventListener('resize', () => {
-            width = waveCanvas.width = waveCanvas.offsetWidth;
-            height = waveCanvas.height = waveCanvas.offsetHeight;
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
         });
 
-        // 72 columns exactly matching the reference waveform density
-        const barCount = 72;
+        // Game State
+        let score = 0;
+        let lives = 3;
         let frame = 0;
-        let mouseX = -1000;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
         let isHovered = false;
 
-        // Ripples / musical drop pulses
-        const ripples = [];
+        // Player Ship (Minimalist wireframe vector fighter)
+        const ship = {
+            x: width * 0.15,
+            y: height * 0.5,
+            targetY: height * 0.5,
+            size: 11,
+            speed: 0.14
+        };
 
-        function triggerWavePulse(xPos) {
-            ripples.push({
-                x: xPos,
-                radius: 0,
-                maxRadius: 260,
-                amplitude: 1.0,
-                speed: 4.5
+        // Arrays for laser projectiles, asteroids, explosion particles, starfield
+        const lasers = [];
+        const asteroids = [];
+        const particles = [];
+        const stars = [];
+
+        // Initialize background starfield
+        for (let i = 0; i < 45; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                speed: 0.5 + Math.random() * 1.5,
+                size: Math.random() > 0.8 ? 1.5 : 1
             });
+        }
+
+        function spawnAsteroid() {
+            if (asteroids.length < 5) {
+                asteroids.push({
+                    x: width + 20,
+                    y: 18 + Math.random() * (height - 36),
+                    vx: -(1.2 + Math.random() * 1.8),
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: 7 + Math.random() * 6,
+                    hp: 2,
+                    rotation: 0,
+                    vRot: (Math.random() - 0.5) * 0.04
+                });
+            }
+        }
+
+        function createExplosion(x, y, count = 10) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1.0 + Math.random() * 2.5;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    life: 1.0,
+                    decay: 0.03 + Math.random() * 0.03
+                });
+            }
         }
 
         const vizBox = document.querySelector('.audio-visualizer-box');
         if (vizBox) {
-            vizBox.style.cursor = 'default';
-
             vizBox.addEventListener('mousemove', (e) => {
-                const rect = waveCanvas.getBoundingClientRect();
+                const rect = canvas.getBoundingClientRect();
                 mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
                 isHovered = true;
+                ship.targetY = Math.max(16, Math.min(height - 16, mouseY));
             });
 
             vizBox.addEventListener('mouseleave', () => {
                 isHovered = false;
-                mouseX = -1000;
             });
 
+            // Click fires lasers
             vizBox.addEventListener('click', (e) => {
-                const rect = waveCanvas.getBoundingClientRect();
-                triggerWavePulse(e.clientX - rect.left);
+                const rect = canvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                // Fire two twin lasers from ship
+                lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7 });
+                lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7 });
             });
         }
 
-        function renderAudioWave() {
-            ctx.clearRect(0, 0, width, height);
+        // Auto-fire cadence if user hovers
+        let fireCooldown = 0;
 
-            const barWidth = width / barCount;
-            const centerY = height / 2;
+        function runGameLoop() {
+            ctx.clearRect(0, 0, width, height);
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
 
-            // Update pulse ripples
-            for (let r = ripples.length - 1; r >= 0; r--) {
-                const rip = ripples[r];
-                rip.radius += rip.speed;
-                rip.amplitude *= 0.96;
-                if (rip.amplitude < 0.02 || rip.radius > rip.maxRadius) {
-                    ripples.splice(r, 1);
+            // --- 1. Draw Starfield Background ---
+            ctx.fillStyle = isLight ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.45)';
+            stars.forEach(star => {
+                star.x -= star.speed;
+                if (star.x < 0) {
+                    star.x = width;
+                    star.y = Math.random() * height;
+                }
+                ctx.fillRect(star.x, star.y, star.size, star.size);
+            });
+
+            // Smooth ship tracking
+            ship.y += (ship.targetY - ship.y) * ship.speed;
+
+            // Spawn asteroids at intervals
+            if (frame % 80 === 0) {
+                spawnAsteroid();
+            }
+
+            // Auto-fire every 28 frames when active
+            fireCooldown++;
+            if (isHovered && fireCooldown > 26) {
+                lasers.push({ x: ship.x + 12, y: ship.y - 3, vx: 7 });
+                lasers.push({ x: ship.x + 12, y: ship.y + 3, vx: 7 });
+                fireCooldown = 0;
+            }
+
+            // --- 2. Update & Draw Lasers ---
+            ctx.fillStyle = '#38bdf8'; // Cyan laser energy
+            for (let l = lasers.length - 1; l >= 0; l--) {
+                const laser = lasers[l];
+                laser.x += laser.vx;
+
+                ctx.fillRect(laser.x, laser.y - 1, 8, 2);
+
+                if (laser.x > width + 10) {
+                    lasers.splice(l, 1);
                 }
             }
 
-            for (let i = 0; i < barCount; i++) {
-                const x = i * barWidth + barWidth / 2;
-                const normI = i / barCount;
+            // --- 3. Update & Draw Asteroids ---
+            for (let a = asteroids.length - 1; a >= 0; a--) {
+                const ast = asteroids[a];
+                ast.x += ast.vx;
+                ast.y += ast.vy;
+                ast.rotation += ast.vRot;
 
-                // Envelope mimicking the authentic waveform in user's image:
-                // Low at left/right edges, dense organic bulge in center
-                const envelope = Math.sin(normI * Math.PI);
-                const wave1 = Math.sin((i * 0.18) + (frame * 0.04)) * 0.35 + 0.65;
-                const wave2 = Math.cos((i * 0.28) - (frame * 0.025)) * 0.2 + 0.8;
-
-                let colHeight = (envelope * 48 * wave1 * wave2) + 5;
-
-                // Interactive mouse proximity wave modulation
-                if (isHovered && mouseX > 0) {
-                    const distToMouse = Math.abs(x - mouseX);
-                    if (distToMouse < 90) {
-                        const influence = Math.cos((distToMouse / 90) * (Math.PI / 2));
-                        colHeight += influence * 22;
+                // Laser vs Asteroid Collision
+                for (let l = lasers.length - 1; l >= 0; l--) {
+                    const laser = lasers[l];
+                    const dist = Math.hypot(laser.x - ast.x, laser.y - ast.y);
+                    if (dist < ast.radius + 3) {
+                        createExplosion(laser.x, laser.y, 6);
+                        lasers.splice(l, 1);
+                        ast.hp--;
+                        if (ast.hp <= 0) {
+                            createExplosion(ast.x, ast.y, 14);
+                            score += 100;
+                            asteroids.splice(a, 1);
+                            break;
+                        }
                     }
                 }
 
-                // Interactive click ripples (harmonic wave propagation)
-                for (let r = 0; r < ripples.length; r++) {
-                    const rip = ripples[r];
-                    const distToDrop = Math.abs(x - rip.x);
-                    if (Math.abs(distToDrop - rip.radius) < 45) {
-                        const rippleEnvelope = Math.cos(((distToDrop - rip.radius) / 45) * (Math.PI / 2));
-                        const rippleWave = Math.sin((distToDrop - rip.radius) * 0.15);
-                        colHeight += rippleEnvelope * rippleWave * (rip.amplitude * 32);
-                    }
+                if (!asteroids[a]) continue;
+
+                // Draw Polygon Asteroid (Vector Wireframe)
+                ctx.save();
+                ctx.translate(ast.x, ast.y);
+                ctx.rotate(ast.rotation);
+                ctx.strokeStyle = isLight ? '#09090b' : '#ffffff';
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                const sides = 6;
+                for (let s = 0; s < sides; s++) {
+                    const angle = (s / sides) * Math.PI * 2;
+                    const r = ast.radius * (0.8 + (s % 2) * 0.35);
+                    const px = Math.cos(angle) * r;
+                    const py = Math.sin(angle) * r;
+                    if (s === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
                 }
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
 
-                colHeight = Math.max(3, colHeight);
-
-                // Draw vertical stack of discrete dashes/dots
-                const dotSpacing = 5.5;
-                const dotsInCol = Math.floor(colHeight / dotSpacing);
-
-                for (let d = -dotsInCol; d <= dotsInCol; d++) {
-                    const y = centerY + (d * dotSpacing);
-                    ctx.fillStyle = isLight ? '#09090b' : '#ffffff';
-                    // Fades naturally toward the extremities of each vertical bar
-                    ctx.globalAlpha = Math.max(0.18, 1 - Math.abs(d) / (dotsInCol + 2));
-                    ctx.fillRect(x - 1, y - 1, 2, 2);
+                // Remove off-screen
+                if (ast.x < -ast.radius * 2) {
+                    asteroids.splice(a, 1);
                 }
             }
 
-            ctx.globalAlpha = 1.0;
+            // --- 4. Update & Draw Explosion Particles ---
+            for (let p = particles.length - 1; p >= 0; p--) {
+                const pt = particles[p];
+                pt.x += pt.vx;
+                pt.y += pt.vy;
+                pt.life -= pt.decay;
+
+                if (pt.life <= 0) {
+                    particles.splice(p, 1);
+                    continue;
+                }
+
+                ctx.fillStyle = isLight 
+                    ? `rgba(0, 0, 0, ${pt.life})` 
+                    : `rgba(255, 255, 255, ${pt.life})`;
+                ctx.fillRect(pt.x, pt.y, 2, 2);
+            }
+
+            // --- 5. Draw Player Vector Ship ---
+            ctx.save();
+            ctx.translate(ship.x, ship.y);
+
+            // Engine thrust glow
+            const thrust = Math.random() * 6 + 4;
+            ctx.fillStyle = '#f97316';
+            ctx.beginPath();
+            ctx.moveTo(-10, -3);
+            ctx.lineTo(-10 - thrust, 0);
+            ctx.lineTo(-10, 3);
+            ctx.closePath();
+            ctx.fill();
+
+            // Fighter Body (Sharp Vector Geometry)
+            ctx.strokeStyle = isLight ? '#000000' : '#ffffff';
+            ctx.fillStyle = isLight ? '#f4f4f5' : '#18181b';
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+            ctx.moveTo(12, 0);       // Nose
+            ctx.lineTo(-10, -7);     // Left wing
+            ctx.lineTo(-5, 0);       // Core
+            ctx.lineTo(-10, 7);      // Right wing
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Cockpit canopy accent
+            ctx.fillStyle = '#38bdf8';
+            ctx.fillRect(0, -1.5, 4, 3);
+
+            ctx.restore();
+
+            // --- 6. Telemetry HUD (Retro Monospace Text) ---
+            ctx.font = '10px "JetBrains Mono", monospace';
+            ctx.fillStyle = isLight ? '#71717a' : '#a1a1aa';
+            ctx.textAlign = 'left';
+            ctx.fillText(`GODOT_DEV // SCORE: ${score}`, 16, 18);
+
+            ctx.textAlign = 'right';
+            ctx.fillText(isHovered ? 'STATUS: ENGAGED [CLICK FIRE]' : 'MOUSE OVER TO PILOT', width - 16, 18);
+
             frame++;
-            requestAnimationFrame(renderAudioWave);
+            requestAnimationFrame(runGameLoop);
         }
 
-        renderAudioWave();
+        runGameLoop();
     }
 
     // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
