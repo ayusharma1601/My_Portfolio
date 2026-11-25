@@ -56,13 +56,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { passive: true });
 
-    // 4. Playing Card 3D Flip Handler for Projects
+    // 4. Playing Card Focus & Flip Handler (Focused Portrait Rectangle Dimensions)
     const flipCards = document.querySelectorAll('.project-card-container');
+    
+    // Create backdrop element if not already present
+    let backdrop = document.querySelector('.card-focus-backdrop');
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'card-focus-backdrop';
+        document.body.appendChild(backdrop);
+    }
+
+    function unfocusAllCards() {
+        flipCards.forEach(c => c.classList.remove('is-focused'));
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    backdrop.addEventListener('click', unfocusAllCards);
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') unfocusAllCards();
+    });
+
     flipCards.forEach(card => {
+        // Insert close button on card back header
+        const backHeader = card.querySelector('.card-back-header');
+        if (backHeader && !backHeader.querySelector('.card-close-btn')) {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'card-close-btn';
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.title = 'Close Card';
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                unfocusAllCards();
+            });
+            backHeader.appendChild(closeBtn);
+        }
+
         card.addEventListener('click', (e) => {
             // Ignore if clicked directly on an external repository link
-            if (e.target.closest('a')) return;
-            card.classList.toggle('is-flipped');
+            if (e.target.closest('a') || e.target.closest('.card-close-btn')) return;
+
+            const isAlreadyFocused = card.classList.contains('is-focused');
+            if (isAlreadyFocused) {
+                unfocusAllCards();
+            } else {
+                unfocusAllCards();
+                card.classList.add('is-focused');
+                backdrop.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         });
     });
 

@@ -723,18 +723,39 @@ body {
 
 /* ==========================================================================
    Featured Projects (Interactive 3D Playing Card Flip on Click)
+   Focused Card Expands into Authentic Playing Card Ratio (approx 2.5 : 3.5)
    ========================================================================== */
 .projects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+    position: relative;
+}
+
+/* Dim & blur background backdrop overlay when a card is in focused modal mode */
+.card-focus-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.card-focus-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .project-card-container {
-    perspective: 1000px;
+    perspective: 1200px;
     height: 220px;
     position: relative;
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .project-card-inner {
@@ -746,10 +767,7 @@ body {
     transform-style: preserve-3d;
 }
 
-.project-card-container.is-flipped .project-card-inner {
-    transform: rotateY(180deg);
-}
-
+/* Regular Grid Front & Back Cards */
 .project-card-front, .project-card-back {
     position: absolute;
     inset: 0;
@@ -764,19 +782,77 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.project-card-container:hover .project-card-front,
-.project-card-container:hover .project-card-back {
+.project-card-container:hover .project-card-front {
     border-color: var(--card-border-hover);
     background: var(--card-hover);
+    transform: translateY(-2px);
 }
 
 .project-card-back {
     transform: rotateY(180deg);
     background: var(--card-hover);
     border-color: var(--card-border-hover);
+}
+
+/* ==========================================================================
+   FOCUSED PLAYING CARD MODAL (Authentic Portrait Rectangle: 330px x 475px)
+   ========================================================================== */
+.project-card-container.is-focused {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 350px !important;
+    height: 490px !important; /* Authentic playing card aspect ratio (~1 : 1.4) */
+    max-width: 90vw !important;
+    max-height: 85vh !important;
+    z-index: 9999 !important;
+}
+
+.project-card-container.is-focused .project-card-inner {
+    transform: rotateY(180deg);
+}
+
+.project-card-container.is-focused .project-card-back {
+    border-radius: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: #0d0d0d;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(255, 255, 255, 0.08);
+    padding: 24px 22px;
+}
+
+[data-theme="light"] .project-card-container.is-focused .project-card-back {
+    background: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.18);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* Close & Flip Back Button in Focused Mode */
+.card-close-btn {
+    display: none;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    color: var(--foreground);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+.card-close-btn:hover {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+.project-card-container.is-focused .card-close-btn {
+    display: flex;
 }
 
 .project-header {
@@ -863,30 +939,32 @@ body {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--muted-border);
-    padding-bottom: 8px;
-    margin-bottom: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .card-back-title {
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--foreground);
     font-family: var(--font-mono);
+    letter-spacing: 0.5px;
 }
 
 .card-back-highlights {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    font-size: 12px;
+    gap: 12px;
+    font-size: 13px;
     color: var(--muted-foreground);
-    line-height: 1.45;
+    line-height: 1.55;
+    margin: auto 0;
 }
 
 .card-back-highlights li {
     position: relative;
-    padding-left: 14px;
+    padding-left: 16px;
 }
 
 .card-back-highlights li::before {
@@ -894,17 +972,19 @@ body {
     position: absolute;
     left: 0;
     color: var(--foreground);
+    font-weight: bold;
 }
 
 .card-back-highlights strong {
     color: var(--foreground);
+    font-weight: 600;
 }
 
 .card-back-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 8px;
+    padding-top: 12px;
     border-top: 1px solid var(--muted-border);
     margin-top: auto;
 }
