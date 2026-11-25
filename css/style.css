@@ -261,7 +261,7 @@ body {
     height: 145px;
     border-radius: 18px;
     border: 1px solid var(--card-border);
-    background: #000000;
+    background: var(--background);
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
@@ -465,7 +465,7 @@ body {
 
 /* Right Column: ASCII Art Portrait Box */
 .hero-right-col {
-    width: 320px;
+    width: 240px; /* Reduced to a more balanced, compact art size */
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
@@ -473,10 +473,14 @@ body {
 
 .ascii-portrait-card {
     width: 100%;
-    max-width: 320px;
-    border-radius: 14px;
+    max-width: 240px;
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    padding: 6px;
+    transition: all 0.25s ease;
 }
 
 .ascii-portrait-img {
@@ -484,7 +488,18 @@ body {
     height: auto;
     display: block;
     image-rendering: pixelated;
-    border-radius: 12px;
+    border-radius: 8px;
+    filter: none;
+    transition: filter 0.25s ease;
+}
+
+/* Light mode inversion: white ASCII characters become black on a crisp light canvas */
+[data-theme="light"] .ascii-portrait-img {
+    filter: invert(1) brightness(0.92) contrast(1.15);
+}
+
+[data-theme="light"] .audio-visualizer-box {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .btn {

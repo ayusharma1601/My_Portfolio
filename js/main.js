@@ -146,7 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for (let d = -dotsInCol; d <= dotsInCol; d++) {
                     const y = centerY + (d * dotSpacing);
-                    ctx.fillStyle = '#ffffff';
+                    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                    ctx.fillStyle = isLight ? '#09090b' : '#ffffff';
                     ctx.globalAlpha = Math.max(0.2, 1 - Math.abs(d) / (dotsInCol + 2));
                     ctx.fillRect(x - 1, y - 1, 2, 2);
                 }
