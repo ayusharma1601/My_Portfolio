@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Interactive Raindrop Puddle & Mouse Wave Matrix Canvas
+    // 5. Musical Audio Spectrum Equalizer with Interactive Harmonic Ripples
     const waveCanvas = document.getElementById('audio-wave-canvas');
     if (waveCanvas) {
         const ctx = waveCanvas.getContext('2d');
@@ -122,21 +122,22 @@ document.addEventListener('DOMContentLoaded', () => {
             height = waveCanvas.height = waveCanvas.offsetHeight;
         });
 
-        const barCount = 72;
+        const barCount = 76;
         let frame = 0;
         let mouseX = -1000;
         let isHovered = false;
 
-        // Ripples collection (drops hitting the puddle)
-        const ripples = [];
+        // Interactive musical ripples / frequency bursts on click
+        const pulses = [];
 
-        function addRaindrop(targetX) {
-            ripples.push({
+        function addMusicalPulse(targetX) {
+            pulses.push({
                 x: targetX,
                 radius: 0,
-                maxRadius: 180,
+                maxRadius: 240,
                 amplitude: 1.0,
-                speed: 3.2
+                freqMultiplier: 0.18 + Math.random() * 0.12,
+                speed: 4.0
             });
         }
 
@@ -155,97 +156,104 @@ document.addEventListener('DOMContentLoaded', () => {
                 mouseX = -1000;
             });
 
-            // Click acts as a single drop of rain hitting the puddle
             vizBox.addEventListener('click', (e) => {
                 const rect = waveCanvas.getBoundingClientRect();
                 const clickX = e.clientX - rect.left;
-                addRaindrop(clickX);
+                addMusicalPulse(clickX);
             });
         }
 
-        // Ambient gentle raindrops falling intermittently
-        let dropTimer = 0;
-
-        function renderRipplePuddle() {
+        // Procedural rhythm & frequency spectrum simulation
+        // (Bass on left, Mid vocal frequencies in center, High hats/treble on right)
+        function renderMusicVisualizer() {
             ctx.clearRect(0, 0, width, height);
 
             const barWidth = width / barCount;
             const centerY = height / 2;
 
+            // Musical tempo: 124 BPM rhythm cycles
+            const beatPulse = Math.pow(Math.sin(frame * 0.05), 4) * 0.4 + 0.6;
+            const subBassBeat = Math.pow(Math.max(0, Math.sin(frame * 0.025)), 6) * 18;
+            const snareAccent = Math.pow(Math.max(0, Math.cos(frame * 0.05)), 8) * 14;
+
             // Update ripples
-            for (let r = ripples.length - 1; r >= 0; r--) {
-                const rip = ripples[r];
-                rip.radius += rip.speed;
-                rip.amplitude *= 0.965; // Dampen smoothly
+            for (let p = pulses.length - 1; p >= 0; p--) {
+                const pulse = pulses[p];
+                pulse.radius += pulse.speed;
+                pulse.amplitude *= 0.96;
 
-                if (rip.amplitude < 0.02 || rip.radius > rip.maxRadius) {
-                    ripples.splice(r, 1);
+                if (pulse.amplitude < 0.015 || pulse.radius > pulse.maxRadius) {
+                    pulses.splice(p, 1);
                 }
-            }
-
-            // Ambient gentle drop every ~3.5 seconds if user is idle
-            dropTimer++;
-            if (dropTimer > 210 && ripples.length === 0) {
-                addRaindrop(width * (0.3 + Math.random() * 0.4));
-                dropTimer = 0;
             }
 
             for (let i = 0; i < barCount; i++) {
                 const x = i * barWidth + barWidth / 2;
-                
-                // Natural curved profile
-                const envelope = Math.sin((i / barCount) * Math.PI);
-                
-                // Idle gentle surface water tension oscillation
-                let waterHeight = (envelope * 28) + 4;
-                const waterSway = Math.sin((i * 0.16) + (frame * 0.035)) * 0.25 + 0.75;
-                waterHeight *= waterSway;
+                const normI = i / barCount;
 
-                // Mouse proximity wave (interactive hover)
+                // Center-heavy envelope like the reference audio wave image
+                const envelope = Math.sin(normI * Math.PI);
+
+                // Multi-harmonic musical bands:
+                // 1. Low frequency bass oscillations (prominent on 1st third)
+                const bassBand = Math.sin((i * 0.12) - (frame * 0.06)) * (1 - normI * 0.6);
+                // 2. Mid melody / synth lead waves
+                const midSynth = Math.sin((i * 0.28) + (frame * 0.08)) * Math.cos((i * 0.18) - (frame * 0.04));
+                // 3. High-frequency percussion / jitter shimmer (hats)
+                const trebleJitter = Math.sin((frame * 0.18) + (i * 0.8)) * 0.35;
+
+                // Combine into dynamic music wave amplitude
+                let barHeight = envelope * (28 + (midSynth * 22 * beatPulse) + (bassBand * subBassBeat) + (trebleJitter * snareAccent)) + 4;
+
+                // Mouse hover distortion: behaves like touching an audio scrubber / vinyl
                 if (isHovered && mouseX > 0) {
                     const distToMouse = Math.abs(x - mouseX);
                     if (distToMouse < 90) {
-                        const mouseInfluence = Math.cos((distToMouse / 90) * (Math.PI / 2));
-                        waterHeight += mouseInfluence * 26;
+                        const hoverInfluence = Math.cos((distToMouse / 90) * (Math.PI / 2));
+                        // High-energy resonance peak under cursor
+                        const resonance = Math.sin(frame * 0.2 + (i * 0.4)) * 12;
+                        barHeight += hoverInfluence * (24 + resonance);
                     }
                 }
 
-                // Raindrop ripple propagation physics
-                for (let r = 0; r < ripples.length; r++) {
-                    const rip = ripples[r];
-                    const distToDrop = Math.abs(x - rip.x);
-                    const wavePhase = (distToDrop - rip.radius) * 0.12;
+                // Propagate musical click ripple bursts
+                for (let p = 0; p < pulses.length; p++) {
+                    const pulse = pulses[p];
+                    const distToPulse = Math.abs(x - pulse.x);
+                    const wavePhase = (distToPulse - pulse.radius) * pulse.freqMultiplier;
 
-                    // Wave packet centered on wavefront
-                    if (Math.abs(distToDrop - rip.radius) < 40) {
-                        const rippleEnvelope = Math.cos(((distToDrop - rip.radius) / 40) * (Math.PI / 2));
+                    if (Math.abs(distToPulse - pulse.radius) < 50) {
+                        const pulseEnvelope = Math.cos(((distToPulse - pulse.radius) / 50) * (Math.PI / 2));
                         const rippleWave = Math.sin(wavePhase);
-                        const displacement = rippleEnvelope * rippleWave * (rip.amplitude * 42);
-                        waterHeight += displacement;
+                        const displacement = pulseEnvelope * rippleWave * (pulse.amplitude * 48);
+                        barHeight += displacement;
                     }
                 }
 
-                waterHeight = Math.max(3, waterHeight);
+                barHeight = Math.max(3, barHeight);
 
-                // Draw vertical ASCII dot stack
-                const dotSpacing = 5.5;
-                const dotsInCol = Math.floor(waterHeight / dotSpacing);
+                // Render discrete equalizer dots/dashes
+                const dotSpacing = 5.2;
+                const dotsInCol = Math.floor(barHeight / dotSpacing);
 
                 for (let d = -dotsInCol; d <= dotsInCol; d++) {
                     const y = centerY + (d * dotSpacing);
                     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                     ctx.fillStyle = isLight ? '#09090b' : '#ffffff';
-                    ctx.globalAlpha = Math.max(0.18, 1 - Math.abs(d) / (dotsInCol + 2));
+                    
+                    // Dim dots as they approach peak edges, highlight center rhythm core
+                    const alphaDropoff = 1 - Math.abs(d) / (dotsInCol + 2);
+                    ctx.globalAlpha = Math.max(0.18, alphaDropoff);
                     ctx.fillRect(x - 1, y - 1, 2, 2);
                 }
             }
 
             ctx.globalAlpha = 1.0;
             frame++;
-            requestAnimationFrame(renderRipplePuddle);
+            requestAnimationFrame(renderMusicVisualizer);
         }
 
-        renderRipplePuddle();
+        renderMusicVisualizer();
     }
 
     // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
