@@ -304,168 +304,296 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Project 1: Disaster Platform (Hero Featured) -->
-                <div class="project-card featured-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer">
-                                    Disaster Intelligence &amp; Tactical Flood Platform
+                <!-- Project 1: Disaster Platform -->
+                <div class="project-card-container featured-container" style="grid-column: span 2;">
+                    <div class="project-card-inner">
+                        <!-- Card Front -->
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">Disaster Intelligence &amp; Tactical Flood Platform</h3>
+                                    <span class="tag-badge" style="color:var(--foreground);">FLAGSHIP</span>
+                                </div>
+                                <p class="project-desc">
+                                    Offline-first hydrological intelligence and crisis response platform. Integrates live telemetry, 3D WebGL Earth globe visualization, deterministic risk scoring, Web Audio sirens, and an automated 6-suite verification test gate.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Python</span>
+                                    <span class="tag-badge">FastAPI</span>
+                                    <span class="tag-badge">Three.js</span>
+                                    <span class="tag-badge">Leaflet GIS</span>
+                                    <span class="tag-badge">SQLite</span>
+                                    <span class="tag-badge">P2P Mesh</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip for key metrics</span>
+                                <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">FLAGSHIP</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            Offline-first hydrological intelligence and crisis response platform. Integrates live telemetry, 3D WebGL Earth globe visualization, deterministic risk scoring, Web Audio siren alerts, and an automated 6-suite verification test gate.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Python</span>
-                            <span class="tag-badge">FastAPI</span>
-                            <span class="tag-badge">Three.js</span>
-                            <span class="tag-badge">Leaflet GIS</span>
-                            <span class="tag-badge">SQLite</span>
-                            <span class="tag-badge">P2P Mesh</span>
+
+                        <!-- Card Back -->
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">DISASTER PLATFORM // SPECS</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>Offline-First Resilience:</strong> Works without active internet via local SQLite caching and P2P mesh topology.</li>
+                                    <li><strong>Deterministic Risk Scoring:</strong> Real-time river basin formula mapping telemetry into 4 threat tiers.</li>
+                                    <li><strong>Quality Assurance:</strong> Verified 6-suite automated test gate with 100% pass coverage.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Arch: Microservices / GIS</span>
+                                    <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Source Code &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/Disaster-app" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> github.com/ayusharma1601/Disaster-app &rarr;
-                        </a>
                     </div>
                 </div>
 
                 <!-- Project 2: Shipshooter -->
-                <div class="project-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer">
-                                    Shipshooter: 2D Arcade Space Combat
+                <div class="project-card-container">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">Shipshooter: 2D Arcade Space Combat</h3>
+                                    <span class="tag-badge">GAME DEV</span>
+                                </div>
+                                <p class="project-desc">
+                                    Classic 2D space shooter in Godot Engine with GDScript compiled to WebAssembly/HTML5 for instant browser play. Features responsive collision physics and projectile cascades.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Godot 4</span>
+                                    <span class="tag-badge">GDScript</span>
+                                    <span class="tag-badge">WebAssembly</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip</span>
+                                <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">GAME DEV</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            Classic 2D space shooter in Godot Engine with GDScript compiled to WebAssembly/HTML5 for instant browser play. Features responsive collision physics and projectile cascades.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Godot 4</span>
-                            <span class="tag-badge">GDScript</span>
-                            <span class="tag-badge">WebAssembly</span>
+
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">SHIPSHOOTER // ENGINE DETAILS</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>Custom Physics:</strong> Built on Godot Area2D and RigidBody velocity damping.</li>
+                                    <li><strong>WASM Deployment:</strong> Zero-dependency instant web export playable in any browser.</li>
+                                    <li><strong>Particle Cascades:</strong> GPU particle emitters for weapon blast feedback.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Platform: Web / PC</span>
+                                    <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Repo &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/shipshooter" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> Repository &rarr;
-                        </a>
                     </div>
                 </div>
 
                 <!-- Project 3: New_Game -->
-                <div class="project-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer">
-                                    Interactive Adventure Controller
+                <div class="project-card-container">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">Interactive Adventure Controller</h3>
+                                    <span class="tag-badge">GODOT</span>
+                                </div>
+                                <p class="project-desc">
+                                    State-machine transitions, tilemap level navigation, character velocity curves, and modular event triggers in Godot.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Godot</span>
+                                    <span class="tag-badge">GDScript</span>
+                                    <span class="tag-badge">State Machine</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip</span>
+                                <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">GODOT</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            State-machine transitions, tilemap level navigation, character velocity curves, and modular event triggers in Godot.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Godot</span>
-                            <span class="tag-badge">GDScript</span>
-                            <span class="tag-badge">State Machine</span>
+
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">ADVENTURE // MECHANICS</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>State-Driven Architecture:</strong> Decoupled Idle, Run, Jump, and Attack states.</li>
+                                    <li><strong>Camera Interpolation:</strong> Smooth lerp camera tracking with viewport boundaries.</li>
+                                    <li><strong>Modular Level Prefabs:</strong> Tilemap collision layer auto-tiling setup.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Genre: Action Adventure</span>
+                                    <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Repo &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/New_Game.git" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> Repository &rarr;
-                        </a>
                     </div>
                 </div>
 
                 <!-- Project 4: Expense Tracker -->
-                <div class="project-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer">
-                                    Personal Expense Tracker CLI
+                <div class="project-card-container">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">Personal Expense Tracker CLI</h3>
+                                    <span class="tag-badge">PYTHON</span>
+                                </div>
+                                <p class="project-desc">
+                                    Personal finance utility recording categorized expenses, expenditure tallying, and category percentage breakdown analytics.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Python</span>
+                                    <span class="tag-badge">CLI</span>
+                                    <span class="tag-badge">Analytics</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip</span>
+                                <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">PYTHON</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            Personal finance utility recording categorized expenses, expenditure tallying, and category percentage breakdown analytics.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Python</span>
-                            <span class="tag-badge">CLI</span>
-                            <span class="tag-badge">Analytics</span>
+
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">EXPENSE TRACKER // ARCH</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>Category Analysis:</strong> Real-time percentage consumption calculations across budgets.</li>
+                                    <li><strong>Data Validation:</strong> Type checks, exception handlers, and structured ledger files.</li>
+                                    <li><strong>Zero Bloat:</strong> Pure lightweight Python standard library execution.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Type: Terminal App</span>
+                                    <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Repo &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/Expense-tracker" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> Repository &rarr;
-                        </a>
                     </div>
                 </div>
 
                 <!-- Project 5: Library Management -->
-                <div class="project-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer">
-                                    In-Memory Library Management
+                <div class="project-card-container">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">In-Memory Library Management</h3>
+                                    <span class="tag-badge">DATA STRUCT</span>
+                                </div>
+                                <p class="project-desc">
+                                    Book index management implementing search indexing by title/author, availability state flags, and retrieval operations.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Python</span>
+                                    <span class="tag-badge">Indexing</span>
+                                    <span class="tag-badge">In-Memory</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip</span>
+                                <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">DATA STRUCT</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            Book index management implementing search indexing by title/author, availability state flags, and retrieval operations.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Python</span>
-                            <span class="tag-badge">Indexing</span>
-                            <span class="tag-badge">In-Memory</span>
+
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">LIBRARY SYSTEM // SPECS</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>Fast Lookups:</strong> Keyed dictionary hash indexes for O(1) title retrieval.</li>
+                                    <li><strong>State Flags:</strong> Atomic tracking for borrowed, available, and reserved statuses.</li>
+                                    <li><strong>Modular Structure:</strong> Clean Separation of Concerns between store and UI.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Type: Systems / Store</span>
+                                    <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Repo &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/library-management-system" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> Repository &rarr;
-                        </a>
                     </div>
                 </div>
 
                 <!-- Project 6: Word Frequency -->
-                <div class="project-card">
-                    <div>
-                        <div class="project-header">
-                            <h3 class="project-title">
-                                <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer">
-                                    Word Frequency &amp; Text Analyzer
+                <div class="project-card-container">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div>
+                                <div class="project-header">
+                                    <h3 class="project-title">Word Frequency &amp; Text Analyzer</h3>
+                                    <span class="tag-badge">ALGORITHMS</span>
+                                </div>
+                                <p class="project-desc">
+                                    Algorithmic parser that cleans input text, tokenizes, and computes top occurrences using hash-map frequency counting.
+                                </p>
+                                <div class="project-stack">
+                                    <span class="tag-badge">Python</span>
+                                    <span class="tag-badge">Hash Maps</span>
+                                    <span class="tag-badge">Algorithms</span>
+                                </div>
+                            </div>
+                            <div class="project-footer">
+                                <span class="card-flip-prompt"><i class="fas fa-sync-alt"></i> Click to flip</span>
+                                <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                    <i class="fab fa-github"></i> Repository &rarr;
                                 </a>
-                            </h3>
-                            <span class="tag-badge">ALGORITHMS</span>
+                            </div>
                         </div>
-                        <p class="project-desc">
-                            Algorithmic parser that cleans input text, tokenizes, and computes top occurrences using hash-map frequency counting.
-                        </p>
-                        <div class="project-stack">
-                            <span class="tag-badge">Python</span>
-                            <span class="tag-badge">Hash Maps</span>
-                            <span class="tag-badge">Algorithms</span>
+
+                        <div class="project-card-back">
+                            <div class="card-back-content">
+                                <div class="card-back-header">
+                                    <span class="card-back-title">FREQUENCY ANALYZER // LOGIC</span>
+                                    <span class="card-flip-prompt"><i class="fas fa-undo"></i> Flip back</span>
+                                </div>
+                                <ul class="card-back-highlights">
+                                    <li><strong>Text Sanitization:</strong> Regex regex punctuation stripping & case normalization.</li>
+                                    <li><strong>Frequency Map:</strong> Hash table counting with efficient sorted ranking.</li>
+                                    <li><strong>Memory Efficient:</strong> Token stream iterator for handling larger text bodies.</li>
+                                </ul>
+                                <div class="card-back-footer">
+                                    <span style="font-family:var(--font-mono); font-size:11px; color:var(--muted-foreground);">Type: NLP / Algorithmic</span>
+                                    <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer" class="project-repo-link" onclick="event.stopPropagation();">
+                                        <i class="fab fa-github"></i> View Repo &rarr;
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <a href="https://github.com/ayusharma1601/Word-Frequency-Counter" target="_blank" rel="noopener noreferrer" class="project-repo-link">
-                            <i class="fab fa-github"></i> Repository &rarr;
-                        </a>
                     </div>
                 </div>
             </div>

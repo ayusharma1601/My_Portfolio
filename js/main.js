@@ -56,7 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { passive: true });
 
-    // 4. Contact Form Handler (Direct transmission to aysharma1601@gmail.com)
+    // 4. Playing Card 3D Flip Handler for Projects
+    const flipCards = document.querySelectorAll('.project-card-container');
+    flipCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Ignore if clicked directly on an external repository link
+            if (e.target.closest('a')) return;
+            card.classList.toggle('is-flipped');
+        });
+    });
+
+    // 5. Contact Form Handler (Direct transmission to aysharma1601@gmail.com)
     const contactForm = document.getElementById('contact-form');
     const toast = document.getElementById('toast');
 
