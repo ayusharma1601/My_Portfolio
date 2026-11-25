@@ -56,57 +56,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { passive: true });
 
-    // 4. Playing Card Focus & Flip Handler (Focused Portrait Rectangle Dimensions)
+    // 4. Playing Card Focus & Flip Handler (Dedicated Fullscreen Modal Dialog)
+    const cardModal = document.getElementById('playing-card-modal');
+    const cardModalBody = document.getElementById('card-modal-body');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
     const flipCards = document.querySelectorAll('.project-card-container');
-    
-    // Create backdrop element if not already present
-    let backdrop = document.querySelector('.card-focus-backdrop');
-    if (!backdrop) {
-        backdrop = document.createElement('div');
-        backdrop.className = 'card-focus-backdrop';
-        document.body.appendChild(backdrop);
+
+    function openCardModal(card) {
+        const backContent = card.querySelector('.project-card-back');
+        if (!backContent || !cardModalBody || !cardModal) return;
+
+        // Clone the card back content into the modal dialog
+        cardModalBody.innerHTML = backContent.innerHTML;
+        cardModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 
-    function unfocusAllCards() {
-        flipCards.forEach(c => c.classList.remove('is-focused'));
-        backdrop.classList.remove('active');
+    function closeCardModal() {
+        if (!cardModal) return;
+        cardModal.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    backdrop.addEventListener('click', unfocusAllCards);
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeCardModal);
+    }
+
+    if (cardModal) {
+        cardModal.addEventListener('click', (e) => {
+            // Close when clicking outside the card inner container
+            if (!e.target.closest('.card-modal-inner')) {
+                closeCardModal();
+            }
+        });
+    }
 
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') unfocusAllCards();
+        if (e.key === 'Escape') closeCardModal();
     });
 
     flipCards.forEach(card => {
-        // Insert close button on card back header
-        const backHeader = card.querySelector('.card-back-header');
-        if (backHeader && !backHeader.querySelector('.card-close-btn')) {
-            const closeBtn = document.createElement('button');
-            closeBtn.className = 'card-close-btn';
-            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-            closeBtn.title = 'Close Card';
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                unfocusAllCards();
-            });
-            backHeader.appendChild(closeBtn);
-        }
-
         card.addEventListener('click', (e) => {
-            // Ignore if clicked directly on an external repository link
-            if (e.target.closest('a') || e.target.closest('.card-close-btn')) return;
-
-            const isAlreadyFocused = card.classList.contains('is-focused');
-            if (isAlreadyFocused) {
-                unfocusAllCards();
-            } else {
-                unfocusAllCards();
-                card.classList.add('is-focused');
-                backdrop.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+            // Ignore if clicked on direct GitHub link
+            if (e.target.closest('a')) return;
+            openCardModal(card);
         });
     });
 

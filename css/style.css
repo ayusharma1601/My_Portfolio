@@ -713,36 +713,12 @@ body {
 
 /* ==========================================================================
    Featured Projects (Interactive 3D Playing Card Flip on Click)
-   Focused Card Expands into Authentic Playing Card Ratio (approx 2.5 : 3.5)
    ========================================================================== */
 .projects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
     position: relative;
-}
-
-/* Dim & blur background backdrop overlay when a card is in focused modal mode */
-.card-focus-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-}
-
-.card-focus-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
 }
 
 .project-card-container {
@@ -753,24 +729,13 @@ body {
     transition: transform 0.2s ease;
 }
 
-.project-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: left;
-    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-    transform-style: preserve-3d;
+.project-card-container:hover {
+    transform: translateY(-2px);
 }
 
-/* Regular Grid Front & Back Cards */
-.project-card-front, .project-card-back {
-    position: absolute;
-    top: 0;
-    left: 0;
+.project-card-front {
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
     border-radius: 12px;
     border: 1px solid var(--card-border);
     background: var(--card);
@@ -784,65 +749,169 @@ body {
 .project-card-container:hover .project-card-front {
     border-color: var(--card-border-hover);
     background: var(--card-hover);
-    transform: translateY(-2px);
 }
 
+/* Hide back template inside grid - it gets projected into the active modal */
 .project-card-back {
-    transform: rotateY(180deg);
-    background: #141414;
-    border-color: var(--card-border-hover);
-    color: #ffffff;
+    display: none;
 }
 
 /* ==========================================================================
-   FOCUSED PLAYING CARD MODAL (Authentic Portrait Playing Card: 340px x 480px)
+   AUTHENTIC PLAYING CARD MODAL (Crisp, High Contrast, Centered)
    ========================================================================== */
-.project-card-container.is-focused {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 350px !important;
-    height: 490px !important; /* Authentic playing card aspect ratio */
-    max-width: 90vw !important;
-    max-height: 85vh !important;
-    z-index: 10001 !important;
+.card-modal-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-.project-card-container.is-focused .project-card-inner {
-    width: 100%;
-    height: 100%;
-    transform: rotateY(180deg);
+.card-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
-.project-card-container.is-focused .project-card-front {
-    display: none; /* Hide front completely when card is focused/flipped */
+.card-modal-box {
+    width: 360px;
+    height: 510px; /* Playing card ratio (~1 : 1.41) */
+    max-width: 90vw;
+    max-height: 85vh;
+    perspective: 1000px;
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.project-card-container.is-focused .project-card-back {
+.card-modal-overlay.active .card-modal-box {
+    transform: scale(1);
+}
+
+.card-modal-inner {
     position: relative;
-    top: auto;
-    left: auto;
     width: 100%;
     height: 100%;
-    transform: none; /* Reset rotation because inner or front is flipped */
-    -webkit-backface-visibility: visible;
-    backface-visibility: visible;
-    border-radius: 18px;
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
-    background: #0d0d0d !important;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 255, 255, 0.08);
-    padding: 24px 22px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: #09090b;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(255, 255, 255, 0.06);
+    padding: 26px 22px;
+    color: #ffffff;
     display: flex;
     flex-direction: column;
+}
+
+[data-theme="light"] .card-modal-inner {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    color: var(--foreground);
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    z-index: 10;
+}
+
+.modal-close-btn:hover {
+    background: var(--foreground);
+    color: var(--background);
+}
+
+.card-modal-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-modal-body .card-back-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     justify-content: space-between;
 }
 
-[data-theme="light"] .project-card-container.is-focused .project-card-back {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border: 1.5px solid rgba(0, 0, 0, 0.22);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+.card-modal-body .card-back-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--muted-border);
+    margin-bottom: 14px;
+    padding-right: 30px; /* Space for close button */
+}
+
+.card-modal-body .card-back-title {
+    font-size: 13px;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--foreground);
+    letter-spacing: 0.5px;
+}
+
+.card-modal-body .card-back-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    margin: auto 0;
+}
+
+.card-modal-body .card-back-highlights li {
+    position: relative;
+    padding-left: 18px;
+}
+
+.card-modal-body .card-back-highlights li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--foreground);
+    font-weight: bold;
+}
+
+.card-modal-body .card-back-highlights strong {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+.card-modal-body .card-back-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--muted-border);
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: 11px;
 }
 
 /* Close & Flip Back Button in Focused Mode */
