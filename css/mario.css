@@ -1,33 +1,38 @@
 /* ==========================================================================
    Super Mario World Intro & Interactive Game Engine Styles
+   Smooth, responsive, and performance-optimized for all screen sizes & mobile
    ========================================================================== */
 
-/* Retro Mario HUD Bar */
+/* Modern Floating Mario HUD Bar (Ad1tya.me inspired floating dock pill) */
 .mario-hud {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 24px);
+    max-width: 900px;
     z-index: 1000;
-    background: rgba(10, 11, 16, 0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 2px solid #e52521;
-    box-shadow: 0 4px 20px rgba(229, 37, 33, 0.25);
+    background: rgba(14, 16, 24, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(229, 37, 33, 0.35);
+    border-radius: 9999px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 37, 33, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 24px;
+    padding: 8px 18px;
     font-family: 'Press Start 2P', monospace, sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 1px;
+    font-size: 0.68rem;
     color: #fff;
     user-select: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hud-group {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 }
 
 .hud-item {
@@ -39,57 +44,63 @@
 .hud-label {
     color: #ffd700;
     text-shadow: 1px 1px 0 #b35900;
+    font-size: 0.62rem;
 }
 
 .hud-val {
     color: #ffffff;
     font-weight: bold;
+    letter-spacing: 0.5px;
 }
 
 .hud-coin-icon {
     display: inline-block;
-    width: 12px;
-    height: 16px;
+    width: 10px;
+    height: 14px;
     background: #ffd700;
-    border-radius: 4px;
-    border: 1.5px solid #fff;
-    box-shadow: inset 0 0 4px #b8860b;
+    border-radius: 3px;
+    border: 1px solid #fff;
+    box-shadow: inset 0 0 3px #b8860b;
     animation: coinSpin 1.2s infinite steps(4);
+    will-change: transform;
 }
 
 @keyframes coinSpin {
     0%, 100% { transform: scaleX(1); }
-    50% { transform: scaleX(0.25); background: #ffae00; }
+    50% { transform: scaleX(0.2); background: #ffae00; }
 }
 
 .hud-btn {
     background: #e52521;
     color: #fff;
-    border: 2px solid #fff;
-    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: 6px 10px;
     font-family: inherit;
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     cursor: pointer;
-    box-shadow: 2px 2px 0 #000;
-    transition: transform 0.1s, background-color 0.2s;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: transform 0.15s, background-color 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .hud-btn:hover {
-    background: #ff4136;
-    transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 0 #000;
+    background: #ff3b30;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(229, 37, 33, 0.4);
 }
 
 .hud-btn:active {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 #000;
+    transform: translateY(1px);
 }
 
 .hud-btn.audio-btn {
-    background: #00a859;
+    background: #10b981;
 }
 .hud-btn.audio-btn:hover {
-    background: #00c86b;
+    background: #059669;
 }
 
 /* MARIO INTRO STAGE OVERLAY */
@@ -104,6 +115,7 @@
     overflow: hidden;
     user-select: none;
     cursor: pointer;
+    will-change: opacity, transform;
 }
 
 /* Pixel Clouds */
@@ -113,6 +125,7 @@
     border-radius: 20px;
     box-shadow: 0 4px 0 rgba(0,0,0,0.1);
     opacity: 0.95;
+    will-change: transform;
 }
 .mario-cloud::before, .mario-cloud::after {
     content: '';
@@ -121,60 +134,60 @@
     border-radius: 50%;
 }
 .cloud-1 {
-    width: 140px;
-    height: 40px;
-    top: 15%;
-    left: 10%;
+    width: 130px;
+    height: 38px;
+    top: 14%;
+    left: 8%;
 }
 .cloud-1::before {
-    width: 60px;
-    height: 60px;
-    top: -28px;
-    left: 25px;
+    width: 55px;
+    height: 55px;
+    top: -26px;
+    left: 22px;
 }
 .cloud-1::after {
-    width: 45px;
-    height: 45px;
-    top: -18px;
-    left: 70px;
+    width: 42px;
+    height: 42px;
+    top: -16px;
+    left: 65px;
 }
 
 .cloud-2 {
-    width: 170px;
-    height: 46px;
-    top: 25%;
-    right: 12%;
+    width: 150px;
+    height: 42px;
+    top: 22%;
+    right: 10%;
 }
 .cloud-2::before {
-    width: 70px;
-    height: 70px;
-    top: -32px;
-    left: 30px;
+    width: 62px;
+    height: 62px;
+    top: -28px;
+    left: 26px;
 }
 .cloud-2::after {
-    width: 55px;
-    height: 55px;
-    top: -22px;
-    left: 85px;
+    width: 50px;
+    height: 50px;
+    top: -20px;
+    left: 75px;
 }
 
-/* Distant Bush/Mountain */
+/* Hills */
 .mario-hill {
     position: absolute;
-    bottom: 96px;
+    bottom: 84px;
     border-radius: 120px 120px 0 0;
     background: #00a859;
     border-top: 4px solid #005824;
 }
 .hill-1 {
-    width: 220px;
-    height: 110px;
-    left: 8%;
+    width: 180px;
+    height: 90px;
+    left: 6%;
 }
 .hill-2 {
-    width: 160px;
-    height: 80px;
-    right: 15%;
+    width: 130px;
+    height: 65px;
+    right: 18%;
 }
 
 /* Ground Blocks */
@@ -183,17 +196,17 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 96px;
+    height: 84px;
     background: #c84c0c;
-    border-top: 8px solid #00a859;
+    border-top: 6px solid #00a859;
     background-image: 
         linear-gradient(45deg, #a43a05 25%, transparent 25%), 
         linear-gradient(-45deg, #a43a05 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #a43a05 75%),
         linear-gradient(-45deg, transparent 75%, #a43a05 75%);
-    background-size: 32px 32px;
-    background-position: 0 0, 0 16px, 16px -16px, -16px 0px;
-    box-shadow: inset 0 6px 0 rgba(0,0,0,0.25);
+    background-size: 28px 28px;
+    background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
+    box-shadow: inset 0 5px 0 rgba(0,0,0,0.2);
 }
 
 /* Question Mark Block */
@@ -209,51 +222,52 @@
 }
 
 .mario-qblock {
-    width: 68px;
-    height: 68px;
+    width: 60px;
+    height: 60px;
     background: #fc9838;
-    border: 4px solid #000;
-    box-shadow: inset -4px -4px 0 #a43a05, inset 4px 4px 0 #fce4a0, 0 10px 25px rgba(0,0,0,0.3);
+    border: 3px solid #000;
+    box-shadow: inset -3px -3px 0 #a43a05, inset 3px 3px 0 #fce4a0, 0 8px 20px rgba(0,0,0,0.3);
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Press Start 2P', monospace;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #fff;
-    text-shadow: 3px 3px 0 #a43a05;
+    text-shadow: 2px 2px 0 #a43a05;
     cursor: pointer;
+    will-change: transform;
 }
 
 .mario-qblock.hit {
     background: #8b7355 !important;
     border-color: #3b2c1a !important;
-    box-shadow: inset -4px -4px 0 #523f2b, inset 4px 4px 0 #ab977d !important;
+    box-shadow: inset -3px -3px 0 #523f2b, inset 3px 3px 0 #ab977d !important;
     color: transparent !important;
     text-shadow: none !important;
 }
 
-/* Four rivet bolts on block corners */
 .mario-qblock::before, .mario-qblock::after {
     content: '';
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     background: #000;
 }
-.mario-qblock::before { top: 4px; left: 4px; box-shadow: 46px 0 0 #000; }
-.mario-qblock::after { bottom: 4px; left: 4px; box-shadow: 46px 0 0 #000; }
+.mario-qblock::before { top: 3px; left: 3px; box-shadow: 43px 0 0 #000; }
+.mario-qblock::after { bottom: 3px; left: 3px; box-shadow: 43px 0 0 #000; }
 
 /* Mario Character Sprite SVG */
 .mario-character {
     position: absolute;
-    bottom: 96px;
-    left: -80px;
-    width: 64px;
-    height: 80px;
+    bottom: 84px;
+    left: -70px;
+    width: 54px;
+    height: 68px;
     z-index: 30;
-    filter: drop-shadow(0 6px 4px rgba(0,0,0,0.35));
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
     pointer-events: none;
+    will-change: transform, left;
 }
 
 /* Pop Coin Animation element */
@@ -262,69 +276,70 @@
     top: 38%;
     left: 50%;
     transform: translate(-50%, 0) scale(0);
-    width: 32px;
-    height: 44px;
+    width: 28px;
+    height: 38px;
     background: #ffd700;
     border: 3px solid #000;
-    border-radius: 12px;
-    box-shadow: inset -3px -3px 0 #b38600, inset 3px 3px 0 #fff;
+    border-radius: 10px;
+    box-shadow: inset -2px -2px 0 #b38600, inset 2px 2px 0 #fff;
     z-index: 15;
     opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    will-change: transform, opacity;
 }
 .mario-pop-coin::after {
     content: '';
-    width: 6px;
-    height: 22px;
+    width: 5px;
+    height: 18px;
     background: #ffae00;
-    border-radius: 4px;
+    border-radius: 3px;
 }
 
 /* World Level Banner text */
 .intro-banner {
     position: absolute;
-    top: 15%;
+    top: 10%;
     width: 100%;
     text-align: center;
     font-family: 'Press Start 2P', monospace;
     z-index: 25;
+    padding: 0 16px;
 }
 .intro-banner .world-title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: #ffffff;
-    text-shadow: 3px 3px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
-    margin-bottom: 12px;
-    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
 }
 .intro-banner .world-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: #ffd700;
-    text-shadow: 2px 2px 0 #000;
+    text-shadow: 1.5px 1.5px 0 #000;
+    line-height: 1.4;
 }
 
 /* Tap to Start / Skip Controls */
 .intro-controls {
     position: absolute;
-    bottom: 30px;
-    right: 30px;
+    bottom: 24px;
+    right: 24px;
     z-index: 40;
-    display: flex;
-    gap: 12px;
 }
 
 .intro-skip-btn {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.75);
     color: #fff;
     border: 2px solid #ffd700;
-    padding: 10px 18px;
+    padding: 8px 14px;
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.7rem;
+    font-size: 0.62rem;
     cursor: pointer;
     border-radius: 6px;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 .intro-skip-btn:hover {
     background: #ffd700;
@@ -334,74 +349,63 @@
 /* Warp Pipe Transition */
 .warp-pipe {
     position: absolute;
-    bottom: 96px;
-    right: 10%;
-    width: 80px;
-    height: 120px;
+    bottom: 84px;
+    right: 8%;
+    width: 72px;
+    height: 105px;
     background: #00a859;
-    border: 4px solid #000;
-    box-shadow: inset 10px 0 0 #00d672, inset -10px 0 0 #006030;
+    border: 3px solid #000;
+    box-shadow: inset 8px 0 0 #00d672, inset -8px 0 0 #006030;
     z-index: 10;
 }
 .warp-pipe::before {
     content: '';
     position: absolute;
-    top: -24px;
-    left: -8px;
-    width: 96px;
-    height: 24px;
+    top: -20px;
+    left: -7px;
+    width: 86px;
+    height: 20px;
     background: #00a859;
-    border: 4px solid #000;
-    box-shadow: inset 10px 0 0 #00d672, inset -10px 0 0 #006030;
+    border: 3px solid #000;
+    box-shadow: inset 8px 0 0 #00d672, inset -8px 0 0 #006030;
 }
 
 /* Floating Coin Particles in Portfolio */
-.floating-coin-particle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 99999;
-    width: 20px;
-    height: 28px;
-    background: #ffd700;
-    border: 2px solid #000;
-    border-radius: 8px;
-    box-shadow: inset 0 0 6px #fff;
-}
-
 .coin-score-float {
     position: fixed;
     pointer-events: none;
     z-index: 99999;
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #ffd700;
     text-shadow: 2px 2px 0 #000;
+    will-change: transform, opacity;
 }
 
-/* Question Mark Block in Skill & Project Section */
+/* Retro Easter Egg Button in Section Labels */
 .retro-easter-egg-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: #fc9838;
     color: #fff;
-    border: 2px solid #000;
-    padding: 6px 14px;
+    border: 1.5px solid #000;
+    padding: 3px 8px;
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     border-radius: 4px;
     cursor: pointer;
-    box-shadow: 2px 2px 0 #a43a05;
+    box-shadow: 1.5px 1.5px 0 #a43a05;
     transition: transform 0.1s, box-shadow 0.1s;
-    margin-left: 12px;
+    margin-left: 10px;
     vertical-align: middle;
 }
 .retro-easter-egg-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 2px 4px 0 #a43a05;
+    box-shadow: 1.5px 3px 0 #a43a05;
 }
 .retro-easter-egg-btn:active {
-    transform: translateY(2px);
+    transform: translateY(1px);
     box-shadow: 0 0 0 #a43a05;
 }
 
@@ -411,32 +415,38 @@
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%) translateY(100px);
-    background: #090a0f;
-    border: 3px solid #ffd700;
-    padding: 12px 24px;
-    border-radius: 8px;
+    background: rgba(10, 12, 18, 0.95);
+    backdrop-filter: blur(12px);
+    border: 2px solid #ffd700;
+    padding: 10px 20px;
+    border-radius: 9999px;
     z-index: 9999;
     font-family: 'Press Start 2P', monospace;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: #ffd700;
     box-shadow: 0 8px 30px rgba(255, 215, 0, 0.35);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     opacity: 0;
     pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+    will-change: transform, opacity;
 }
 
 /* Body container offset for HUD */
 body.has-mario-hud .container {
-    padding-top: 60px;
+    padding-top: 80px;
 }
 
-/* Responsive tweaks for smaller screens */
-@media (max-width: 640px) {
+/* Mobile & Tablet Optimizations */
+@media (max-width: 768px) {
     .mario-hud {
+        top: 8px;
         padding: 6px 12px;
-        font-size: 0.58rem;
+        font-size: 0.56rem;
+        width: calc(100% - 16px);
     }
     .hud-group {
         gap: 10px;
@@ -444,10 +454,44 @@ body.has-mario-hud .container {
     .hud-item.hud-world {
         display: none;
     }
+    .hud-btn {
+        padding: 5px 8px;
+        font-size: 0.52rem;
+    }
     .intro-banner .world-title {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     .intro-banner .world-subtitle {
-        font-size: 0.7rem;
+        font-size: 0.62rem;
+    }
+    .mario-character {
+        width: 44px;
+        height: 55px;
+        bottom: 84px;
+    }
+    .warp-pipe {
+        width: 60px;
+        height: 85px;
+        right: 6%;
+    }
+    .warp-pipe::before {
+        width: 72px;
+        left: -6px;
+        height: 18px;
+        top: -18px;
+    }
+    .intro-controls {
+        bottom: 16px;
+        right: 16px;
+    }
+    .intro-skip-btn {
+        font-size: 0.55rem;
+        padding: 6px 10px;
+    }
+    .retro-easter-egg-btn {
+        display: none; /* Hide in tiny headers to prevent line break glitches */
+    }
+    body.has-mario-hud .container {
+        padding-top: 70px;
     }
 }

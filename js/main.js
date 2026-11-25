@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const subject = encodeURIComponent(`Portfolio Inquiry from ${name}`);
             const body = encodeURIComponent(`Sender: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
             
-            window.location.href = `mailto:ayusharma1601@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = `mailto:aysharma1601@gmail.com?subject=${subject}&body=${body}`;
 
             showToast('Opening your email client to send message...');
             contactForm.reset();

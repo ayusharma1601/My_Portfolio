@@ -1,6 +1,6 @@
 /**
  * Super Mario GSAP Intro & Interactive Portfolio Enhancement
- * Powered by GSAP 3 & ScrollTrigger
+ * High-performance, fully responsive, touch & desktop optimized
  */
 
 (function () {
@@ -9,7 +9,7 @@
     let score = 0;
     let introFinished = false;
 
-    // Helper: Mario SVG generator (retro 8-bit Mario sprite in pure SVG)
+    // Responsive Mario SVG generator (retro 8-bit Mario sprite)
     function getMarioSVG(state = 'standing') {
         return `
         <svg viewBox="0 0 16 16" width="100%" height="100%" style="image-rendering: pixelated; shape-rendering: crispEdges;">
@@ -59,7 +59,7 @@
         </svg>`;
     }
 
-    // Initialize HUD elements
+    // Initialize HUD bar
     function createHUD() {
         if (document.getElementById('mario-hud')) return;
 
@@ -83,7 +83,7 @@
                     <span class="hud-val">1-1</span>
                 </div>
                 <div class="hud-item">
-                    <button id="mario-replay-btn" class="hud-btn" title="Replay Mario Intro">
+                    <button id="mario-replay-btn" class="hud-btn" title="Replay Intro">
                         <i class="fas fa-redo"></i> INTRO
                     </button>
                     <button id="mario-audio-btn" class="hud-btn audio-btn" title="Toggle Sound">
@@ -97,16 +97,22 @@
 
         // Audio toggle
         const audioBtn = document.getElementById('mario-audio-btn');
-        audioBtn.addEventListener('click', () => {
-            const isMuted = window.marioAudio.toggleMute();
-            audioBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
-        });
+        if (audioBtn) {
+            audioBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isMuted = window.marioAudio.toggleMute();
+                audioBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+            });
+        }
 
         // Replay intro button
         const replayBtn = document.getElementById('mario-replay-btn');
-        replayBtn.addEventListener('click', () => {
-            launchMarioIntro(true);
-        });
+        if (replayBtn) {
+            replayBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                launchMarioIntro(true);
+            });
+        }
     }
 
     // Update HUD counters
@@ -123,7 +129,7 @@
             window.marioAudio.playCoin();
         }
 
-        // Float particle text if coordinates passed
+        // Spawn float score particle
         if (x !== null && y !== null) {
             spawnFloatingScore(`+${points}`, x, y);
         }
@@ -133,14 +139,14 @@
         const floatEl = document.createElement('div');
         floatEl.className = 'coin-score-float';
         floatEl.textContent = text;
-        floatEl.style.left = `${x}px`;
+        floatEl.style.left = `${Math.min(window.innerWidth - 70, Math.max(10, x))}px`;
         floatEl.style.top = `${y}px`;
         document.body.appendChild(floatEl);
 
         gsap.to(floatEl, {
-            y: -50,
+            y: -40,
             opacity: 0,
-            duration: 0.9,
+            duration: 0.8,
             ease: 'power2.out',
             onComplete: () => floatEl.remove()
         });
@@ -155,20 +161,18 @@
             banner.className = 'powerup-banner';
             document.body.appendChild(banner);
         }
-        banner.innerHTML = `<span style="font-size:1.3rem;">🍄</span> <span>${msg}</span>`;
+        banner.innerHTML = `<span style="font-size:1.1rem;">🍄</span> <span>${msg}</span>`;
 
         gsap.timeline()
-            .to(banner, { y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.5)' })
-            .to(banner, { y: 100, opacity: 0, duration: 0.4, delay: 2.2, ease: 'power2.in' });
+            .to(banner, { y: 0, opacity: 1, duration: 0.35, ease: 'back.out(1.5)' })
+            .to(banner, { y: 100, opacity: 0, duration: 0.35, delay: 2.2, ease: 'power2.in' });
     }
 
-    // Full GSAP Mario Intro Cutscene
+    // Full Responsive GSAP Mario Intro
     function launchMarioIntro(forced = false) {
-        // Prevent launching duplicate stages
         const existing = document.getElementById('mario-intro-stage');
         if (existing) existing.remove();
 
-        // Create Intro Stage DOM
         const stage = document.createElement('div');
         stage.id = 'mario-intro-stage';
         stage.innerHTML = `
@@ -177,7 +181,7 @@
                 <div class="world-subtitle">AYUSH SHARMA &bull; PORTFOLIO ADVENTURE</div>
             </div>
 
-            <!-- Pixel Clouds -->
+            <!-- Clouds -->
             <div class="mario-cloud cloud-1"></div>
             <div class="mario-cloud cloud-2"></div>
 
@@ -206,26 +210,24 @@
 
             <!-- Skip Controls -->
             <div class="intro-controls">
-                <button class="intro-skip-btn" id="intro-skip-btn">PRESS START / SKIP [ESC]</button>
+                <button class="intro-skip-btn" id="intro-skip-btn">START / SKIP [ESC]</button>
             </div>
         `;
 
         document.body.appendChild(stage);
 
-        // Quick dismiss handler
         const finishIntro = () => {
             if (introFinished && !forced) return;
             introFinished = true;
 
             gsap.to(stage, {
                 opacity: 0,
-                scale: 1.05,
-                duration: 0.5,
+                duration: 0.4,
                 ease: 'power2.inOut',
                 onComplete: () => {
                     stage.remove();
                     animatePortfolioElements();
-                    showPowerUpBanner("LEVEL 1-1 CLEARED! WELCOME TO MY PORTFOLIO");
+                    showPowerUpBanner("LEVEL 1-1 CLEARED! WELCOME");
                     if (window.marioAudio) window.marioAudio.playStageClear();
                 }
             });
@@ -239,7 +241,12 @@
             });
         }
 
-        // Keydown ESC to skip
+        stage.addEventListener('click', (e) => {
+            // Clicking anywhere dismisses intro
+            finishIntro();
+        });
+
+        // Keydown ESC or Space to skip
         const escListener = (e) => {
             if (e.key === 'Escape' || e.code === 'Space') {
                 finishIntro();
@@ -248,46 +255,46 @@
         };
         window.addEventListener('keydown', escListener);
 
-        // GSAP Master Timeline for Mario Intro
+        // GSAP Timeline
         const mario = document.getElementById('intro-mario');
         const qblock = document.getElementById('intro-qblock');
         const popCoin = document.getElementById('intro-pop-coin');
         const clouds = stage.querySelectorAll('.mario-cloud');
 
-        // Continuous cloud float
-        gsap.to(clouds[0], { x: 40, repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut' });
-        gsap.to(clouds[1], { x: -50, repeat: -1, yoyo: true, duration: 8, ease: 'sine.inOut' });
+        // Continuous lightweight cloud float
+        gsap.to(clouds[0], { x: 30, repeat: -1, yoyo: true, duration: 6, ease: 'sine.inOut' });
+        gsap.to(clouds[1], { x: -35, repeat: -1, yoyo: true, duration: 7, ease: 'sine.inOut' });
+
+        const windowWidth = window.innerWidth;
+        const middleX = windowWidth / 2 - 27;
+        const pipeTargetX = windowWidth * 0.92 - (windowWidth < 768 ? 55 : 65);
 
         const tl = gsap.timeline({
             onComplete: () => {
-                setTimeout(finishIntro, 500);
+                setTimeout(finishIntro, 400);
             }
         });
 
-        // 1. Mario runs into screen towards middle
-        const windowWidth = window.innerWidth;
-        const middleX = windowWidth / 2 - 32;
-
+        // 1. Mario runs into center
         tl.to(mario, {
             left: middleX,
-            duration: 1.8,
+            duration: 1.6,
             ease: 'power1.inOut',
             onStart: () => {
-                // Running bobble
-                gsap.to(mario, { y: -8, repeat: 9, yoyo: true, duration: 0.1, ease: 'power1.inOut' });
+                gsap.to(mario, { y: -6, repeat: 8, yoyo: true, duration: 0.1, ease: 'power1.inOut' });
             }
         })
         // 2. Mario crouches briefly
         .to(mario, {
             scaleY: 0.85,
-            duration: 0.15,
+            duration: 0.12,
             ease: 'power1.in'
         })
-        // 3. Mario leaps into the Question Block!
+        // 3. Jump into block
         .to(mario, {
             scaleY: 1,
-            y: -220,
-            duration: 0.38,
+            y: -190,
+            duration: 0.35,
             ease: 'power2.out',
             onStart: () => {
                 if (window.marioAudio) window.marioAudio.playJump();
@@ -303,175 +310,162 @@
             addCoin(1000);
         })
         .to(qblock, {
-            y: -20,
-            duration: 0.09,
+            y: -16,
+            duration: 0.08,
             yoyo: true,
             repeat: 1,
             ease: 'power1.out'
         }, '<')
-        // Coin pops upward out of block
+        // Coin pops upward
         .to(popCoin, {
             opacity: 1,
             scale: 1,
-            y: -110,
-            duration: 0.38,
+            y: -95,
+            duration: 0.35,
             ease: 'power2.out'
         }, '<')
-        // Coin drops back and vanishes
         .to(popCoin, {
-            y: -40,
+            y: -30,
             opacity: 0,
-            duration: 0.25,
+            duration: 0.2,
             ease: 'power2.in'
         })
         // Mario falls back to ground
         .to(mario, {
             y: 0,
-            duration: 0.35,
+            duration: 0.32,
             ease: 'power2.in'
-        }, '-=0.35')
-        // Mario touches ground & victory pose jump
+        }, '-=0.32')
+        // Mario touches ground & quick bounce
         .to(mario, {
-            y: -30,
-            duration: 0.22,
+            y: -24,
+            duration: 0.18,
             yoyo: true,
             repeat: 1,
             ease: 'power1.out'
         })
-        // Mario runs towards the Warp Pipe on the right
+        // Mario runs towards the Warp Pipe
         .to(mario, {
-            left: windowWidth * 0.9 - 30,
-            duration: 1.2,
+            left: pipeTargetX,
+            duration: 1.1,
             ease: 'power1.in',
             onStart: () => {
-                gsap.to(mario, { y: -6, repeat: 7, yoyo: true, duration: 0.08, ease: 'power1.inOut' });
+                gsap.to(mario, { y: -5, repeat: 6, yoyo: true, duration: 0.08, ease: 'power1.inOut' });
             }
         })
-        // Mario enters warp pipe (sinks downward)
+        // Mario warps down into pipe
         .add(() => {
             if (window.marioAudio) window.marioAudio.playPipe();
         })
         .to(mario, {
-            y: 110,
+            y: 90,
             opacity: 0,
-            duration: 0.6,
+            duration: 0.5,
             ease: 'power1.in'
         });
     }
 
-    // GSAP ScrollTrigger Entrance animations for main portfolio content
+    // GSAP ScrollTrigger Entrance animations for portfolio
     function animatePortfolioElements() {
         if (typeof gsap === 'undefined') return;
 
-        // Animate Hero Section
+        // Hero Section entrance
         gsap.from('.hero .section-label', {
             opacity: 0,
-            y: -20,
-            duration: 0.6,
-            ease: 'back.out(1.7)'
+            y: -15,
+            duration: 0.5,
+            ease: 'back.out(1.5)'
         });
 
         gsap.from('.hero h1', {
             opacity: 0,
-            scale: 0.9,
-            duration: 0.8,
-            delay: 0.15,
-            ease: 'back.out(1.4)'
+            scale: 0.94,
+            duration: 0.6,
+            delay: 0.1,
+            ease: 'power2.out'
         });
 
         gsap.from('.hero .tagline', {
             opacity: 0,
-            y: 20,
-            duration: 0.6,
-            delay: 0.3,
+            y: 15,
+            duration: 0.5,
+            delay: 0.2,
             ease: 'power2.out'
         });
 
         gsap.from('.hero-socials .social-pill', {
             opacity: 0,
-            scale: 0.8,
-            stagger: 0.1,
-            duration: 0.5,
-            delay: 0.45,
-            ease: 'back.out(2)'
+            scale: 0.88,
+            stagger: 0.08,
+            duration: 0.4,
+            delay: 0.3,
+            ease: 'back.out(1.8)'
         });
 
-        // Register ScrollTrigger if available
+        // Stagger cards on scroll
         if (gsap.plugins && gsap.plugins.ScrollTrigger) {
-            // Skill cards stagger
             gsap.from('.skill-card', {
                 scrollTrigger: {
                     trigger: '.skills-grid',
                     start: 'top 85%'
                 },
                 opacity: 0,
-                y: 30,
-                scale: 0.85,
-                stagger: 0.05,
-                duration: 0.5,
-                ease: 'back.out(1.5)'
-            });
-
-            // Project cards
-            gsap.from('.project-card', {
-                scrollTrigger: {
-                    trigger: '#projects',
-                    start: 'top 80%'
-                },
-                opacity: 0,
-                y: 40,
-                stagger: 0.12,
-                duration: 0.6,
+                y: 20,
+                scale: 0.9,
+                stagger: 0.04,
+                duration: 0.45,
                 ease: 'power2.out'
             });
 
-            // Glass boxes (About & Certs)
-            gsap.from('.glass-box', {
+            gsap.from('.project-card', {
                 scrollTrigger: {
-                    trigger: '#about',
+                    trigger: '#projects',
                     start: 'top 85%'
                 },
                 opacity: 0,
                 y: 25,
-                duration: 0.7,
+                stagger: 0.1,
+                duration: 0.5,
                 ease: 'power2.out'
             });
         }
     }
 
-    // Interactive Mario Question Blocks & Easter Eggs in Portfolio
+    // Interactive Mario Easter Eggs
     function injectInteractiveEasterEggs() {
-        // Add Mario Coin Blocks next to section labels
-        const sectionLabels = document.querySelectorAll('.section-label');
-        sectionLabels.forEach((label) => {
-            const egg = document.createElement('button');
-            egg.className = 'retro-easter-egg-btn';
-            egg.innerHTML = `<span>?</span> BLOCK`;
-            egg.title = "Hit the block for coins!";
+        // Add Mario Coin Blocks next to section labels (desktop/tablet only)
+        if (window.innerWidth > 640) {
+            const sectionLabels = document.querySelectorAll('.section-label');
+            sectionLabels.forEach((label) => {
+                if (label.querySelector('.retro-easter-egg-btn')) return;
 
-            egg.addEventListener('click', (e) => {
-                e.preventDefault();
-                const rect = egg.getBoundingClientRect();
+                const egg = document.createElement('button');
+                egg.className = 'retro-easter-egg-btn';
+                egg.innerHTML = `<span>?</span> BLOCK`;
+                egg.title = "Hit the block for coins!";
 
-                // GSAP block bounce animation
-                gsap.timeline()
-                    .to(egg, { y: -8, scale: 1.15, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.out' });
+                egg.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const rect = egg.getBoundingClientRect();
 
-                addCoin(200, rect.left + rect.width / 2, rect.top);
+                    gsap.timeline()
+                        .to(egg, { y: -6, scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, ease: 'power1.out' });
+
+                    addCoin(200, rect.left + rect.width / 2, rect.top);
+                });
+
+                label.appendChild(egg);
             });
+        }
 
-            label.appendChild(egg);
-        });
-
-        // Clickable Skill Cards play jump/coin bounce
+        // Interactive Skill Cards
         const skillCards = document.querySelectorAll('.skill-card');
         skillCards.forEach(card => {
             card.addEventListener('click', () => {
                 const rect = card.getBoundingClientRect();
                 gsap.to(card, {
-                    y: -10,
-                    boxShadow: '0 10px 25px rgba(229, 37, 33, 0.45)',
-                    duration: 0.12,
+                    y: -6,
+                    duration: 0.1,
                     yoyo: true,
                     repeat: 1,
                     ease: 'power2.out'
@@ -489,7 +483,7 @@
         // Launch Mario Intro Cutscene
         setTimeout(() => {
             launchMarioIntro();
-        }, 300);
+        }, 200);
     });
 
 })();
