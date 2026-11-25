@@ -144,13 +144,50 @@
                 <div class="section-line"></div>
             </div>
 
-            <div class="prose-text">
-                <p>
-                    Hi, I'm <strong style="color:var(--foreground);">Ayush</strong>, I'm <strong id="live-age" class="live-age-counter" style="color:var(--foreground); font-family:var(--font-mono); font-weight:700;">21.000000000</strong> years old. I am deeply interested in game development, systems programming, and algorithmic data structures. I approach software engineering from a foundational perspective: understanding memory constraints, render pipelines, and responsive state synchronization.
-                </p>
-                <p>
-                    Whether compiling Godot game loops into WebAssembly for smooth in-browser execution, implementing hydrological emergency intelligence systems in FastAPI, or solving algorithmic graph and pointer puzzles in C/C++, I strive to build intuitive, high-performance software.
-                </p>
+            <div class="about-split-layout">
+                <div class="prose-text about-text-col">
+                    <p>
+                        Hi, I'm <strong style="color:var(--foreground);">Ayush</strong>, I'm <strong id="live-age" class="live-age-counter" style="color:var(--foreground); font-family:var(--font-mono); font-weight:700;">18.000000000</strong> years old. I am deeply interested in game development, systems programming, and algorithmic data structures. I approach software engineering from a foundational perspective: understanding memory constraints, render pipelines, and responsive state synchronization.
+                    </p>
+                    <p>
+                        Whether compiling Godot game loops into WebAssembly for smooth in-browser execution, implementing hydrological emergency intelligence systems in FastAPI, or solving algorithmic graph and pointer puzzles in C/C++, I strive to build intuitive, high-performance software.
+                    </p>
+                    <p class="about-hobby-text">
+                        <i class="fas fa-headphones" style="color:var(--foreground); margin-right:6px;"></i>
+                        In my downtime, I compose &amp; produce original synthwave, lofi, and ambient electronic tracks as an artistic hobby.
+                    </p>
+                </div>
+
+                <!-- Right Column: Pixelated Vinyl Player Widget -->
+                <div class="about-vinyl-col">
+                    <div class="pixel-vinyl-card" id="vinyl-music-card">
+                        <div class="pixel-vinyl-wrapper">
+                            <canvas id="pixel-vinyl-canvas" width="130" height="130" class="pixel-vinyl-disc"></canvas>
+                            <div class="vinyl-tonearm-stick"></div>
+                        </div>
+
+                        <div class="vinyl-track-info">
+                            <span class="vinyl-status-pill">
+                                <span class="vinyl-status-dot"></span>
+                                <span id="vinyl-status-text">ORIGINAL MUSIC</span>
+                            </span>
+                            <span class="vinyl-track-name" id="vinyl-track-title">Ayush Sharma — Original Track</span>
+                            <span class="vinyl-track-meta">PRODUCED AS A HOBBY</span>
+
+                            <div class="vinyl-controls-row">
+                                <button id="vinyl-play-toggle" class="vinyl-play-btn" title="Play Track">
+                                    <i class="fas fa-play" id="vinyl-play-icon"></i>
+                                </button>
+                                <div class="vinyl-progress-container">
+                                    <div class="vinyl-progress-bar" id="vinyl-progress"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Audio element ready for user track -->
+                        <audio id="hobby-audio-player" preload="metadata"></audio>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -609,6 +646,6 @@
     <div id="toast" class="toast"></div>
 
     <!-- Scripts -->
-    <script src="js/main.js?v=17"></script>
+    <script src="js/main.js?v=18"></script>
 </body>
 </html>
