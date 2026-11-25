@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Voice-Affective & Interactive Equalizer Wave Canvas
+    // 5. Interactive Raindrop Puddle & Mouse Wave Matrix Canvas
     const waveCanvas = document.getElementById('audio-wave-canvas');
     if (waveCanvas) {
         const ctx = waveCanvas.getContext('2d');
@@ -122,147 +122,132 @@ document.addEventListener('DOMContentLoaded', () => {
             height = waveCanvas.height = waveCanvas.offsetHeight;
         });
 
-        // Microphone audio context state
-        let audioCtx = null;
-        let analyser = null;
-        let dataArray = null;
-        let isMicActive = false;
+        const barCount = 72;
+        let frame = 0;
+        let mouseX = -1000;
+        let isHovered = false;
 
-        async function initMicrophone() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 256;
-                const source = audioCtx.createMediaStreamSource(stream);
-                source.connect(analyser);
-                dataArray = new Uint8Array(analyser.frequencyBinCount);
-                isMicActive = true;
-                
-                // Show temporary toast informing user mic is active
-                showToast('🎙️ Live Microphone Input Connected to Waveform!');
-            } catch (err) {
-                console.log('Mic access not granted or unavailable:', err);
-                // Fall back gracefully to procedural voice simulation
-                isMicActive = false;
-            }
-        }
+        // Ripples collection (drops hitting the puddle)
+        const ripples = [];
 
-        // Clicking on visualizer box attempts to toggle/activate live microphone
-        const vizBox = document.querySelector('.audio-visualizer-box');
-        if (vizBox) {
-            vizBox.style.cursor = 'pointer';
-            vizBox.setAttribute('title', 'Click to toggle Voice/Microphone reactivity');
-            vizBox.addEventListener('click', () => {
-                if (!isMicActive) {
-                    initMicrophone();
-                } else if (audioCtx && audioCtx.state === 'running') {
-                    audioCtx.suspend();
-                    isMicActive = false;
-                    showToast('🎙️ Voice mode paused.');
-                } else if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                    isMicActive = true;
-                    showToast('🎙️ Voice mode resumed.');
-                }
+        function addRaindrop(targetX) {
+            ripples.push({
+                x: targetX,
+                radius: 0,
+                maxRadius: 180,
+                amplitude: 1.0,
+                speed: 3.2
             });
         }
 
-        const barCount = 72;
-        let frame = 0;
+        const vizBox = document.querySelector('.audio-visualizer-box');
+        if (vizBox) {
+            vizBox.style.cursor = 'crosshair';
+            vizBox.setAttribute('title', 'Click to drop a rain droplet into the puddle');
 
-        function renderAudioEqualizer() {
+            vizBox.addEventListener('mousemove', (e) => {
+                const rect = waveCanvas.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                isHovered = true;
+            });
+
+            vizBox.addEventListener('mouseleave', () => {
+                isHovered = false;
+                mouseX = -1000;
+            });
+
+            // Click acts as a single drop of rain hitting the puddle
+            vizBox.addEventListener('click', (e) => {
+                const rect = waveCanvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                addRaindrop(clickX);
+            });
+        }
+
+        // Ambient gentle raindrops falling intermittently
+        let dropTimer = 0;
+
+        function renderRipplePuddle() {
             ctx.clearRect(0, 0, width, height);
 
             const barWidth = width / barCount;
             const centerY = height / 2;
 
-            if (isMicActive && analyser && dataArray) {
-                analyser.getByteFrequencyData(dataArray);
+            // Update ripples
+            for (let r = ripples.length - 1; r >= 0; r--) {
+                const rip = ripples[r];
+                rip.radius += rip.speed;
+                rip.amplitude *= 0.965; // Dampen smoothly
+
+                if (rip.amplitude < 0.02 || rip.radius > rip.maxRadius) {
+                    ripples.splice(r, 1);
+                }
+            }
+
+            // Ambient gentle drop every ~3.5 seconds if user is idle
+            dropTimer++;
+            if (dropTimer > 210 && ripples.length === 0) {
+                addRaindrop(width * (0.3 + Math.random() * 0.4));
+                dropTimer = 0;
             }
 
             for (let i = 0; i < barCount; i++) {
-                // Envelope shape (peaked in center like a human vocal spectrum)
+                const x = i * barWidth + barWidth / 2;
+                
+                // Natural curved profile
                 const envelope = Math.sin((i / barCount) * Math.PI);
-                let colHeight = 6;
+                
+                // Idle gentle surface water tension oscillation
+                let waterHeight = (envelope * 28) + 4;
+                const waterSway = Math.sin((i * 0.16) + (frame * 0.035)) * 0.25 + 0.75;
+                waterHeight *= waterSway;
 
-                if (isMicActive && dataArray) {
-                    // Map frequency bins to bars
-                    const binIndex = Math.floor((i / barCount) * (dataArray.length * 0.75));
-                    const audioVal = dataArray[binIndex] / 255.0; // 0.0 to 1.0
-                    colHeight = (envelope * 75 * audioVal) + 5;
-                } else {
-                    // Procedural voice formant modulation
-                    const speechWave = Math.sin((i * 0.22) + (frame * 0.06)) * 0.4 + 0.6;
-                    const harmonicWave = Math.cos((i * 0.35) - (frame * 0.04)) * 0.25 + 0.75;
-                    const jitter = Math.sin((frame * 0.1) + i) * 0.15;
-                    colHeight = (envelope * 50 * speechWave * harmonicWave * (1 + jitter)) + 6;
+                // Mouse proximity wave (interactive hover)
+                if (isHovered && mouseX > 0) {
+                    const distToMouse = Math.abs(x - mouseX);
+                    if (distToMouse < 90) {
+                        const mouseInfluence = Math.cos((distToMouse / 90) * (Math.PI / 2));
+                        waterHeight += mouseInfluence * 26;
+                    }
                 }
 
-                const x = i * barWidth + barWidth / 2;
+                // Raindrop ripple propagation physics
+                for (let r = 0; r < ripples.length; r++) {
+                    const rip = ripples[r];
+                    const distToDrop = Math.abs(x - rip.x);
+                    const wavePhase = (distToDrop - rip.radius) * 0.12;
 
-                // Draw vertical stack of dots/dashes
+                    // Wave packet centered on wavefront
+                    if (Math.abs(distToDrop - rip.radius) < 40) {
+                        const rippleEnvelope = Math.cos(((distToDrop - rip.radius) / 40) * (Math.PI / 2));
+                        const rippleWave = Math.sin(wavePhase);
+                        const displacement = rippleEnvelope * rippleWave * (rip.amplitude * 42);
+                        waterHeight += displacement;
+                    }
+                }
+
+                waterHeight = Math.max(3, waterHeight);
+
+                // Draw vertical ASCII dot stack
                 const dotSpacing = 5.5;
-                const dotsInCol = Math.floor(colHeight / dotSpacing);
+                const dotsInCol = Math.floor(waterHeight / dotSpacing);
 
                 for (let d = -dotsInCol; d <= dotsInCol; d++) {
                     const y = centerY + (d * dotSpacing);
                     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                     ctx.fillStyle = isLight ? '#09090b' : '#ffffff';
-                    ctx.globalAlpha = Math.max(0.2, 1 - Math.abs(d) / (dotsInCol + 2));
+                    ctx.globalAlpha = Math.max(0.18, 1 - Math.abs(d) / (dotsInCol + 2));
                     ctx.fillRect(x - 1, y - 1, 2, 2);
                 }
             }
 
             ctx.globalAlpha = 1.0;
             frame++;
-            requestAnimationFrame(renderAudioEqualizer);
+            requestAnimationFrame(renderRipplePuddle);
         }
 
-        renderAudioEqualizer();
+        renderRipplePuddle();
     }
-
-    // 6. Real-Time Spotify Sync (Live Track or Recent Played)
-    const spotifyTitle = document.getElementById('spotify-track-title');
-    const spotifyLabel = document.getElementById('spotify-status-label');
-    const spotifyPill = document.getElementById('spotify-pill');
-
-    // Dynamic rotation or live fetch
-    async function syncSpotifyStatus() {
-        if (!spotifyTitle) return;
-
-        // Ayush's favorite tracks / dynamic Spotify queue
-        const sampleTracks = [
-            { title: "I Thought I Saw Your Face Today", artist: "She & Him", url: "https://open.spotify.com/search/I%20Thought%20I%20Saw%20Your%20Face%20Today" },
-            { title: "Starboy", artist: "The Weeknd, Daft Punk", url: "https://open.spotify.com/search/Starboy" },
-            { title: "Midnight City", artist: "M83", url: "https://open.spotify.com/search/Midnight%20City" },
-            { title: "Resonance", artist: "HOME", url: "https://open.spotify.com/search/Resonance%20HOME" }
-        ];
-
-        let trackIndex = 0;
-        function updateTrackDisplay(item) {
-            if (spotifyTitle) {
-                spotifyTitle.textContent = `${item.title} — ${item.artist}`;
-            }
-            if (spotifyPill) {
-                spotifyPill.href = item.url;
-            }
-            if (spotifyLabel) {
-                spotifyLabel.textContent = "NOW PLAYING";
-            }
-        }
-
-        // Initialize with default
-        updateTrackDisplay(sampleTracks[0]);
-
-        // Smoothly cycle tracks every 20 seconds or update from connected status
-        setInterval(() => {
-            trackIndex = (trackIndex + 1) % sampleTracks.length;
-            updateTrackDisplay(sampleTracks[trackIndex]);
-        }, 20000);
-    }
-
-    syncSpotifyStatus();
 
     // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
     const contactForm = document.getElementById('contact-form');

@@ -438,59 +438,6 @@ body {
     color: var(--foreground);
 }
 
-/* Now Playing Widget Pill (Live Spotify Sync) */
-.now-playing-pill {
-    margin-top: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 14px;
-    border-radius: 9999px;
-    border: 1px solid var(--card-border);
-    background: rgba(16, 16, 16, 0.7);
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--muted-foreground);
-    width: fit-content;
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.now-playing-pill:hover {
-    border-color: #1ed760;
-    color: var(--foreground);
-    background: rgba(30, 215, 96, 0.08);
-}
-
-.now-playing-title {
-    color: var(--foreground);
-    font-weight: 500;
-}
-
-/* Equalizer mini animation inside pill */
-.spotify-bars-anim {
-    display: inline-flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 12px;
-}
-
-.spotify-bars-anim .bar {
-    width: 2px;
-    background: #1ed760;
-    border-radius: 1px;
-    animation: bounceBar 1.2s infinite ease-in-out alternate;
-}
-
-.spotify-bars-anim .bar.b1 { height: 4px; animation-delay: 0.1s; }
-.spotify-bars-anim .bar.b2 { height: 11px; animation-delay: 0.3s; }
-.spotify-bars-anim .bar.b3 { height: 7px; animation-delay: 0.2s; }
-
-@keyframes bounceBar {
-    0% { height: 3px; }
-    100% { height: 12px; }
-}
-
 /* Right Column: ASCII Art Portrait Box */
 .hero-right-col {
     width: 240px; /* Reduced to a more balanced, compact art size */
