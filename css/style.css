@@ -630,27 +630,31 @@ body {
     margin-bottom: 8px;
     background: #000000;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--card-border);
 }
 
 .pixel-vinyl-video {
     width: 130px;
     height: 130px;
     object-fit: cover;
-    transform: scale(1.22); /* Zoom past outer watermark borders cleanly */
+    transform: scale(1.24); /* Zoom past outer watermark borders cleanly */
     image-rendering: pixelated;
-    opacity: 0.88;
-    transition: opacity 0.2s ease;
+    /* Pure dark theme grading: crush dark grays to deep black, boost contrast for white/metallic details */
+    filter: brightness(0.68) contrast(1.7) grayscale(0.9);
+    opacity: 0.92;
+    transition: opacity 0.2s ease, filter 0.2s ease;
     border-radius: 50%;
 }
 
 .pixel-vinyl-card:hover .pixel-vinyl-video,
 .pixel-vinyl-card.is-playing .pixel-vinyl-video {
     opacity: 1;
+    filter: brightness(0.75) contrast(1.8) grayscale(0.85);
 }
 
 /* Light mode inversion */
 [data-theme="light"] .pixel-vinyl-video {
-    filter: invert(1) brightness(0.95) contrast(1.1);
+    filter: invert(1) brightness(0.85) contrast(1.4);
 }
 
 .vinyl-track-info {
