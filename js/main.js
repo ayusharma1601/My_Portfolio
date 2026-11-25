@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Studio Music Spectrum Analyzer (Hardware Audio EQ Bars + Floating Peak Meters)
+    // 5. Aesthetic Minimalist Audio Spectrum (Sleek Glassmorphic Soundwave Bars)
     const waveCanvas = document.getElementById('audio-wave-canvas');
     if (waveCanvas) {
         const ctx = waveCanvas.getContext('2d');
@@ -122,32 +122,31 @@ document.addEventListener('DOMContentLoaded', () => {
             height = waveCanvas.height = waveCanvas.offsetHeight;
         });
 
-        // 48 studio equalizer frequency channels
-        const numBands = 48;
-        const peakCaps = new Array(numBands).fill(0);
-        const currentLevels = new Array(numBands).fill(0);
+        // 56 slender aesthetic vertical bars
+        const numBars = 56;
+        const currentLevels = new Array(numBars).fill(0.1);
+        const peakLevels = new Array(numBars).fill(0.1);
 
         let frame = 0;
         let mouseX = -1000;
         let isHovered = false;
 
-        // Interactive shock pulses
         const shockwaves = [];
 
         function triggerEQBurst(xPos) {
             shockwaves.push({
                 x: xPos,
                 radius: 0,
-                maxRadius: 280,
+                maxRadius: 320,
                 force: 1.0,
-                speed: 5.5
+                speed: 6.0
             });
         }
 
         const vizBox = document.querySelector('.audio-visualizer-box');
         if (vizBox) {
             vizBox.style.cursor = 'pointer';
-            vizBox.setAttribute('title', 'Click to strike audio beat burst / Hover to EQ sculpt');
+            vizBox.setAttribute('title', 'Click to pulse audio waveform / Hover to interact');
 
             vizBox.addEventListener('mousemove', (e) => {
                 const rect = waveCanvas.getBoundingClientRect();
@@ -162,164 +161,137 @@ document.addEventListener('DOMContentLoaded', () => {
 
             vizBox.addEventListener('click', (e) => {
                 const rect = waveCanvas.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                triggerEQBurst(clickX);
+                triggerEQBurst(e.clientX - rect.left);
             });
         }
 
-        function drawStudioSpectrum() {
+        function drawAestheticSpectrum() {
             ctx.clearRect(0, 0, width, height);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            const paddingX = 24;
+            const paddingX = 32;
             const availableWidth = width - (paddingX * 2);
-            const bandTotalWidth = availableWidth / numBands;
-            const barWidth = Math.max(3, bandTotalWidth - 3);
-            const baselineY = height - 16;
-            const maxBarHeight = height - 36;
+            const slotWidth = availableWidth / numBars;
+            const barW = Math.max(2.5, slotWidth * 0.42); // Sleek slender bar ratio
+            const centerY = height / 2;
+            const maxAmplitude = height * 0.38;
 
-            // Rhythmic musical clock pulses (Bass, Snare, Hi-hat, Melodic Arpeggio)
-            const kickBeat = Math.pow(Math.max(0, Math.sin(frame * 0.05)), 10) * 1.0;
-            const snareAccent = Math.pow(Math.max(0, Math.cos(frame * 0.05 + 0.4)), 12) * 0.85;
-            const hatRoll = (Math.sin(frame * 0.2) * 0.5 + 0.5) * 0.4;
-            const melodySway = Math.sin(frame * 0.035) * 0.25 + 0.75;
+            // Smooth rhythmic musical clock
+            const beatPulse = Math.pow(Math.sin(frame * 0.045), 6) * 0.35 + 0.65;
+            const bassKick = Math.pow(Math.max(0, Math.sin(frame * 0.0225)), 8) * 0.4;
+            const synthArp = Math.sin(frame * 0.06);
 
-            // Update shockwaves
+            // Update ripples
             for (let s = shockwaves.length - 1; s >= 0; s--) {
                 const sw = shockwaves[s];
                 sw.radius += sw.speed;
-                sw.force *= 0.95;
+                sw.force *= 0.94;
                 if (sw.force < 0.02 || sw.radius > sw.maxRadius) {
                     shockwaves.splice(s, 1);
                 }
             }
 
-            for (let i = 0; i < numBands; i++) {
-                const normI = i / numBands;
-                const barCenterX = paddingX + i * bandTotalWidth + barWidth / 2;
+            for (let i = 0; i < numBars; i++) {
+                const barCenterX = paddingX + i * slotWidth + slotWidth / 2;
+                const normI = i / numBars;
 
-                // Frequency response profile (Bass 20Hz-250Hz on left, Mids in center, Treble up to 20kHz on right)
-                let targetEnergy = 0.12;
+                // Natural parabolic curve peaked gracefully around the center-left
+                const envelope = Math.sin(normI * Math.PI);
+                const harmonic1 = Math.sin((i * 0.22) + (frame * 0.04)) * 0.3 + 0.7;
+                const harmonic2 = Math.cos((i * 0.14) - (frame * 0.03)) * 0.25 + 0.75;
+                const microFluctuation = Math.sin((frame * 0.12) + i * 1.5) * 0.1;
 
-                // 1. Heavy sub-bass & kick drum in first 10 bands
-                if (i < 10) {
-                    const bassCurve = Math.cos((i / 10) * (Math.PI / 2));
-                    const wobble = Math.sin((frame * 0.09) + i * 0.4) * 0.2 + 0.3;
-                    targetEnergy = (bassCurve * kickBeat * 0.85) + wobble * 0.3;
-                } 
-                // 2. Vocal / Synth mids in bands 10 - 32
-                else if (i < 32) {
-                    const midIndex = (i - 10) / 22;
-                    const midCurve = Math.sin(midIndex * Math.PI);
-                    const synthHarmony = Math.sin((frame * 0.07) + (i * 0.28)) * 0.3 + 0.4;
-                    const snareHit = midCurve * snareAccent;
-                    targetEnergy = (midCurve * synthHarmony * melodySway) + (snareHit * 0.6) + 0.15;
-                } 
-                // 3. Crisp percussion & high-hats in bands 32 - 48
-                else {
-                    const highRatio = (i - 32) / 16;
-                    const flutter = Math.sin((frame * 0.25) + i * 1.2) * 0.25 + 0.25;
-                    targetEnergy = (flutter * hatRoll * (1 - highRatio * 0.3)) + 0.1;
+                let target = envelope * (0.35 + (harmonic1 * harmonic2 * beatPulse * 0.45) + (microFluctuation * 0.2));
+
+                // Left bass resonance
+                if (i < 12) {
+                    target += (1 - i / 12) * bassKick;
+                }
+                // Center melody resonance
+                if (i > 15 && i < 40) {
+                    const midFactor = Math.sin(((i - 15) / 25) * Math.PI);
+                    target += midFactor * synthArp * 0.15;
                 }
 
-                // Interactive mouse frequency boost
+                // Interactive cursor proximity (smooth magnetic swell)
                 if (isHovered && mouseX > 0) {
                     const dist = Math.abs(barCenterX - mouseX);
-                    if (dist < 80) {
-                        const hoverFactor = Math.cos((dist / 80) * (Math.PI / 2));
-                        targetEnergy += hoverFactor * (0.6 + Math.sin(frame * 0.2 + i) * 0.15);
+                    if (dist < 85) {
+                        const swell = Math.cos((dist / 85) * (Math.PI / 2));
+                        target += swell * 0.55;
                     }
                 }
 
-                // Interactive click burst
+                // Click ripples
                 for (let s = 0; s < shockwaves.length; s++) {
                     const sw = shockwaves[s];
                     const distToWave = Math.abs(barCenterX - sw.x);
-                    if (Math.abs(distToWave - sw.radius) < 35) {
-                        const burstIntensity = Math.cos(((distToWave - sw.radius) / 35) * (Math.PI / 2));
-                        targetEnergy += burstIntensity * (sw.force * 0.9);
+                    if (Math.abs(distToWave - sw.radius) < 40) {
+                        const waveFactor = Math.cos(((distToWave - sw.radius) / 40) * (Math.PI / 2));
+                        target += waveFactor * sw.force * 0.6;
                     }
                 }
 
-                targetEnergy = Math.min(1.0, Math.max(0.04, targetEnergy));
+                target = Math.max(0.06, Math.min(1.0, target));
 
-                // Smooth attack and release dynamics (Fast attack, natural gravity decay)
-                if (targetEnergy > currentLevels[i]) {
-                    currentLevels[i] = currentLevels[i] * 0.4 + targetEnergy * 0.6; // Instant hit
+                // Interpolate for buttery fluid motion
+                currentLevels[i] += (target - currentLevels[i]) * 0.14;
+
+                // Peak tracking for subtle glowing crest line
+                if (currentLevels[i] > peakLevels[i]) {
+                    peakLevels[i] = currentLevels[i];
                 } else {
-                    currentLevels[i] *= 0.88; // Natural musical release
+                    peakLevels[i] *= 0.985;
                 }
 
-                const barH = currentLevels[i] * maxBarHeight;
-                const barTopY = baselineY - barH;
-                const barX = paddingX + i * bandTotalWidth;
+                const currentH = Math.max(4, currentLevels[i] * maxAmplitude);
+                const barX = barCenterX - barW / 2;
 
-                // --- 1. Draw Hardware Segmented EQ Bar ---
-                // Segment heights (blocks) resembling mixing consoles
-                const segHeight = 4;
-                const segGap = 2;
-                const numSegments = Math.floor(barH / (segHeight + segGap));
+                // --- Symmetrical Vertical Soundwave with Pill Rounded Ends ---
+                const topY = centerY - currentH;
+                const botY = centerY + currentH;
+                const barTotalH = currentH * 2;
+                const radius = barW / 2;
 
-                for (let seg = 0; seg < numSegments; seg++) {
-                    const segY = baselineY - (seg + 1) * (segHeight + segGap);
-                    const segRatio = (baselineY - segY) / maxBarHeight;
-
-                    // Studio LED color palette:
-                    // Green for normal, Yellow for warm, Red for +3dB clipping peak
-                    if (isLight) {
-                        if (segRatio > 0.82) {
-                            ctx.fillStyle = '#ef4444'; // Red peak
-                        } else if (segRatio > 0.65) {
-                            ctx.fillStyle = '#f59e0b'; // Amber warn
-                        } else {
-                            ctx.fillStyle = '#18181b'; // Deep dark
-                        }
-                    } else {
-                        if (segRatio > 0.82) {
-                            ctx.fillStyle = '#ff4d4d'; // Red peak
-                        } else if (segRatio > 0.65) {
-                            ctx.fillStyle = '#ffb84d'; // Warm amber
-                        } else {
-                            ctx.fillStyle = 'rgba(255, 255, 255, 0.88)'; // Crisp white LED
-                        }
-                    }
-
-                    ctx.fillRect(barX, segY, barWidth, segHeight);
-                }
-
-                // --- 2. Floating Peak Hold Cap (Essential Studio Gear Indicator) ---
-                if (barTopY < peakCaps[i]) {
-                    peakCaps[i] = barTopY; // Snap to peak
+                // Create sleek vertical gradient
+                const gradient = ctx.createLinearGradient(0, topY, 0, botY);
+                if (isLight) {
+                    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.25)');
+                    gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.9)');
+                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.25)');
                 } else {
-                    peakCaps[i] += 0.85; // Gravity drop
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
+                    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
                 }
 
-                if (peakCaps[i] > baselineY) peakCaps[i] = baselineY;
+                ctx.fillStyle = gradient;
 
-                // Draw floating cap
-                ctx.fillStyle = isLight ? '#000000' : '#ffffff';
-                ctx.fillRect(barX, peakCaps[i] - 2, barWidth, 2);
+                // Draw sleek capsule pill
+                ctx.beginPath();
+                ctx.roundRect(barX, topY, barW, barTotalH, radius);
+                ctx.fill();
+
+                // Subtle top & bottom luminous micro-dots
+                const peakH = peakLevels[i] * maxAmplitude;
+                const peakAlpha = Math.max(0.2, (peakLevels[i] - 0.1) * 0.8);
+
+                ctx.fillStyle = isLight ? `rgba(0, 0, 0, ${peakAlpha})` : `rgba(255, 255, 255, ${peakAlpha})`;
+                // Top floating pip
+                ctx.fillRect(barX, centerY - peakH - 3, barW, 1.5);
+                // Bottom mirror pip
+                ctx.fillRect(barX, centerY + peakH + 2, barW, 1.5);
             }
 
-            // --- 3. Studio Baseline Axis & Frequency Markings ---
-            ctx.fillStyle = isLight ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)';
-            ctx.fillRect(paddingX, baselineY + 2, availableWidth, 1);
-
-            // Frequency Labels (Sub, Low, Mid, High, Air)
-            ctx.font = '9px "JetBrains Mono", monospace';
-            ctx.fillStyle = isLight ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.4)';
-            ctx.textAlign = 'left';
-            ctx.fillText('20Hz [BASS]', paddingX, height - 5);
-            ctx.textAlign = 'center';
-            ctx.fillText('1kHz [MID]', width / 2, height - 5);
-            ctx.textAlign = 'right';
-            ctx.fillText('20kHz [TREBLE]', width - paddingX, height - 5);
+            // Subtle center guide horizon
+            ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.04)';
+            ctx.fillRect(paddingX, centerY, availableWidth, 1);
 
             frame++;
-            requestAnimationFrame(drawStudioSpectrum);
+            requestAnimationFrame(drawAestheticSpectrum);
         }
 
-        drawStudioSpectrum();
+        drawAestheticSpectrum();
     }
 
     // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
