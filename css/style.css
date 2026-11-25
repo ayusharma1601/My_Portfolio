@@ -553,13 +553,13 @@ body {
 }
 
 /* ==========================================================================
-   About Me Text & Split Layout with Pixelated Vinyl
+   About Me Text & Split Layout with Proper Boxed Pixelated Vinyl
    ========================================================================== */
 .about-split-layout {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 36px;
+    gap: 32px;
 }
 
 .about-text-col {
@@ -576,75 +576,84 @@ body {
 }
 
 .about-vinyl-col {
-    width: 250px;
+    width: 240px;
     flex-shrink: 0;
 }
 
 .pixel-vinyl-card {
-    border-radius: 16px;
+    border-radius: 14px;
     border: 1px solid var(--card-border);
     background: var(--card);
-    padding: 18px 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pixel-vinyl-card:hover {
     border-color: var(--card-border-hover);
-    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+}
+
+.vinyl-card-top-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-foreground);
+    border-bottom: 1px solid var(--muted-border);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.vinyl-bpm-tag {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    color: var(--foreground);
 }
 
 .pixel-vinyl-wrapper {
     position: relative;
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 12px;
 }
 
-.pixel-vinyl-disc {
-    width: 130px;
-    height: 130px;
+.pixel-vinyl-img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
     image-rendering: pixelated;
-    border-radius: 50%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    filter: contrast(1.1) brightness(0.95);
+    transition: transform 0.3s ease;
+    mix-blend-mode: normal;
 }
 
-.vinyl-tonearm-stick {
-    position: absolute;
-    top: 6px;
-    right: 4px;
-    width: 3px;
-    height: 48px;
-    background: #a1a1aa;
-    transform-origin: top right;
-    transform: rotate(24deg);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 2px;
-    pointer-events: none;
+/* Authentic Vinyl Rotation Animation when Playing */
+.pixel-vinyl-card.is-playing .pixel-vinyl-img {
+    animation: spinVinyl 3.6s infinite linear;
 }
 
-.vinyl-tonearm-stick::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: -3px;
-    width: 8px;
-    height: 5px;
-    background: #ef4444; /* Red cartridge */
-    border-radius: 1px;
+@keyframes spinVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
-.pixel-vinyl-card.is-playing .vinyl-tonearm-stick {
-    transform: rotate(42deg);
+/* Light mode inversion so the pixel art matches the light/dark canvas */
+[data-theme="light"] .pixel-vinyl-img {
+    filter: invert(1) brightness(0.95) contrast(1.1);
 }
 
 .vinyl-track-info {
@@ -652,13 +661,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 }
 
 .vinyl-status-pill {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     font-family: var(--font-mono);
     font-size: 9.5px;
     color: var(--muted-foreground);
@@ -670,6 +679,7 @@ body {
     height: 6px;
     border-radius: 50%;
     background: #71717a;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pixel-vinyl-card.is-playing .vinyl-status-dot {
@@ -678,21 +688,21 @@ body {
 }
 
 .vinyl-track-name {
-    font-size: 12.5px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
     color: var(--foreground);
     margin-top: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 210px;
+    max-width: 200px;
 }
 
 .vinyl-track-meta {
     font-family: var(--font-mono);
-    font-size: 9.5px;
+    font-size: 9px;
     color: var(--muted-foreground);
-    opacity: 0.8;
+    opacity: 0.75;
 }
 
 .vinyl-controls-row {
@@ -740,6 +750,18 @@ body {
     background: var(--foreground);
     border-radius: 2px;
     transition: width 0.1s linear;
+}
+
+@media (max-width: 768px) {
+    .about-split-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+    .about-vinyl-col {
+        width: 100%;
+        max-width: 240px;
+    }
 }
 
 .prose-text {

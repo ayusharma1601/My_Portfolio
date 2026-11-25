@@ -158,21 +158,24 @@
                     </p>
                 </div>
 
-                <!-- Right Column: Pixelated Vinyl Player Widget -->
+                <!-- Right Column: Proper Boxed Pixelated Vinyl Player (Theme Styled) -->
                 <div class="about-vinyl-col">
                     <div class="pixel-vinyl-card" id="vinyl-music-card">
+                        <div class="vinyl-card-top-bar">
+                            <span class="vinyl-status-pill">
+                                <span class="vinyl-status-dot"></span>
+                                <span id="vinyl-status-text">ORIGINAL_TRACK.WAV</span>
+                            </span>
+                            <span class="vinyl-bpm-tag">120 BPM</span>
+                        </div>
+
                         <div class="pixel-vinyl-wrapper">
-                            <canvas id="pixel-vinyl-canvas" width="130" height="130" class="pixel-vinyl-disc"></canvas>
-                            <div class="vinyl-tonearm-stick"></div>
+                            <img src="assets/pixel-vinyl.jpg" alt="Pixel Art Vinyl" id="pixel-vinyl-img" class="pixel-vinyl-img">
                         </div>
 
                         <div class="vinyl-track-info">
-                            <span class="vinyl-status-pill">
-                                <span class="vinyl-status-dot"></span>
-                                <span id="vinyl-status-text">ORIGINAL MUSIC</span>
-                            </span>
                             <span class="vinyl-track-name" id="vinyl-track-title">Ayush Sharma — Original Track</span>
-                            <span class="vinyl-track-meta">PRODUCED AS A HOBBY</span>
+                            <span class="vinyl-track-meta">MUSIC PRODUCTION // HOBBY</span>
 
                             <div class="vinyl-controls-row">
                                 <button id="vinyl-play-toggle" class="vinyl-play-btn" title="Play Track">
@@ -646,6 +649,6 @@
     <div id="toast" class="toast"></div>
 
     <!-- Scripts -->
-    <script src="js/main.js?v=19"></script>
+    <script src="js/main.js?v=20"></script>
 </body>
 </html>

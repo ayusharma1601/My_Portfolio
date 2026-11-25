@@ -20,8 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAgeTicker();
     }
 
-    // 2. Pixelated Vinyl Canvas Renderer & Hobby Music Player
-    const vinylCanvas = document.getElementById('pixel-vinyl-canvas');
+    // 2. Pixelated Vinyl Music Player Controls
     const vinylCard = document.getElementById('vinyl-music-card');
     const playBtn = document.getElementById('vinyl-play-toggle');
     const playIcon = document.getElementById('vinyl-play-icon');
@@ -31,93 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusText = document.getElementById('vinyl-status-text');
 
     let isVinylPlaying = false;
-    let vinylAngle = 0;
-
-    // Pixelated Vinyl drawing on low-res grid for authentic retro pixel-art aesthetic
-    if (vinylCanvas) {
-        const vCtx = vinylCanvas.getContext('2d');
-        const vSize = 130;
-        vinylCanvas.width = vSize;
-        vinylCanvas.height = vSize;
-
-        function drawPixelVinyl() {
-            vCtx.clearRect(0, 0, vSize, vSize);
-            vCtx.imageSmoothingEnabled = false;
-
-            const cx = vSize / 2;
-            const cy = vSize / 2;
-            const radius = 58;
-
-            vCtx.save();
-            vCtx.translate(cx, cy);
-            vCtx.rotate(vinylAngle);
-
-            // Outer Black Pixel Disc Body
-            vCtx.fillStyle = '#0a0a0c';
-            vCtx.beginPath();
-            vCtx.arc(0, 0, radius, 0, Math.PI * 2);
-            vCtx.fill();
-
-            // Concentric Pixel Grooves
-            const grooves = [50, 44, 38, 32, 26];
-            vCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-            vCtx.lineWidth = 1.5;
-            grooves.forEach(g => {
-                vCtx.beginPath();
-                vCtx.arc(0, 0, g, 0, Math.PI * 2);
-                vCtx.stroke();
-            });
-
-            // Retro Pixel Anisotropic Light Reflection (Pixel wedges)
-            vCtx.fillStyle = 'rgba(255, 255, 255, 0.07)';
-            vCtx.beginPath();
-            vCtx.moveTo(0, 0);
-            vCtx.arc(0, 0, radius - 2, -0.4, 0.4);
-            vCtx.closePath();
-            vCtx.fill();
-
-            vCtx.beginPath();
-            vCtx.moveTo(0, 0);
-            vCtx.arc(0, 0, radius - 2, Math.PI - 0.4, Math.PI + 0.4);
-            vCtx.closePath();
-            vCtx.fill();
-
-            // Center Record Label (Vibrant Retro Neon Cyan/Orange)
-            vCtx.fillStyle = '#f97316';
-            vCtx.beginPath();
-            vCtx.arc(0, 0, 19, 0, Math.PI * 2);
-            vCtx.fill();
-
-            // Spindle Center Ring
-            vCtx.fillStyle = '#38bdf8';
-            vCtx.beginPath();
-            vCtx.arc(0, 0, 9, 0, Math.PI * 2);
-            vCtx.fill();
-
-            // Center Spindle Hole
-            vCtx.fillStyle = '#000000';
-            vCtx.beginPath();
-            vCtx.arc(0, 0, 3.5, 0, Math.PI * 2);
-            vCtx.fill();
-
-            // Revolving pixel marker on label
-            vCtx.fillStyle = '#ffffff';
-            vCtx.fillRect(10, -1.5, 6, 3);
-
-            vCtx.restore();
-
-            if (isVinylPlaying) {
-                vinylAngle += 0.035; // Smooth 33 RPM rotation
-            }
-
-            requestAnimationFrame(drawPixelVinyl);
-        }
-
-        drawPixelVinyl();
-    }
 
     if (playBtn && audioPlayer) {
-        // Set the most appealing part (the high-energy beat drop at 0:16)
+        // High-energy drop start
         const BEST_PART_START = 16.0;
 
         audioPlayer.addEventListener('loadedmetadata', () => {
@@ -126,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         playBtn.addEventListener('click', () => {
             if (audioPlayer.paused) {
-                // If starting from beginning or uninitialized, start at the drop
                 if (audioPlayer.currentTime < 1.0 || audioPlayer.currentTime > audioPlayer.duration - 1) {
                     audioPlayer.currentTime = BEST_PART_START;
                 }
@@ -171,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             playIcon.className = isVinylPlaying ? 'fas fa-pause' : 'fas fa-play';
         }
         if (statusText) {
-            statusText.textContent = isVinylPlaying ? 'NOW PLAYING' : 'ORIGINAL MUSIC';
+            statusText.textContent = isVinylPlaying ? 'NOW PLAYING' : 'ORIGINAL_TRACK.WAV';
         }
     }
     const themeBtn = document.getElementById('theme-toggle-btn');
