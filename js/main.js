@@ -66,7 +66,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
+    // 5. High-Resolution Audio Equalizer Wave Canvas (Exact reference box)
+    const waveCanvas = document.getElementById('audio-wave-canvas');
+    if (waveCanvas) {
+        const ctx = waveCanvas.getContext('2d');
+        let width = waveCanvas.width = waveCanvas.offsetWidth;
+        let height = waveCanvas.height = waveCanvas.offsetHeight;
+
+        window.addEventListener('resize', () => {
+            width = waveCanvas.width = waveCanvas.offsetWidth;
+            height = waveCanvas.height = waveCanvas.offsetHeight;
+        });
+
+        const barCount = 72;
+        let frame = 0;
+
+        function renderAudioEqualizer() {
+            ctx.clearRect(0, 0, width, height);
+
+            const barWidth = width / barCount;
+            const centerY = height / 2;
+
+            for (let i = 0; i < barCount; i++) {
+                // Calculate height envelope resembling the image (lower at edges, dense in middle)
+                const envelope = Math.sin((i / barCount) * Math.PI);
+                const wave1 = Math.sin((i * 0.18) + (frame * 0.05)) * 0.35 + 0.65;
+                const wave2 = Math.cos((i * 0.28) - (frame * 0.03)) * 0.2 + 0.8;
+                
+                const colHeight = (envelope * 48 * wave1 * wave2) + 6;
+                const x = i * barWidth + barWidth / 2;
+
+                // Draw vertical stack of dots/dashes
+                const dotSpacing = 5.5;
+                const dotsInCol = Math.floor(colHeight / dotSpacing);
+
+                for (let d = -dotsInCol; d <= dotsInCol; d++) {
+                    const y = centerY + (d * dotSpacing);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.globalAlpha = Math.max(0.2, 1 - Math.abs(d) / (dotsInCol + 2));
+                    ctx.fillRect(x - 1, y - 1, 2, 2);
+                }
+            }
+
+            ctx.globalAlpha = 1.0;
+            frame++;
+            requestAnimationFrame(renderAudioEqualizer);
+        }
+
+        renderAudioEqualizer();
+    }
+
+    // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
     const contactForm = document.getElementById('contact-form');
     const toast = document.getElementById('toast');
 

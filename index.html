@@ -71,52 +71,78 @@
 
         <!-- Hero Section -->
         <section id="hero">
-            <!-- Authentic High-Resolution ASCII Cat Banner Box -->
-            <div class="ascii-banner-box">
-                <div class="ascii-cat-image-wrapper">
-                    <img src="assets/ascii-cat.jpg" alt="ASCII Cat Portrait" class="ascii-cat-img">
-                </div>
-                <div class="banner-ascii-meta">
-                    <span class="meta-accent">// SYSTEM_ACTIVE</span>
-                    <span>AYUSH SHARMA // 2026</span>
-                    <span>PYTHON &bull; GODOT &bull; C++ &bull; DSA</span>
-                    <span style="margin-top:4px; opacity:0.75;">NEW_DELHI &bull; INDIA</span>
-                    <span>READY FOR INTERNSHIPS</span>
-                </div>
+            <!-- Audio Equalizer Wave Box at top (Exact reference image) -->
+            <div class="audio-visualizer-box">
+                <canvas id="audio-wave-canvas" style="width:100%; height:100%; display:block;"></canvas>
             </div>
 
-            <div class="hero-content">
-                <div class="hero-title-group">
-                    <h1 class="hero-h1">Ayush Sharma</h1>
-                    <div class="hero-subtags">
-                        <span class="hero-role">Software & Game Developer</span>
-                        <span class="bullet-sep">&bull;</span>
-                        <span class="hero-badge-pill">
-                            <span class="status-dot-green"></span>
-                            <span>Available for Internships</span>
-                        </span>
-                        <span class="bullet-sep">&bull;</span>
-                        <span class="hero-badge-pill">
-                            <i class="fas fa-map-pin" style="font-size:11px;"></i>
-                            <span>New Delhi, India</span>
-                        </span>
+            <!-- Split Hero Layout (Left text & actions, Right ASCII anime/cat portrait) -->
+            <div class="hero-split-layout">
+                <div class="hero-left-col">
+                    <div class="hero-title-group">
+                        <h1 class="hero-h1">Ayush Sharma</h1>
+                        <div class="hero-subtags">
+                            <span class="hero-role">Software &amp; Game Developer</span>
+                            <span class="bullet-sep">&bull;</span>
+                            <span class="location-tag">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>New Delhi, India</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <p class="hero-bio">
+                        Undergraduate software engineer specializing in <strong>Godot Engine</strong> mechanics, low-level algorithmic efficiency, and scalable backend logic in <strong>Python</strong> and <strong>C/C++</strong>.
+                    </p>
+
+                    <!-- Buttons Row -->
+                    <div class="hero-action-buttons">
+                        <a href="#contact" class="btn-white">
+                            <i class="far fa-envelope"></i> Get in touch
+                        </a>
+                        <a href="mailto:aysharma1601@gmail.com" class="btn-dark">
+                            <i class="far fa-file-alt"></i> Resume
+                        </a>
+                    </div>
+
+                    <!-- View Projects Link -->
+                    <div>
+                        <a href="#projects" class="hero-view-projects">
+                            View Projects &rarr;
+                        </a>
+                    </div>
+
+                    <!-- Social Icons Text Row -->
+                    <div class="hero-quick-links">
+                        <a href="https://github.com/ayusharma1601" target="_blank" rel="noopener noreferrer" class="quick-link-item">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer" class="quick-link-item">
+                            <i class="fab fa-linkedin-in"></i> LinkedIn
+                        </a>
+                        <a href="mailto:aysharma1601@gmail.com" class="quick-link-item">
+                            <i class="far fa-envelope"></i> Email
+                        </a>
+                        <a href="mailto:aysharma1601@gmail.com" class="quick-link-item">
+                            <i class="far fa-file-alt"></i> Resume
+                        </a>
+                    </div>
+
+                    <!-- Now Playing Audio Pill (Exact reference feature) -->
+                    <div class="now-playing-pill">
+                        <span class="now-playing-icon">🎵</span>
+                        <span>LAST PLAYED</span>
+                        <span class="now-playing-title">I Thought I Saw Your Face Today &mdash; She</span>
+                        <span>••••••••</span>
+                        <i class="fas fa-play" style="font-size:9px; opacity:0.7;"></i>
                     </div>
                 </div>
 
-                <p class="hero-summary">
-                    2nd-year undergraduate software developer exploring the intersection of creative game mechanics, low-level algorithmic efficiency, and scalable backend logic. Experienced in building offline-first architectures, 2D physics engines in <strong>Godot Engine</strong>, and robust services in <strong>Python</strong> and <strong>C/C++</strong>.
-                </p>
-
-                <div class="hero-cta-buttons">
-                    <a href="#contact" class="btn btn-primary">
-                        <i class="fas fa-envelope"></i> Get in touch
-                    </a>
-                    <a href="https://github.com/ayusharma1601" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                    <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
+                <!-- Right Column: Full ASCII Art Portrait from reference -->
+                <div class="hero-right-col">
+                    <div class="ascii-portrait-card">
+                        <img src="assets/ascii-portrait-clean.png" alt="ASCII Art Portrait" class="ascii-portrait-img">
+                    </div>
                 </div>
             </div>
         </section>
