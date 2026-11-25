@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             playIcon.className = isVinylPlaying ? 'fas fa-pause' : 'fas fa-play';
         }
         if (statusText) {
-            statusText.textContent = isVinylPlaying ? 'NOW PLAYING' : 'ORIGINAL_TRACK.WAV';
+            statusText.textContent = isVinylPlaying ? 'playing' : 'track.mp3';
         }
     }
     const themeBtn = document.getElementById('theme-toggle-btn');
