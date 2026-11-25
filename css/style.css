@@ -38,12 +38,12 @@
     height: 120px;
     position: relative;
     transform-style: preserve-3d;
-    animation: rubik-spin 3s infinite linear;
+    animation: rubik-solve-spin 4s infinite linear;
 }
 
-@keyframes rubik-spin {
-    0%   { transform: rotateX(-20deg) rotateY(0deg); }
-    100% { transform: rotateX(-20deg) rotateY(360deg); }
+@keyframes rubik-solve-spin {
+    0%   { transform: rotateX(-22deg) rotateY(0deg); }
+    100% { transform: rotateX(-22deg) rotateY(360deg); }
 }
 
 /* Each face */

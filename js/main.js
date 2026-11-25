@@ -1,12 +1,71 @@
 // Modern Interactive Portfolio Scripts (ad1tya.me minimalist architecture)
 
-// ─── Rubik's Cube Loading Screen ─────────────────────────────────────────────
+// ─── Rubik's Cube Loading Screen — Solve Animation ───────────────────────────
 (function () {
     const loader = document.getElementById('loading-screen');
     if (!loader) return;
 
-    // Minimum display time: 2.4s so the cube does ~1 full rotation before hiding
-    const MIN_DISPLAY = 2400;
+    // Face color palette
+    const C = {
+        R: '#e8290b', // Red   → front
+        O: '#f97316', // Orange→ back
+        B: '#2563eb', // Blue  → left
+        G: '#16a34a', // Green → right
+        W: '#f1f5f9', // White → top
+        Y: '#facc15', // Yellow→ bottom
+    };
+
+    // Solved face color key
+    const SOLVED_KEY = { front:'R', back:'O', left:'B', right:'G', top:'W', bottom:'Y' };
+
+    // Scrambled sticker layout per face (9 stickers, row-major TL→BR)
+    const SCRAMBLE = {
+        front:  ['O','G','R','W','R','Y','G','R','B'],
+        back:   ['R','W','O','G','O','B','Y','O','R'],
+        left:   ['O','R','B','Y','B','W','R','B','G'],
+        right:  ['B','Y','G','R','G','W','Y','G','O'],
+        top:    ['G','O','W','B','W','R','O','W','Y'],
+        bottom: ['W','B','Y','O','Y','G','B','Y','W'],
+    };
+
+    // Grab all cell elements per face
+    const faces = {
+        front:  loader.querySelectorAll('.face-front .cell'),
+        back:   loader.querySelectorAll('.face-back .cell'),
+        left:   loader.querySelectorAll('.face-left .cell'),
+        right:  loader.querySelectorAll('.face-right .cell'),
+        top:    loader.querySelectorAll('.face-top .cell'),
+        bottom: loader.querySelectorAll('.face-bottom .cell'),
+    };
+
+    // Apply scrambled colors immediately (overrides CSS class colors)
+    Object.entries(SCRAMBLE).forEach(([face, keys]) => {
+        faces[face].forEach((cell, i) => {
+            cell.style.background = C[keys[i]];
+        });
+    });
+
+    // Sticker solve order: center → cross edges → corners (looks like F2L/OLL/PLL)
+    const CELL_ORDER = [4, 1, 3, 5, 7, 0, 2, 6, 8];
+
+    // Face solve sequence & timing
+    // Solve front cross first → top → sides → bottom → back
+    const FACE_ORDER = ['front', 'top', 'left', 'right', 'bottom', 'back'];
+    const FACE_DELAY = 420;   // ms between starting each face
+    const CELL_STEP  = 60;    // ms between each sticker snapping into place
+
+    FACE_ORDER.forEach((face, fi) => {
+        CELL_ORDER.forEach((cellIdx, ci) => {
+            setTimeout(() => {
+                const cell = faces[face][cellIdx];
+                cell.style.transition = 'background 0.22s ease';
+                cell.style.background = C[SOLVED_KEY[face]];
+            }, 350 + fi * FACE_DELAY + ci * CELL_STEP);
+        });
+    });
+
+    // Total solve time ≈ 350 + 5*420 + 8*60 = 350 + 2100 + 480 = ~2930ms
+    const MIN_DISPLAY = 3300; // slight pause after solved before fade
     const start = Date.now();
 
     function dismissLoader() {
@@ -14,12 +73,10 @@
         const remaining = Math.max(0, MIN_DISPLAY - elapsed);
         setTimeout(() => {
             loader.classList.add('fade-out');
-            // Remove from DOM after transition ends (600ms)
             setTimeout(() => loader.remove(), 650);
         }, remaining);
     }
 
-    // Hide as soon as the page is fully loaded, respecting minimum display time
     if (document.readyState === 'complete') {
         dismissLoader();
     } else {
