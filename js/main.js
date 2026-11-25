@@ -1,9 +1,23 @@
 // Modern Interactive Portfolio Scripts (ad1tya.me minimalist architecture)
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Current Year
+    // 1. Current Year & Real-time Live Age Counter (Precise floating decimal age ticker)
     const yearSpan = document.getElementById('current-year');
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
+    }
+
+    const ageSpan = document.getElementById('live-age');
+    if (ageSpan) {
+        // Birthday around January 2005 (21.x in 2026)
+        const birthDate = new Date('2005-01-16T00:00:00Z').getTime();
+
+        function updateAgeTicker() {
+            const now = Date.now();
+            const ageInYears = (now - birthDate) / (1000 * 60 * 60 * 24 * 365.2425);
+            ageSpan.textContent = ageInYears.toFixed(9);
+            requestAnimationFrame(updateAgeTicker);
+        }
+        updateAgeTicker();
     }
 
     // 2. Simple, Real Dark / Light Theme Toggle (Default Pure Black #000000)
