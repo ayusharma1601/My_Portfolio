@@ -18,19 +18,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/style.css?v=6">
 </head>
 <body>
 
-    <!-- Background Blueprint Grid Pattern & Ambient Atmosphere (ad1tya.me) -->
+    <!-- Background Blueprint Grid Pattern -->
     <div class="bg-grid-pattern"></div>
-    <div class="radial-atmosphere"></div>
 
-    <!-- Floating Top Navigation Header (Exact ad1tya.me layout) -->
+    <!-- Floating Top Navigation Header (Exact layout from reference image) -->
     <div class="fixed-nav-wrapper">
         <header class="fixed-header">
             <a href="#hero" class="brand-link">
-                <span>ayusharma<span style="color:var(--primary);">.dev</span></span>
+                <span>ad1tya.me</span>
             </a>
 
             <nav>
@@ -43,15 +42,26 @@
                 </ul>
             </nav>
 
-            <div class="nav-controls">
-                <select id="theme-selector" class="theme-dropdown" title="Switch Theme">
-                    <option value="dark">Dark</option>
-                    <option value="deep-dark">Deep Dark</option>
-                    <option value="blue-gray">Blue Gray</option>
-                    <option value="sunset">Sunset</option>
-                    <option value="forest">Forest</option>
-                    <option value="light">Light</option>
-                </select>
+            <div class="nav-actions">
+                <!-- GitHub Icon -->
+                <a href="https://github.com/ayusharma1601" target="_blank" rel="noopener noreferrer" class="nav-icon-link" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <!-- LinkedIn Icon -->
+                <a href="https://www.linkedin.com/in/ayush-sharma-7a11102bb" target="_blank" rel="noopener noreferrer" class="nav-icon-link" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <!-- Resume Icon -->
+                <a href="mailto:aysharma1601@gmail.com" class="nav-icon-link" title="Resume / Contact">
+                    <i class="far fa-file-alt"></i>
+                </a>
+                
+                <div class="nav-divider"></div>
+
+                <!-- Theme Toggle Button (Moon / Sun) -->
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i class="far fa-moon" id="theme-icon"></i>
+                </button>
             </div>
         </header>
     </div>
@@ -61,14 +71,17 @@
 
         <!-- Hero Section -->
         <section id="hero">
-            <!-- Interactive Visual Matrix Canvas Banner -->
-            <div class="terminal-banner-box">
-                <canvas id="terminal-canvas" class="terminal-canvas"></canvas>
-                <div class="banner-glass-overlay">
-                    <div class="banner-tag">
-                        <i class="fas fa-terminal"></i>
-                        <span>SYSTEM ACTIVE // PYTHON &bull; GODOT &bull; C++</span>
-                    </div>
+            <!-- Static ASCII Cat Banner Box -->
+            <div class="ascii-banner-box">
+                <pre class="ascii-cat-art">
+  /\_/\  
+ ( o.o )   AYUSH SHARMA // 2026
+  > ^ <    PYTHON &bull; GODOT &bull; C++ &bull; DSA
+                </pre>
+                <div class="banner-ascii-meta">
+                    <span class="meta-accent">// SYSTEM_ACTIVE</span>
+                    <span>NEW_DELHI &bull; INDIA</span>
+                    <span>READY FOR INTERNSHIPS</span>
                 </div>
             </div>
 
@@ -115,25 +128,13 @@
                 <div class="section-line"></div>
             </div>
 
-            <div class="about-grid">
-                <div class="prose-text">
-                    <p>
-                        Hi, I'm <strong style="color:var(--foreground);">Ayush</strong>. I am deeply interested in game development, systems programming, and algorithmic data structures. I approach software engineering from a foundational perspective: understanding memory constraints, render pipelines, and responsive state synchronization.
-                    </p>
-                    <p>
-                        Whether compiling Godot game loops into WebAssembly for smooth in-browser execution, implementing hydrological emergency intelligence systems in FastAPI, or solving algorithmic graph and pointer puzzles in C/C++, I strive to build intuitive, high-performance software.
-                    </p>
-                </div>
-
-                <!-- ASCII Art Box (Signature ad1tya.me feature) -->
-                <div class="ascii-box">
-  /\_/\  
- ( o.o )   AYUSH SHARMA // SOFTWARE ARCHIVE 2026
-  > ^ <    PYTHON &bull; GODOT &bull; FASTAPI &bull; C++ &bull; ALGORITHMS
-======================================================
-[STATUS]: READY_FOR_DEPLOYMENT
-[FOCUS]: GAME_ENGINE_PHYSICS &bull; SYSTEMS_ENGINEERING
-                </div>
+            <div class="prose-text">
+                <p>
+                    Hi, I'm <strong style="color:var(--foreground);">Ayush</strong>. I am deeply interested in game development, systems programming, and algorithmic data structures. I approach software engineering from a foundational perspective: understanding memory constraints, render pipelines, and responsive state synchronization.
+                </p>
+                <p>
+                    Whether compiling Godot game loops into WebAssembly for smooth in-browser execution, implementing hydrological emergency intelligence systems in FastAPI, or solving algorithmic graph and pointer puzzles in C/C++, I strive to build intuitive, high-performance software.
+                </p>
             </div>
         </section>
 
@@ -236,7 +237,7 @@
                 <!-- Group 1: Programming Languages -->
                 <div class="skill-category-card">
                     <div class="skill-cat-title">
-                        <i class="fas fa-code" style="color:var(--primary);"></i>
+                        <i class="fas fa-code"></i>
                         <span>LANGUAGES</span>
                     </div>
                     <div class="skill-items-wrap">
@@ -252,7 +253,7 @@
                 <!-- Group 2: Game Engine & WebAssembly -->
                 <div class="skill-category-card">
                     <div class="skill-cat-title">
-                        <i class="fas fa-gamepad" style="color:var(--primary);"></i>
+                        <i class="fas fa-gamepad"></i>
                         <span>GAME DEV &amp; ENGINES</span>
                     </div>
                     <div class="skill-items-wrap">
@@ -267,7 +268,7 @@
                 <!-- Group 3: Backend & Systems -->
                 <div class="skill-category-card">
                     <div class="skill-cat-title">
-                        <i class="fas fa-server" style="color:var(--primary);"></i>
+                        <i class="fas fa-server"></i>
                         <span>BACKEND &amp; DATA</span>
                     </div>
                     <div class="skill-items-wrap">
@@ -282,7 +283,7 @@
                 <!-- Group 4: Tools & Version Control -->
                 <div class="skill-category-card">
                     <div class="skill-cat-title">
-                        <i class="fas fa-terminal" style="color:var(--primary);"></i>
+                        <i class="fas fa-terminal"></i>
                         <span>DEVELOPER TOOLING</span>
                     </div>
                     <div class="skill-items-wrap">
@@ -312,7 +313,7 @@
                                     Disaster Intelligence &amp; Tactical Flood Platform
                                 </a>
                             </h3>
-                            <span class="tag-badge" style="color:var(--primary);">FLAGSHIP</span>
+                            <span class="tag-badge">FLAGSHIP</span>
                         </div>
                         <p class="project-desc">
                             Offline-first hydrological intelligence and crisis response platform. Integrates live telemetry, 3D WebGL Earth globe visualization, deterministic risk scoring, Web Audio siren alerts, and an automated 6-suite verification test gate.
@@ -470,7 +471,7 @@
             </div>
         </section>
 
-        <!-- Contact Section (ad1tya.me // TRANSMISSION & GET IN TOUCH) -->
+        <!-- Contact Section (ad1tya.me // GET IN TOUCH) -->
         <section id="contact" class="section-wrapper">
             <div class="section-header-row">
                 <span class="section-tag-text">// GET IN TOUCH</span>

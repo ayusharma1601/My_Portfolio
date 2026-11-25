@@ -1,99 +1,62 @@
 /* ==========================================================================
-   Modern Minimalist Design System
-   Exact visual architecture, tokens & aesthetics inspired by ad1tya.me
+   Modern Minimalist Design System (Inspired by ad1tya.me)
+   Pure Deep Black default theme + Crisp White Light theme
    ========================================================================== */
 
 :root {
-    --background: #090a0f;
-    --foreground: #f1f2f6;
-    --card: rgba(16, 18, 27, 0.65);
-    --card-hover: rgba(24, 27, 40, 0.85);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-border-hover: rgba(255, 255, 255, 0.22);
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
-    --primary-glow: rgba(59, 130, 246, 0.25);
-    --primary-subtle: rgba(59, 130, 246, 0.12);
-    --muted-foreground: #9ca3af;
-    --muted-border: rgba(255, 255, 255, 0.06);
+    --background: #000000;
+    --foreground: #ededed;
+    --card: #0a0a0a;
+    --card-hover: #121212;
+    --card-border: rgba(255, 255, 255, 0.1);
+    --card-border-hover: rgba(255, 255, 255, 0.25);
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --primary-glow: rgba(255, 255, 255, 0.12);
+    --primary-subtle: rgba(255, 255, 255, 0.08);
+    --muted-foreground: #888888;
+    --muted-border: rgba(255, 255, 255, 0.08);
     --badge-bg: rgba(255, 255, 255, 0.05);
-    --badge-border: rgba(255, 255, 255, 0.1);
+    --badge-border: rgba(255, 255, 255, 0.12);
+    --nav-bg: rgba(0, 0, 0, 0.85);
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-    --font-display: 'Outfit', sans-serif;
 }
 
 [data-theme="dark"] {
-    --background: #090a0f;
-    --foreground: #f1f2f6;
-    --card: rgba(16, 18, 27, 0.65);
-    --card-hover: rgba(24, 27, 40, 0.85);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-border-hover: rgba(59, 130, 246, 0.4);
-    --primary: #3b82f6;
-    --primary-glow: rgba(59, 130, 246, 0.25);
-}
-
-[data-theme="deep-dark"] {
     --background: #000000;
     --foreground: #ededed;
-    --card: rgba(18, 18, 18, 0.7);
-    --card-hover: rgba(28, 28, 28, 0.9);
+    --card: #0a0a0a;
+    --card-hover: #141414;
     --card-border: rgba(255, 255, 255, 0.1);
-    --card-border-hover: #ffffff;
+    --card-border-hover: rgba(255, 255, 255, 0.28);
     --primary: #ffffff;
     --primary-foreground: #000000;
-    --primary-glow: rgba(255, 255, 255, 0.2);
-}
-
-[data-theme="blue-gray"] {
-    --background: #0b1120;
-    --foreground: #f8fafc;
-    --card: rgba(15, 23, 42, 0.7);
-    --card-hover: rgba(30, 41, 59, 0.9);
-    --card-border: rgba(148, 163, 184, 0.14);
-    --card-border-hover: #38bdf8;
-    --primary: #38bdf8;
-    --primary-glow: rgba(56, 189, 248, 0.3);
-}
-
-[data-theme="sunset"] {
-    --background: #140d11;
-    --foreground: #faf5f5;
-    --card: rgba(32, 17, 24, 0.7);
-    --card-hover: rgba(48, 26, 36, 0.9);
-    --card-border: rgba(244, 63, 94, 0.15);
-    --card-border-hover: #f43f5e;
-    --primary: #f43f5e;
-    --primary-glow: rgba(244, 63, 94, 0.3);
-}
-
-[data-theme="forest"] {
-    --background: #06130d;
-    --foreground: #f0fdf4;
-    --card: rgba(13, 31, 22, 0.7);
-    --card-hover: rgba(20, 48, 34, 0.9);
-    --card-border: rgba(34, 197, 94, 0.15);
-    --card-border-hover: #22c55e;
-    --primary: #22c55e;
-    --primary-glow: rgba(34, 197, 94, 0.3);
+    --primary-glow: rgba(255, 255, 255, 0.12);
+    --primary-subtle: rgba(255, 255, 255, 0.08);
+    --muted-foreground: #888888;
+    --muted-border: rgba(255, 255, 255, 0.08);
+    --badge-bg: rgba(255, 255, 255, 0.05);
+    --badge-border: rgba(255, 255, 255, 0.12);
+    --nav-bg: rgba(0, 0, 0, 0.85);
 }
 
 [data-theme="light"] {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: rgba(255, 255, 255, 0.85);
-    --card-hover: rgba(255, 255, 255, 0.98);
-    --card-border: rgba(0, 0, 0, 0.08);
-    --card-border-hover: rgba(59, 130, 246, 0.5);
-    --primary: #2563eb;
+    --background: #ffffff;
+    --foreground: #09090b;
+    --card: #fafafa;
+    --card-hover: #f4f4f5;
+    --card-border: rgba(0, 0, 0, 0.09);
+    --card-border-hover: rgba(0, 0, 0, 0.25);
+    --primary: #09090b;
     --primary-foreground: #ffffff;
-    --primary-glow: rgba(37, 99, 235, 0.2);
-    --primary-subtle: rgba(37, 99, 235, 0.08);
-    --muted-foreground: #64748b;
-    --muted-border: rgba(0, 0, 0, 0.06);
+    --primary-glow: rgba(0, 0, 0, 0.08);
+    --primary-subtle: rgba(0, 0, 0, 0.06);
+    --muted-foreground: #71717a;
+    --muted-border: rgba(0, 0, 0, 0.08);
     --badge-bg: rgba(0, 0, 0, 0.04);
     --badge-border: rgba(0, 0, 0, 0.08);
+    --nav-bg: rgba(255, 255, 255, 0.85);
 }
 
 *, *::before, *::after {
@@ -115,18 +78,18 @@ body {
     overflow-x: hidden;
     position: relative;
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* ad1tya.me Grid Pattern */
+/* Subtle Technical Grid Pattern */
 .bg-grid-pattern {
     position: fixed;
     inset: 0;
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
     background-size: 32px 32px;
     z-index: 0;
     pointer-events: none;
@@ -134,18 +97,8 @@ body {
 
 [data-theme="light"] .bg-grid-pattern {
     background-image: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-}
-
-/* ad1tya.me Radial Gradient Atmosphere */
-.radial-atmosphere {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at top, var(--primary-glow) 0%, transparent 65%);
-    pointer-events: none;
-    z-index: 1;
-    transition: background 0.5s ease;
+        linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
 }
 
 /* Main Container Layout */
@@ -154,11 +107,11 @@ body {
     z-index: 10;
     max-width: 860px;
     margin: 0 auto;
-    padding: 90px 20px 80px;
+    padding: 85px 20px 80px;
 }
 
 /* ==========================================================================
-   Header / Floating Navigation (Exact ad1tya.me Navbar)
+   Header / Floating Navigation (Exact Replica of User's Image)
    ========================================================================== */
 .fixed-nav-wrapper {
     position: fixed;
@@ -175,23 +128,21 @@ body {
     width: 100%;
     border-radius: 16px;
     border: 1px solid var(--card-border);
-    background: rgba(14, 16, 25, 0.8);
+    background: var(--nav-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 8px 16px;
+    padding: 7px 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     pointer-events: auto;
     font-family: var(--font-mono);
     font-size: 12px;
-    transition: all 0.3s ease;
 }
 
 [data-theme="light"] .fixed-header {
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .brand-link {
@@ -205,14 +156,10 @@ body {
     font-size: 13px;
 }
 
-.brand-link:hover {
-    color: var(--primary);
-}
-
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 22px;
     list-style: none;
 }
 
@@ -220,15 +167,16 @@ body {
     color: var(--muted-foreground);
     text-decoration: none;
     font-size: 11px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+    font-weight: 500;
     position: relative;
     padding: 4px 0;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
 }
 
 .nav-item-link:hover, .nav-item-link.active {
     color: var(--foreground);
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .nav-item-link.active::after {
@@ -238,83 +186,105 @@ body {
     left: 0;
     width: 100%;
     height: 2px;
-    background: var(--primary);
+    background: var(--foreground);
     border-radius: 9999px;
 }
 
-.nav-controls {
+.nav-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
-.theme-dropdown {
-    background: var(--badge-bg);
-    border: 1px solid var(--badge-border);
+.nav-icon-link {
+    color: var(--muted-foreground);
+    text-decoration: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+}
+
+.nav-icon-link:hover {
     color: var(--foreground);
-    border-radius: 8px;
-    padding: 3px 8px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    outline: none;
+}
+
+.nav-divider {
+    height: 14px;
+    width: 1px;
+    background: var(--card-border);
+}
+
+/* Theme Toggle Button (Moon / Sun icon) */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--muted-foreground);
     cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--foreground);
+    transform: scale(1.1);
 }
 
 /* ==========================================================================
-   Hero Section & Terminal Matrix Banner (Exact ad1tya.me Header)
+   Hero Section & Static ASCII Cat Banner Box
    ========================================================================== */
 #hero {
     position: relative;
     width: 100%;
-    padding-top: 12px;
+    padding-top: 8px;
     padding-bottom: 24px;
 }
 
-/* Interactive Matrix / Audio Terminal Banner Box */
-.terminal-banner-box {
+/* Static ASCII Art Box Banner */
+.ascii-banner-box {
     width: 100%;
-    height: 150px;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--card-border);
-    background: rgba(14, 16, 25, 0.5);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: var(--card);
+    padding: 18px 24px;
     position: relative;
-}
-
-.terminal-canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.banner-glass-overlay {
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    background: linear-gradient(to top, var(--background) 0%, transparent 60%, rgba(0,0,0,0.3) 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
     display: flex;
-    align-items: flex-end;
-    padding: 14px 18px;
+    align-items: center;
     justify-content: space-between;
 }
 
-.banner-tag {
+.ascii-cat-art {
     font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid var(--card-border);
-    padding: 4px 10px;
-    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.35;
+    color: var(--foreground);
+    white-space: pre;
+    user-select: none;
 }
 
-/* Hero Info Card */
+.banner-ascii-meta {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-foreground);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.banner-ascii-meta .meta-accent {
+    color: var(--foreground);
+    font-weight: 600;
+}
+
+/* Hero Content */
 .hero-content {
     margin-top: 24px;
     display: flex;
@@ -412,20 +382,18 @@ body {
     border-radius: 8px;
     text-decoration: none;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.15s ease;
     border: 1px solid transparent;
 }
 
 .btn-primary {
     background: var(--primary);
     color: var(--primary-foreground);
-    box-shadow: 0 4px 14px var(--primary-glow);
 }
 
 .btn-primary:hover {
-    filter: brightness(1.1);
+    filter: brightness(0.9);
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px var(--primary-glow);
 }
 
 .btn-outline {
@@ -466,10 +434,6 @@ body {
     white-space: nowrap;
 }
 
-.section-tag-text span {
-    color: var(--primary);
-}
-
 .section-line {
     height: 1px;
     flex: 1;
@@ -477,14 +441,8 @@ body {
 }
 
 /* ==========================================================================
-   About Me Text & ASCII Art (Inspired by ad1tya.me)
+   About Me Text
    ========================================================================== */
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
 .prose-text {
     font-size: 14.5px;
     color: var(--muted-foreground);
@@ -495,22 +453,8 @@ body {
     margin-bottom: 12px;
 }
 
-.ascii-box {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--primary);
-    overflow-x: auto;
-    line-height: 1.35;
-    white-space: pre;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
-}
-
 /* ==========================================================================
-   Experience / Tracks (ad1tya.me Accordion-style Sleek Cards)
+   Career & Tracks
    ========================================================================== */
 .experience-list {
     display: flex;
@@ -522,16 +466,14 @@ body {
     border-radius: 12px;
     border: 1px solid var(--card-border);
     background: var(--card);
-    backdrop-filter: blur(10px);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s ease;
     overflow: hidden;
 }
 
 .experience-card:hover {
     background: var(--card-hover);
     border-color: var(--card-border-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
 }
 
 .exp-header {
@@ -544,8 +486,6 @@ body {
     border: none;
     background: transparent;
     color: var(--foreground);
-    cursor: pointer;
-    font-family: inherit;
     gap: 12px;
 }
 
@@ -558,7 +498,7 @@ body {
 
 .exp-org {
     font-size: 12.5px;
-    color: var(--primary);
+    color: var(--muted-foreground);
     font-weight: 500;
 }
 
@@ -601,7 +541,7 @@ body {
 }
 
 /* ==========================================================================
-   Skills & Toolbox (Categorized Cards with Grid Icons)
+   Skills & Toolbox
    ========================================================================== */
 .skills-container {
     display: grid;
@@ -614,7 +554,6 @@ body {
     border-radius: 12px;
     border: 1px solid var(--card-border);
     background: var(--card);
-    backdrop-filter: blur(10px);
     transition: all 0.2s ease;
 }
 
@@ -634,10 +573,6 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-}
-
-.skill-cat-title span {
-    color: var(--primary);
 }
 
 .skill-items-wrap {
@@ -661,7 +596,7 @@ body {
 }
 
 .skill-chip:hover {
-    border-color: var(--primary);
+    border-color: var(--card-border-hover);
     transform: translateY(-1px);
 }
 
@@ -671,7 +606,7 @@ body {
 }
 
 /* ==========================================================================
-   Featured Projects (Clean Grid with Tags & External Repo Links)
+   Featured Projects
    ========================================================================== */
 .projects-grid {
     display: grid;
@@ -687,22 +622,18 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
     position: relative;
 }
 
 .project-card:hover {
     background: var(--card-hover);
     border-color: var(--card-border-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
 }
 
 .project-card.featured-card {
     grid-column: span 2;
-    background: linear-gradient(135deg, rgba(20, 24, 38, 0.7) 0%, rgba(14, 16, 25, 0.8) 100%);
-    border-color: rgba(59, 130, 246, 0.25);
 }
 
 .project-header {
@@ -726,7 +657,7 @@ body {
 }
 
 .project-card h3 a:hover {
-    color: var(--primary);
+    text-decoration: underline;
 }
 
 .project-desc {
@@ -764,11 +695,11 @@ body {
 }
 
 .project-repo-link:hover {
-    color: var(--primary);
+    color: var(--foreground);
 }
 
 /* ==========================================================================
-   Contact Section & Footer (Direct transmission form + links)
+   Contact Section
    ========================================================================== */
 .contact-container {
     display: grid;
@@ -822,7 +753,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--primary);
+    color: var(--foreground);
     font-size: 13px;
 }
 
@@ -842,7 +773,7 @@ body {
 
 .form-input {
     width: 100%;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--card-border);
     border-radius: 8px;
     padding: 8px 12px;
@@ -850,16 +781,15 @@ body {
     font-size: 13px;
     color: var(--foreground);
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease;
 }
 
 [data-theme="light"] .form-input {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .form-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary-subtle);
+    border-color: var(--foreground);
 }
 
 textarea.form-input {
@@ -867,7 +797,7 @@ textarea.form-input {
     min-height: 80px;
 }
 
-/* Site Footer */
+/* Footer */
 footer {
     margin-top: 50px;
     padding-top: 24px;
@@ -887,7 +817,7 @@ footer {
     bottom: 24px;
     right: 24px;
     background: var(--card);
-    border: 1px solid var(--primary);
+    border: 1px solid var(--card-border);
     padding: 10px 18px;
     border-radius: 8px;
     color: var(--foreground);
@@ -927,7 +857,12 @@ footer {
     .project-card.featured-card {
         grid-column: span 1;
     }
-    .terminal-banner-box {
-        height: 120px;
+    .ascii-banner-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .banner-ascii-meta {
+        text-align: left;
     }
 }
