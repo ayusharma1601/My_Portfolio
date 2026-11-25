@@ -254,20 +254,30 @@ body {
     padding-bottom: 28px;
 }
 
-/* Audio Visualizer Wave Box at top */
+/* Interactive Vinyl Turntable Station */
 .audio-visualizer-box {
     width: 100%;
-    height: 145px;
-    border-radius: 18px;
+    height: 165px;
+    border-radius: 20px;
     border: 1px solid var(--card-border);
-    background: var(--background);
+    background: #050505;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: default;
+    cursor: grab;
+    user-select: none;
+}
+
+[data-theme="light"] .audio-visualizer-box {
+    background: #f7f7f8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.audio-visualizer-box:active {
+    cursor: grabbing;
 }
 
 .audio-bars-container {

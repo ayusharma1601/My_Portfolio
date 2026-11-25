@@ -110,188 +110,308 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Aesthetic Minimalist Audio Spectrum (Sleek Glassmorphic Soundwave Bars)
-    const waveCanvas = document.getElementById('audio-wave-canvas');
-    if (waveCanvas) {
-        const ctx = waveCanvas.getContext('2d');
-        let width = waveCanvas.width = waveCanvas.offsetWidth;
-        let height = waveCanvas.height = waveCanvas.offsetHeight;
+    // 5. Interactive Aesthetic Vinyl Turntable with Live Grooves, Scratching & Tone Arm
+    const canvas = document.getElementById('audio-wave-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
 
         window.addEventListener('resize', () => {
-            width = waveCanvas.width = waveCanvas.offsetWidth;
-            height = waveCanvas.height = waveCanvas.offsetHeight;
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
         });
 
-        // 56 slender aesthetic vertical bars
-        const numBars = 56;
-        const currentLevels = new Array(numBars).fill(0.1);
-        const peakLevels = new Array(numBars).fill(0.1);
+        // Turntable State
+        let rotation = 0;
+        let rpmSpeed = 0.022; // 33 1/3 RPM aesthetic cruise
+        let isDragging = false;
+        let lastMouseAngle = 0;
+        let scratchVelocity = 0;
+        let isPowerOn = true;
 
+        // Sound Synthesis (Web Audio API vinyl scratch / white noise & retro bass drone)
+        let audioCtx = null;
+        let scratchOsc = null;
+        let scratchGain = null;
+
+        function initTurntableAudio() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Noise buffer for authentic vinyl surface crackle & scratch
+                const bufferSize = audioCtx.sampleRate * 2;
+                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = (Math.random() * 2 - 1) * 0.04;
+                }
+
+                const whiteNoise = audioCtx.createBufferSource();
+                whiteNoise.buffer = noiseBuffer;
+                whiteNoise.loop = true;
+
+                // Bandpass filter for vinyl texture
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 850;
+                filter.Q.value = 1.2;
+
+                scratchGain = audioCtx.createGain();
+                scratchGain.gain.value = 0.035;
+
+                whiteNoise.connect(filter);
+                filter.connect(scratchGain);
+                scratchGain.connect(audioCtx.destination);
+                whiteNoise.start(0);
+            } catch (e) {
+                console.log('Audio init skipped:', e);
+            }
+        }
+
+        const deck = document.getElementById('turntable-deck');
+
+        function getAngleFromCenter(e) {
+            const rect = canvas.getBoundingClientRect();
+            // Vinyl center is around 32% from left
+            const centerX = rect.left + rect.width * 0.32;
+            const centerY = rect.top + rect.height * 0.5;
+            return Math.atan2(e.clientY - centerY, e.clientX - centerX);
+        }
+
+        if (deck) {
+            deck.addEventListener('mousedown', (e) => {
+                initTurntableAudio();
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                isDragging = true;
+                lastMouseAngle = getAngleFromCenter(e);
+            });
+
+            window.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const currentAngle = getAngleFromCenter(e);
+                let delta = currentAngle - lastMouseAngle;
+
+                // Handle angular wrap-around (-PI to PI)
+                if (delta > Math.PI) delta -= Math.PI * 2;
+                if (delta < -Math.PI) delta += Math.PI * 2;
+
+                rotation += delta;
+                scratchVelocity = delta * 1.5;
+                lastMouseAngle = currentAngle;
+
+                // Modulate vinyl texture filter on scratch
+                if (scratchGain && audioCtx) {
+                    scratchGain.gain.setTargetAtTime(Math.min(0.25, Math.abs(delta) * 1.8), audioCtx.currentTime, 0.02);
+                }
+            });
+
+            // Toggle play/pause power switch on double click
+            deck.addEventListener('dblclick', () => {
+                isPowerOn = !isPowerOn;
+            });
+        }
+
+        // Animated soundwave spectrum bars displayed on right side LCD display
+        const spectrumCount = 28;
+        const spectrumLevels = new Array(spectrumCount).fill(0.1);
         let frame = 0;
-        let mouseX = -1000;
-        let isHovered = false;
 
-        const shockwaves = [];
-
-        function triggerEQBurst(xPos) {
-            shockwaves.push({
-                x: xPos,
-                radius: 0,
-                maxRadius: 320,
-                force: 1.0,
-                speed: 6.0
-            });
-        }
-
-        const vizBox = document.querySelector('.audio-visualizer-box');
-        if (vizBox) {
-            vizBox.style.cursor = 'pointer';
-            vizBox.setAttribute('title', 'Click to pulse audio waveform / Hover to interact');
-
-            vizBox.addEventListener('mousemove', (e) => {
-                const rect = waveCanvas.getBoundingClientRect();
-                mouseX = e.clientX - rect.left;
-                isHovered = true;
-            });
-
-            vizBox.addEventListener('mouseleave', () => {
-                isHovered = false;
-                mouseX = -1000;
-            });
-
-            vizBox.addEventListener('click', (e) => {
-                const rect = waveCanvas.getBoundingClientRect();
-                triggerEQBurst(e.clientX - rect.left);
-            });
-        }
-
-        function drawAestheticSpectrum() {
+        function renderTurntable() {
             ctx.clearRect(0, 0, width, height);
 
             const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-            const paddingX = 32;
-            const availableWidth = width - (paddingX * 2);
-            const slotWidth = availableWidth / numBars;
-            const barW = Math.max(2.5, slotWidth * 0.42); // Sleek slender bar ratio
-            const centerY = height / 2;
-            const maxAmplitude = height * 0.38;
 
-            // Smooth rhythmic musical clock
-            const beatPulse = Math.pow(Math.sin(frame * 0.045), 6) * 0.35 + 0.65;
-            const bassKick = Math.pow(Math.max(0, Math.sin(frame * 0.0225)), 8) * 0.4;
-            const synthArp = Math.sin(frame * 0.06);
+            // Vinyl center and radius
+            const platterX = width * 0.28;
+            const platterY = height * 0.5;
+            const platterRadius = Math.min(height * 0.44, 68);
 
-            // Update ripples
-            for (let s = shockwaves.length - 1; s >= 0; s--) {
-                const sw = shockwaves[s];
-                sw.radius += sw.speed;
-                sw.force *= 0.94;
-                if (sw.force < 0.02 || sw.radius > sw.maxRadius) {
-                    shockwaves.splice(s, 1);
+            // Update rotation
+            if (isDragging) {
+                // Controlled by mouse drag
+            } else if (isPowerOn) {
+                // Smooth deceleration back to normal RPM speed
+                scratchVelocity *= 0.92;
+                rotation += rpmSpeed + scratchVelocity;
+                if (scratchGain && audioCtx) {
+                    scratchGain.gain.setTargetAtTime(0.02, audioCtx.currentTime, 0.1);
+                }
+            } else {
+                scratchVelocity *= 0.94;
+                rotation += scratchVelocity;
+                if (scratchGain && audioCtx) {
+                    scratchGain.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.1);
                 }
             }
 
-            for (let i = 0; i < numBars; i++) {
-                const barCenterX = paddingX + i * slotWidth + slotWidth / 2;
-                const normI = i / numBars;
+            // ==========================================
+            // 1. TURNTABLE PLATTER & VINYL DISC
+            // ==========================================
+            // Outer Platter Rim (Metallic Silver)
+            ctx.beginPath();
+            ctx.arc(platterX, platterY, platterRadius + 3, 0, Math.PI * 2);
+            ctx.fillStyle = isLight ? '#d4d4d8' : '#27272a';
+            ctx.fill();
 
-                // Natural parabolic curve peaked gracefully around the center-left
-                const envelope = Math.sin(normI * Math.PI);
-                const harmonic1 = Math.sin((i * 0.22) + (frame * 0.04)) * 0.3 + 0.7;
-                const harmonic2 = Math.cos((i * 0.14) - (frame * 0.03)) * 0.25 + 0.75;
-                const microFluctuation = Math.sin((frame * 0.12) + i * 1.5) * 0.1;
+            // Vinyl Black Disc Body
+            ctx.beginPath();
+            ctx.arc(platterX, platterY, platterRadius, 0, Math.PI * 2);
+            ctx.fillStyle = isLight ? '#18181b' : '#0a0a0c';
+            ctx.fill();
+            ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.08)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
 
-                let target = envelope * (0.35 + (harmonic1 * harmonic2 * beatPulse * 0.45) + (microFluctuation * 0.2));
+            // Concentric Micro-Grooves with Dynamic Light Sheen
+            ctx.save();
+            ctx.translate(platterX, platterY);
+            ctx.rotate(rotation);
 
-                // Left bass resonance
-                if (i < 12) {
-                    target += (1 - i / 12) * bassKick;
-                }
-                // Center melody resonance
-                if (i > 15 && i < 40) {
-                    const midFactor = Math.sin(((i - 15) / 25) * Math.PI);
-                    target += midFactor * synthArp * 0.15;
-                }
-
-                // Interactive cursor proximity (smooth magnetic swell)
-                if (isHovered && mouseX > 0) {
-                    const dist = Math.abs(barCenterX - mouseX);
-                    if (dist < 85) {
-                        const swell = Math.cos((dist / 85) * (Math.PI / 2));
-                        target += swell * 0.55;
-                    }
-                }
-
-                // Click ripples
-                for (let s = 0; s < shockwaves.length; s++) {
-                    const sw = shockwaves[s];
-                    const distToWave = Math.abs(barCenterX - sw.x);
-                    if (Math.abs(distToWave - sw.radius) < 40) {
-                        const waveFactor = Math.cos(((distToWave - sw.radius) / 40) * (Math.PI / 2));
-                        target += waveFactor * sw.force * 0.6;
-                    }
-                }
-
-                target = Math.max(0.06, Math.min(1.0, target));
-
-                // Interpolate for buttery fluid motion
-                currentLevels[i] += (target - currentLevels[i]) * 0.14;
-
-                // Peak tracking for subtle glowing crest line
-                if (currentLevels[i] > peakLevels[i]) {
-                    peakLevels[i] = currentLevels[i];
-                } else {
-                    peakLevels[i] *= 0.985;
-                }
-
-                const currentH = Math.max(4, currentLevels[i] * maxAmplitude);
-                const barX = barCenterX - barW / 2;
-
-                // --- Symmetrical Vertical Soundwave with Pill Rounded Ends ---
-                const topY = centerY - currentH;
-                const botY = centerY + currentH;
-                const barTotalH = currentH * 2;
-                const radius = barW / 2;
-
-                // Create sleek vertical gradient
-                const gradient = ctx.createLinearGradient(0, topY, 0, botY);
-                if (isLight) {
-                    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.25)');
-                    gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.9)');
-                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0.25)');
-                } else {
-                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.25)');
-                    gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.95)');
-                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.25)');
-                }
-
-                ctx.fillStyle = gradient;
-
-                // Draw sleek capsule pill
+            const grooveRadii = [0.88, 0.78, 0.68, 0.58, 0.48];
+            grooveRadii.forEach(factor => {
                 ctx.beginPath();
-                ctx.roundRect(barX, topY, barW, barTotalH, radius);
-                ctx.fill();
+                ctx.arc(0, 0, platterRadius * factor, 0, Math.PI * 2);
+                ctx.strokeStyle = isLight ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
 
-                // Subtle top & bottom luminous micro-dots
-                const peakH = peakLevels[i] * maxAmplitude;
-                const peakAlpha = Math.max(0.2, (peakLevels[i] - 0.1) * 0.8);
+            // Realistic Anisotropic Vinyl Light Reflection Sheen (Dual cone reflection)
+            const sheenGradient = ctx.createLinearGradient(-platterRadius, -platterRadius, platterRadius, platterRadius);
+            sheenGradient.addColorStop(0, 'rgba(255,255,255,0.0)');
+            sheenGradient.addColorStop(0.48, 'rgba(255,255,255,0.08)');
+            sheenGradient.addColorStop(0.52, 'rgba(255,255,255,0.0)');
+            sheenGradient.addColorStop(1, 'rgba(255,255,255,0.0)');
+            ctx.fillStyle = sheenGradient;
+            ctx.beginPath();
+            ctx.arc(0, 0, platterRadius, 0, Math.PI * 2);
+            ctx.fill();
 
-                ctx.fillStyle = isLight ? `rgba(0, 0, 0, ${peakAlpha})` : `rgba(255, 255, 255, ${peakAlpha})`;
-                // Top floating pip
-                ctx.fillRect(barX, centerY - peakH - 3, barW, 1.5);
-                // Bottom mirror pip
-                ctx.fillRect(barX, centerY + peakH + 2, barW, 1.5);
+            // Center Label (Retro Minimalist Record Sticker)
+            const labelRadius = platterRadius * 0.35;
+            ctx.beginPath();
+            ctx.arc(0, 0, labelRadius, 0, Math.PI * 2);
+            ctx.fillStyle = isLight ? '#ffffff' : '#141416';
+            ctx.fill();
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Spindle Center Hole
+            ctx.beginPath();
+            ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#71717a';
+            ctx.fill();
+
+            // Label Graphic (Tiny revolving marker)
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillRect(4, -1, labelRadius - 8, 2);
+
+            ctx.restore();
+
+            // ==========================================
+            // 2. TONEARM & CARTRIDGE NEEDLE
+            // ==========================================
+            const armPivotX = platterX + platterRadius + 28;
+            const armPivotY = platterY - platterRadius * 0.65;
+            const needleX = platterX + platterRadius * 0.58;
+            const needleY = platterY + platterRadius * 0.22;
+
+            // Pivot Base
+            ctx.beginPath();
+            ctx.arc(armPivotX, armPivotY, 8, 0, Math.PI * 2);
+            ctx.fillStyle = isLight ? '#71717a' : '#3f3f46';
+            ctx.fill();
+            ctx.strokeStyle = isLight ? '#27272a' : '#71717a';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Metallic Tonearm Rod
+            ctx.beginPath();
+            ctx.moveTo(armPivotX, armPivotY);
+            // Curved modern S-shape tonearm
+            const midArmX = (armPivotX + needleX) / 2 + 6;
+            const midArmY = (armPivotY + needleY) / 2 - 4;
+            ctx.quadraticCurveTo(midArmX, midArmY, needleX, needleY);
+            ctx.strokeStyle = isLight ? '#18181b' : '#e4e4e7';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Cartridge Head & Stylus Needle Head
+            ctx.save();
+            ctx.translate(needleX, needleY);
+            ctx.rotate(0.35);
+            ctx.fillStyle = '#ef4444'; // Red Hi-Fi cartridge
+            ctx.fillRect(-3, -2, 9, 5);
+            ctx.restore();
+
+            // ==========================================
+            // 3. RIGHT SIDE: HIGH-FI LCD AUDIO SPECTRUM & DECK CONTROLS
+            // ==========================================
+            const lcdLeft = Math.max(platterX + platterRadius + 56, width * 0.52);
+            const lcdRight = width - 28;
+            const lcdWidth = lcdRight - lcdLeft;
+            const lcdY = height * 0.5;
+
+            if (lcdWidth > 80) {
+                // Technical Display Label Header
+                ctx.font = '10px "JetBrains Mono", monospace';
+                ctx.fillStyle = isLight ? '#71717a' : '#a1a1aa';
+                ctx.textAlign = 'left';
+                ctx.fillText('ANALOG HI-FI // 33 RPM', lcdLeft, lcdY - 32);
+
+                // Live Status Pill
+                ctx.textAlign = 'right';
+                ctx.fillStyle = isPowerOn ? '#10b981' : '#f59e0b';
+                ctx.fillText(isPowerOn ? '● SPINNING' : '■ STOPPED', lcdRight, lcdY - 32);
+
+                // Multi-Frequency Visualizer Bars
+                const barSlotW = lcdWidth / spectrumCount;
+                const barActualW = Math.max(2, barSlotW - 2.5);
+
+                for (let b = 0; b < spectrumCount; b++) {
+                    const normB = b / spectrumCount;
+                    const barX = lcdLeft + b * barSlotW;
+
+                    // Calculate live musical frequency response
+                    const envelope = Math.sin(normB * Math.PI);
+                    const rhythmBeat = isPowerOn ? Math.sin((frame * 0.08) + b * 0.4) * 0.35 + 0.65 : 0.05;
+                    const scratchBounce = Math.abs(scratchVelocity) * 12;
+                    let targetH = envelope * (24 * rhythmBeat + scratchBounce) + 4;
+
+                    spectrumLevels[b] += (targetH - spectrumLevels[b]) * 0.2;
+                    const h = Math.max(3, Math.min(36, spectrumLevels[b]));
+
+                    // Draw pill bar
+                    const topBarY = lcdY - h / 2 + 6;
+                    ctx.fillStyle = isLight 
+                        ? (b % 4 === 0 ? '#3b82f6' : '#18181b')
+                        : (b % 4 === 0 ? '#38bdf8' : 'rgba(255, 255, 255, 0.85)');
+                    
+                    ctx.beginPath();
+                    ctx.roundRect(barX, topBarY, barActualW, h, barActualW / 2);
+                    ctx.fill();
+                }
+
+                // Interactive Hint Subtext
+                ctx.font = '9px "JetBrains Mono", monospace';
+                ctx.fillStyle = isLight ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.4)';
+                ctx.textAlign = 'left';
+                ctx.fillText('DRAG VINYL TO SCRATCH • DBL CLICK POWER', lcdLeft, lcdY + 36);
             }
-
-            // Subtle center guide horizon
-            ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.04)';
-            ctx.fillRect(paddingX, centerY, availableWidth, 1);
 
             frame++;
-            requestAnimationFrame(drawAestheticSpectrum);
+            requestAnimationFrame(renderTurntable);
         }
 
-        drawAestheticSpectrum();
+        renderTurntable();
     }
 
     // 6. Contact Form Handler (Direct Silent Background Submission to Formspree / Email)
