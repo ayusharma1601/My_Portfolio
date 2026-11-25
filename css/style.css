@@ -3,6 +3,118 @@
    Pure Deep Black default theme + Crisp White Light theme
    ========================================================================== */
 
+/* ==========================================================================
+   RUBIK'S CUBE LOADING SCREEN
+   ========================================================================== */
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Scene — provides 3D perspective */
+.rubik-scene {
+    perspective: 500px;
+    width: 120px;
+    height: 120px;
+}
+
+/* The cube itself */
+.rubik-cube {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rubik-spin 3s infinite linear;
+}
+
+@keyframes rubik-spin {
+    0%   { transform: rotateX(-20deg) rotateY(0deg); }
+    100% { transform: rotateX(-20deg) rotateY(360deg); }
+}
+
+/* Each face */
+.rubik-face {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 4px;
+    padding: 4px;
+    box-sizing: border-box;
+    background: #111;
+    border-radius: 4px;
+}
+
+.face-front  { transform: translateZ(60px); }
+.face-back   { transform: rotateY(180deg) translateZ(60px); }
+.face-left   { transform: rotateY(-90deg) translateZ(60px); }
+.face-right  { transform: rotateY(90deg)  translateZ(60px); }
+.face-top    { transform: rotateX(90deg)  translateZ(60px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(60px); }
+
+/* Individual sticker cells */
+.cell {
+    border-radius: 3px;
+}
+
+.c-red    { background: #e8290b; }
+.c-orange { background: #f97316; }
+.c-blue   { background: #2563eb; }
+.c-green  { background: #16a34a; }
+.c-white  { background: #f1f5f9; }
+.c-yellow { background: #facc15; }
+
+/* Brand text below cube */
+.loading-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #ededed;
+    letter-spacing: -0.5px;
+    margin: 0;
+}
+
+.loading-dot-dev {
+    color: #555;
+    font-weight: 400;
+}
+
+.loading-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: -20px 0 0;
+}
+
+@keyframes blink-dots {
+    0%, 20%  { opacity: 1; }
+    50%      { opacity: 0.2; }
+    80%, 100%{ opacity: 1; }
+}
+
+.loading-dots-anim {
+    animation: blink-dots 1.2s infinite ease-in-out;
+}
+
+
 :root {
     --background: #000000;
     --foreground: #ededed;

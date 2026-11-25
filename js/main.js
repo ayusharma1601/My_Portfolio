@@ -1,4 +1,33 @@
 // Modern Interactive Portfolio Scripts (ad1tya.me minimalist architecture)
+
+// ─── Rubik's Cube Loading Screen ─────────────────────────────────────────────
+(function () {
+    const loader = document.getElementById('loading-screen');
+    if (!loader) return;
+
+    // Minimum display time: 2.4s so the cube does ~1 full rotation before hiding
+    const MIN_DISPLAY = 2400;
+    const start = Date.now();
+
+    function dismissLoader() {
+        const elapsed = Date.now() - start;
+        const remaining = Math.max(0, MIN_DISPLAY - elapsed);
+        setTimeout(() => {
+            loader.classList.add('fade-out');
+            // Remove from DOM after transition ends (600ms)
+            setTimeout(() => loader.remove(), 650);
+        }, remaining);
+    }
+
+    // Hide as soon as the page is fully loaded, respecting minimum display time
+    if (document.readyState === 'complete') {
+        dismissLoader();
+    } else {
+        window.addEventListener('load', dismissLoader);
+    }
+})();
+// ─────────────────────────────────────────────────────────────────────────────
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Current Year & Real-time Live Age Counter (Precise floating decimal age ticker)
     const yearSpan = document.getElementById('current-year');
