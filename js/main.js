@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ageSpan = document.getElementById('live-age');
     if (ageSpan) {
-        // Birthday around January 2005 (21.x in 2026)
-        const birthDate = new Date('2005-01-16T00:00:00Z').getTime();
+        // Birthday: January 16, 2008 (18.xx years old)
+        const birthDate = new Date('2008-01-16T00:00:00Z').getTime();
 
         function updateAgeTicker() {
             const now = Date.now();
